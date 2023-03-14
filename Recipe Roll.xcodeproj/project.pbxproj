@@ -17,6 +17,11 @@
 		1C46974229BD3FFA00918782 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C46974129BD3FFA00918782 /* Assets.xcassets */; };
 		1C46974529BD3FFA00918782 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C46974329BD3FFA00918782 /* LaunchScreen.storyboard */; };
 		1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */; };
+		1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8A29C0597700CA7471 /* SPTextField.swift */; };
+		1C982B8F29C06B3D00CA7471 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8E29C06B3D00CA7471 /* Recipe.swift */; };
+		1C982B9129C06C8A00CA7471 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9029C06C8A00CA7471 /* NetworkManager.swift */; };
+		1C982B9329C0702E00CA7471 /* SPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9229C0702E00CA7471 /* SPError.swift */; };
+		1C982B9729C09DEE00CA7471 /* SPTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +37,11 @@
 		1C46974429BD3FFA00918782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C46974629BD3FFA00918782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTabBarController.swift; sourceTree = "<group>"; };
+		1C982B8A29C0597700CA7471 /* SPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTextField.swift; sourceTree = "<group>"; };
+		1C982B8E29C06B3D00CA7471 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		1C982B9029C06C8A00CA7471 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		1C982B9229C0702E00CA7471 /* SPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPError.swift; sourceTree = "<group>"; };
+		1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTitleLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +74,9 @@
 		1C46973729BD3FF900918782 /* practice */ = {
 			isa = PBXGroup;
 			children = (
+				1C982B9429C0705D00CA7471 /* Utilities */,
+				1C982B8D29C0695800CA7471 /* Managers */,
+				1C982B8C29C0694F00CA7471 /* Model */,
 				1C51B09E29BF2C3D00A04FAD /* Custom Views */,
 				1C51B09D29BF2BE000A04FAD /* Screens */,
 				1C51B09C29BF2BA600A04FAD /* Support */,
@@ -98,9 +111,51 @@
 		1C51B09E29BF2C3D00A04FAD /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				1C982B9529C09DAC00CA7471 /* Labels */,
+				1C982B8929C0593E00CA7471 /* TextFields */,
 				1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		1C982B8929C0593E00CA7471 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				1C982B8A29C0597700CA7471 /* SPTextField.swift */,
+			);
+			path = TextFields;
+			sourceTree = "<group>";
+		};
+		1C982B8C29C0694F00CA7471 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C982B8E29C06B3D00CA7471 /* Recipe.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1C982B8D29C0695800CA7471 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1C982B9029C06C8A00CA7471 /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		1C982B9429C0705D00CA7471 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1C982B9229C0702E00CA7471 /* SPError.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1C982B9529C09DAC00CA7471 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */,
+			);
+			path = Labels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +193,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1C46973029BD3FF900918782 /* Build configuration list for PBXProject "practice" */;
+			buildConfigurationList = 1C46973029BD3FF900918782 /* Build configuration list for PBXProject "Recipe Roll" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -176,9 +231,14 @@
 				1C46121829BF795700B3C891 /* ShoppingListVC.swift in Sources */,
 				1C46973D29BD3FF900918782 /* HomeVC.swift in Sources */,
 				1C46973929BD3FF900918782 /* AppDelegate.swift in Sources */,
+				1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */,
+				1C982B9129C06C8A00CA7471 /* NetworkManager.swift in Sources */,
 				1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */,
 				1C46121C29BF79B100B3C891 /* ProfileVC.swift in Sources */,
+				1C982B8F29C06B3D00CA7471 /* Recipe.swift in Sources */,
 				1C46973B29BD3FF900918782 /* SceneDelegate.swift in Sources */,
+				1C982B9329C0702E00CA7471 /* SPError.swift in Sources */,
+				1C982B9729C09DEE00CA7471 /* SPTitleLabel.swift in Sources */,
 				1C46121A29BF798400B3C891 /* RecipesVC.swift in Sources */,
 				1C46121629BF6B7000B3C891 /* CategoriesVC.swift in Sources */,
 			);
@@ -369,7 +429,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C46973029BD3FF900918782 /* Build configuration list for PBXProject "practice" */ = {
+		1C46973029BD3FF900918782 /* Build configuration list for PBXProject "Recipe Roll" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C46974729BD3FFA00918782 /* Debug */,
