@@ -16,9 +16,11 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(queryTextField)
-        configureTextField()
+        view.addSubviews(queryTextField, titleLabel)
+        layoutUI()
+        configureUIElements()
         createDismissKeyboardTapGesture()
+        titleLabel.backgroundColor = .systemPink
         NetworkManager.shared.getResults(for: "pasta") { result in
             
             switch result {
@@ -45,14 +47,23 @@ class HomeVC: UIViewController {
     }
     
     
-    func configureTextField() {
+    func configureUIElements() {
+        titleLabel.text = "What would you like to cook today?"
+    }
+    
+    func layoutUI() {
         queryTextField.delegate = self
         
         NSLayoutConstraint.activate([
-            queryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            queryTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             queryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             queryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            queryTextField.heightAnchor.constraint(equalToConstant: 40)
+            queryTextField.heightAnchor.constraint(equalToConstant: 40),
+            
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
+            titleLabel.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
 }
