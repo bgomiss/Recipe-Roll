@@ -20,7 +20,7 @@ class HomeVC: UIViewController {
         layoutUI()
         configureUIElements()
         createDismissKeyboardTapGesture()
-        titleLabel.backgroundColor = .systemPink
+        
         NetworkManager.shared.getResults(for: "pasta") { result in
             
             switch result {
@@ -62,7 +62,7 @@ class HomeVC: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -150),
             titleLabel.heightAnchor.constraint(equalToConstant: 48)
         ])
     }

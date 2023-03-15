@@ -1,13 +1,13 @@
 //
-//  SPTitleLabel.swift
+//  SPSecondaryTitleLabel.swift
 //  practice
 //
-//  Created by aycan duskun on 14.03.2023.
+//  Created by aycan duskun on 15.03.2023.
 //
 
 import UIKit
 
-class SPTitleLabel: UILabel {
+class SPSecondaryTitleLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,19 +20,20 @@ class SPTitleLabel: UILabel {
     }
     
     
-    convenience init(textAlignment: NSTextAlignment, fontSize: CGFloat) {
+   convenience init(fontSize: CGFloat) {
         self.init(frame: .zero)
-        self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+       font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
+        
     }
     
     
     private func configure() {
-        textColor = .label
+        textColor = .secondaryLabel
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.9
-        numberOfLines = 0
+        minimumScaleFactor = 0.90
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }
+
 }
+
