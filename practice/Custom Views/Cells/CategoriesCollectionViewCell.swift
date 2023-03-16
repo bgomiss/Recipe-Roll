@@ -24,7 +24,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     }
     
     
-    private func set(category: Recipes) {
+    func set(category: Recipes) {
         categoryImageView.downloadImage(fromURL: category.image)
         categoryLabel.text = category.title
     }

@@ -11,14 +11,17 @@ class CategoriesTableViewCell: UITableViewCell {
     
     static let reuseID = "CategoriesTableViewCell"
     let categoryView = UIView(frame: .zero)
-    var collectionView = UICollectionView()
-    let headerTitle = SPTitleLabel(textAlignment: .left, fontSize: 28)
+    var collectionView: UICollectionView!
+    let headerTitle = SPTitleLabel(textAlignment: .left, fontSize: 18)
     let seeAllButton = SPButton(backgroundColor: .systemMint, title: "See All")
+    var recipes: [Recipes] = []
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
         configureCollectionView()
+        headerTitle.text = "Categories"
         
     }
     
@@ -34,7 +37,7 @@ class CategoriesTableViewCell: UITableViewCell {
             
             
             headerTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            headerTitle.topAnchor.constraint(equalTo: self.topAnchor),
+            headerTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: -32),
             headerTitle.heightAnchor.constraint(equalToConstant: 30),
             
             seeAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
@@ -45,14 +48,18 @@ class CategoriesTableViewCell: UITableViewCell {
     
     private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        contentView.addSubview(collectionView)
+        
+        
         layout.scrollDirection = .horizontal
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoriesCell")
 
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+       
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(collectionView)
+        
         
         NSLayoutConstraint.activate([
             collectionView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

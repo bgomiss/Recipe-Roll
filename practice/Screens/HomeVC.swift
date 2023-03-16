@@ -47,14 +47,16 @@ class HomeVC: UIViewController {
     
     func configureTableView() {
         view.addSubviews(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-//        NSLayoutConstraint.activate([
-//            tableView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 20),
-//            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//        ])
-        tableView.frame = view.bounds
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
         tableView.backgroundColor = .systemMint
         tableView.rowHeight = 75
         tableView.delegate = self
