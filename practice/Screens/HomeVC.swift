@@ -9,32 +9,24 @@ import UIKit
 
 
 class HomeVC: UIViewController {
-   
+    
     let titleLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField = SPTextField()
     let tableView = UITableView()
+    let tvCell = CategoriesTableViewCell()
+    var recipes: [Recipes]      = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubviews(queryTextField, titleLabel)
         layoutUI()
-        updateUI()
+        getCategories(query: "pasta")
         configureUIElements()
         configureTableView()
         createDismissKeyboardTapGesture()
-        
-        NetworkManager.shared.getResults(for: "pasta") { result in
-            
-            switch result {
-            case .success(let recipes):
-                print(recipes)
-            case .failure(_):
-                break
-            }
-            
-        }
-        }
+        print(recipes)
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +36,35 @@ class HomeVC: UIViewController {
     }
     
     
+    func getCategories(query: String) {
+        NetworkManager.shared.getCategoriesInfo(for: query) { [weak self] category in
+            
+            guard let self = self else { return }
+            
+            switch category {
+            case .success(let categories):
+                //print(categories)
+                self.updateUI(with: categories)
+            case .failure(let error):
+                return
+            }
+        }
+    }
+    
+//    func getCategories() {
+//        PersistenceManager.retrievedCategories { [weak self] result in
+//            guard let self = self else { return }
+//
+//            switch result {
+//            case .success(let categories):
+//                self.updateUI(with: categories)
+//
+//            case .failure(let error):
+//                return
+//            }
+//        }
+//    }
+
     
     func configureTableView() {
         view.addSubviews(tableView)
@@ -51,7 +72,7 @@ class HomeVC: UIViewController {
         
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 30),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -67,9 +88,12 @@ class HomeVC: UIViewController {
     }
     
     
-    func updateUI() {
+    func updateUI(with categories: [Recipes]) {
+        tvCell.recipes.append(contentsOf: categories)
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.tvCell.collectionView.reloadData()
             self.view.bringSubviewToFront(self.tableView)
         }
     }
@@ -121,4 +145,11 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110
+    }
 }
+
+
