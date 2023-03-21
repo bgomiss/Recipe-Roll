@@ -10,10 +10,10 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    let titleLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let queryTextField = SPTextField()
-    let tableView = UITableView()
-    let tvCell = CategoriesTableViewCell()
+    let titleLabel              = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let queryTextField          = SPTextField()
+    let tableView               = UITableView()
+    let tvCell                  = CategoriesTableViewCell()
     var recipes: [Recipes]      = []
     
     override func viewDidLoad() {
@@ -79,7 +79,7 @@ class HomeVC: UIViewController {
         ])
         
         tableView.backgroundColor = .systemMint
-        tableView.rowHeight = 75
+        tableView.rowHeight = 15
         tableView.delegate = self
         tableView.dataSource = self
         tableView.removeExcessCells()
@@ -89,11 +89,10 @@ class HomeVC: UIViewController {
     
     
     func updateUI(with categories: [Recipes]) {
-        tvCell.recipes.append(contentsOf: categories)
+        recipes.append(contentsOf: categories)
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.tvCell.collectionView.reloadData()
             self.view.bringSubviewToFront(self.tableView)
         }
     }
@@ -142,7 +141,10 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoriesTableViewCell") as! CategoriesTableViewCell
-        
+        if recipes.isEmpty == false {
+            cell.recipes = recipes
+            cell.collectionView.reloadData()
+        }
         return cell
     }
     

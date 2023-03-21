@@ -15,7 +15,7 @@ class CategoriesTableViewCell: UITableViewCell {
     var collectionView:         UICollectionView!
     let layout                  = UICollectionViewFlowLayout()
     let headerTitle             = SPTitleLabel(textAlignment: .left, fontSize: 18)
-    let seeAllButton            = SPButton(backgroundColor: .systemRed, title: "See All")
+    let seeAllButton            = SPButton(backgroundColor: .clear, title: "See All")
     var recipes: [Recipes]      = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -23,9 +23,8 @@ class CategoriesTableViewCell: UITableViewCell {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         configure()
         configureCollectionView()
-//        updateUI(with: destVC.recipes)
         headerTitle.text = "Categories"
-        
+        //contentView.backgroundColor = .systemYellow
         
     }
     
@@ -35,18 +34,19 @@ class CategoriesTableViewCell: UITableViewCell {
     
     
     private func configure() {
-        
-        addSubviews(headerTitle, seeAllButton, collectionView)
+        addSubviews(headerTitle, seeAllButton)
       
         NSLayoutConstraint.activate([
             
-            collectionView.topAnchor.constraint(equalTo: headerTitle.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+//            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+//            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            //contentView.topAnchor.constraint(equalTo: headerTitle.bottomAnchor, constant: 15),
             
             headerTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            headerTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            headerTitle.topAnchor.constraint(equalTo: contentView.topAnchor),
             headerTitle.heightAnchor.constraint(equalToConstant: 30),
             
             seeAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
@@ -56,49 +56,35 @@ class CategoriesTableViewCell: UITableViewCell {
     }
     
     
-//    func updateUI(with categories: [Recipes]) {
-//        if categories.isEmpty {
-//            return
-//        } else {
-//            destVC.recipes = categories
-//            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//            }
-//        }
-//    }
-    
-    
     private func configureCollectionView() {
-        
         collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: contentView))
-        
         contentView.addSubview(collectionView)
-        collectionView.backgroundColor = .systemPink
         
-        
-        layout.scrollDirection = .horizontal
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoriesCell")
-
-       
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: headerTitle.bottomAnchor, constant: 3),
+                collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            ])
     }
 }
 
-extension CategoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension CategoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return recipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoriesCell", for: indexPath) as! CategoriesCollectionViewCell
-        let category = recipes[indexPath.row]
-        cell.set(category: category)
-        cell.backgroundColor = .systemYellow
+        if recipes.isEmpty == false {
+            let category = recipes[indexPath.row]
+            cell.set(category: category)
+        }
         return cell
     }
-    
-    
 }
