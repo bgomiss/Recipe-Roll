@@ -21,7 +21,7 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(queryTextField, titleLabel)
         layoutUI()
-        getCategories(query: "pasta")
+        getCategories(query: "beef")
         configureUIElements()
         configureTableView()
         createDismissKeyboardTapGesture()

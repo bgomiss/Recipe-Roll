@@ -33,9 +33,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     
     private func configure() {
         addSubviews(categoryImageView, categoryLabel)
-        
-        let padding: CGFloat = 12
-        
+            
         NSLayoutConstraint.activate([
             categoryImageView.topAnchor.constraint(equalTo: self.topAnchor),
             categoryImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

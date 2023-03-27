@@ -57,7 +57,18 @@ class CategoriesTableViewCell: UITableViewCell {
     
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: contentView))
+//        collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: contentView))
+        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
+                    switch sectionIndex {
+                    case 0 :
+                        return UIHelper.categoriesSection()
+                    case 1 :
+                        break
+                    default:
+                        return
+                    }
+                }
+                collectionView.setCollectionViewLayout(layout, animated: true)
         contentView.addSubview(collectionView)
         
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoriesCell")
