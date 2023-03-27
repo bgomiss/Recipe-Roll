@@ -13,7 +13,7 @@ class HomeVC: UIViewController {
     let titleLabel              = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField          = SPTextField()
     let tableView               = UITableView()
-    let tvCell                  = CategoriesTableViewCell()
+    let tvCell                  = homeVCTableViewCell()
     var recipes: [Recipes]      = []
     
     override func viewDidLoad() {
@@ -21,7 +21,7 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(queryTextField, titleLabel)
         layoutUI()
-        getCategories(query: "beef")
+        getCategories(query: "pasta")
         configureUIElements()
         configureTableView()
         createDismissKeyboardTapGesture()
@@ -64,7 +64,6 @@ class HomeVC: UIViewController {
 //            }
 //        }
 //    }
-
     
     func configureTableView() {
         view.addSubviews(tableView)
@@ -79,12 +78,11 @@ class HomeVC: UIViewController {
         ])
         
         tableView.backgroundColor = .systemMint
-        tableView.rowHeight = 15
         tableView.delegate = self
         tableView.dataSource = self
         tableView.removeExcessCells()
         
-        tableView.register(CategoriesTableViewCell.self, forCellReuseIdentifier: "CategoriesTableViewCell")
+        tableView.register(homeVCTableViewCell.self, forCellReuseIdentifier: homeVCTableViewCell.reuseID)
     }
     
     
@@ -140,17 +138,18 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoriesTableViewCell") as! CategoriesTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: homeVCTableViewCell.reuseID) as! homeVCTableViewCell
         if recipes.isEmpty == false {
             cell.recipes = recipes
-            cell.collectionView.reloadData()
+            cell.categoriesCollectionView.reloadData()
+            cell.recommendationCollectionView.reloadData()
         }
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        return 410
     }
 }
 
