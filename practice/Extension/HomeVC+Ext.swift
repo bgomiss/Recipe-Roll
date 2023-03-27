@@ -19,16 +19,17 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
+        case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
-                categoriesCell.set(category: category)
+                cell.set(category: category)
             }
             
             return cell
        
         default:
-            return 
+            return UICollectionViewCell()
         }
     }
     

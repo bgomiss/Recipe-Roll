@@ -12,8 +12,6 @@ class HomeVC: UIViewController {
     
     let titleLabel              = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField          = SPTextField()
-    let tableView               = UITableView()
-    let tvCell                  = homeVCTableViewCell()
     var recipes: [Recipes]      = []
     
     override func viewDidLoad() {
@@ -76,13 +74,6 @@ class HomeVC: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
-        tableView.backgroundColor = .systemMint
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.removeExcessCells()
-        
-        tableView.register(homeVCTableViewCell.self, forCellReuseIdentifier: homeVCTableViewCell.reuseID)
     }
     
     
@@ -131,26 +122,26 @@ extension HomeVC: UITextFieldDelegate {
 }
 
 
-extension HomeVC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: homeVCTableViewCell.reuseID) as! homeVCTableViewCell
-        if recipes.isEmpty == false {
-            cell.recipes = recipes
-            cell.categoriesCollectionView.reloadData()
-            cell.recommendationCollectionView.reloadData()
-        }
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 410
-    }
-}
+//extension HomeVC: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 1
+//    }
+//
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: homeVCTableViewCell.reuseID) as! homeVCTableViewCell
+//        if recipes.isEmpty == false {
+//            cell.recipes = recipes
+//            cell.categoriesCollectionView.reloadData()
+//            cell.recommendationCollectionView.reloadData()
+//        }
+//        return cell
+//    }
+//
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 410
+//    }
+//}
 
 
