@@ -14,6 +14,19 @@ class HomeVC: UIViewController {
     let queryTextField          = SPTextField()
     var recipes: [Recipes]      = []
     
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: CategoriesCollectionViewCell.reuseID)
+        collectionView.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
+        
+        collectionView.backgroundColor = .systemBackground
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -121,7 +134,21 @@ extension HomeVC: UITextFieldDelegate {
     }
 }
 
-
+extension HomeVC {
+    func configureCompositionalLayout() {
+        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
+                    switch sectionIndex {
+                    case 0 :
+                        return UIHelper.categoriesSection()
+                    case 1 :
+                        break
+                    default:
+                        return
+                    }
+                }
+                collectionView.setCollectionViewLayout(layout, animated: true)
+    }
+}
 //extension HomeVC: UITableViewDataSource, UITableViewDelegate {
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return 1

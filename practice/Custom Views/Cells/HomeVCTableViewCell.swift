@@ -71,19 +71,7 @@ class homeVCTableViewCell: UITableViewCell {
     
     private func configureCategoriesCollectionView() {
 //        categoriesCollectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: contentView))
-        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
-                    switch sectionIndex {
-                    case 0 :
-                        return UIHelper.categoriesSection()
-                    case 1 :
-                        break
-                    default:
-                        return
-                    }
-                }
-                collectionView.setCollectionViewLayout(layout, animated: true)
-
-        contentView.addSubview(categoriesCollectionView)
+       contentView.addSubview(categoriesCollectionView)
         
         categoriesCollectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: CategoriesCollectionViewCell.reuseID)
        
