@@ -9,7 +9,7 @@ import UIKit
 
 class homeVCTableViewCell: UITableViewCell {
     
-    static let reuseID                  = "TableViewCell"
+    
     let text                            = SPTextField()
     //let categoryView                  = UIView(frame: .zero)
     var categoriesCollectionView        : UICollectionView!
@@ -29,10 +29,7 @@ class homeVCTableViewCell: UITableViewCell {
         configure()
         configureRecommendationCollectionView()
         configureCategoriesCollectionView()
-        categoriesCollectionView.dataSource = self
-        categoriesCollectionView.delegate = self
-        recommendationCollectionView.dataSource = self
-        recommendationCollectionView.delegate = self
+        
         
         categoriesHeaderTitle.text = "Categories"
         recommendationHeaderTitle.text = "Recommendation"
@@ -104,33 +101,3 @@ class homeVCTableViewCell: UITableViewCell {
     
 }
 
-extension homeVCTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recipes.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if indexPath.section == 0 {
-            let categoriesCell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as! CategoriesCollectionViewCell
-            
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
-                categoriesCell.set(category: category)
-            }
-            
-            return categoriesCell
-            
-        } else {
-            
-            let recommendationCell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as! RecommendationCollectionViewCell
-            
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
-                recommendationCell.set(category: category)
-            }
-            return recommendationCell
-        }
-        
-    }
-}
