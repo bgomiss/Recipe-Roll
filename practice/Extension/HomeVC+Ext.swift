@@ -8,6 +8,7 @@
 import UIKit
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -19,6 +20,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         default:
             return recipes.count
         }
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -42,7 +47,13 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             return cell
        
         default:
-            return UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+            if recipes.isEmpty == false {
+                let category = recipes[indexPath.row]
+                cell.set(category: category)
+            }
+            
+            return cell
         }
     }
     

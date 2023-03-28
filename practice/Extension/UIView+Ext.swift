@@ -15,7 +15,7 @@ extension UIView {
     
     func setUp(to superView: UIView, and to: UITextField) {
         translatesAutoresizingMaskIntoConstraints = false
-        topAnchor.constraint(equalTo: to.bottomAnchor, constant: 10).isActive = true
+        topAnchor.constraint(equalTo: to.bottomAnchor, constant: 20).isActive = true
         leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true
         bottomAnchor.constraint(equalTo: superView.bottomAnchor).isActive = true
         trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true

@@ -17,7 +17,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
-        //contentView.backgroundColor = .systemPink
+        //contentView.backgroundColor = .systemYellow
     }
     
     required init?(coder: NSCoder) {

@@ -15,9 +15,7 @@ class HomeVC: UIViewController {
     var recipes: [Recipes]              = []
     let text                            = SPTextField()
     let categoryView                    = UIView(frame: .zero)
-    var categoriesCollectionView        : UICollectionView!
-    var recommendationCollectionView    : UICollectionView!
-    let layout                          = UICollectionViewFlowLayout()
+    //let layout                          = UICollectionViewFlowLayout()
     let categoriesHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let categoriesSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
@@ -94,20 +92,20 @@ class HomeVC: UIViewController {
         NSLayoutConstraint.activate([
             
             categoriesHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            categoriesHeaderTitle.topAnchor.constraint(equalTo: view.topAnchor),
+            categoriesHeaderTitle.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 5),
             categoriesHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
             
             categoriesSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             categoriesSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
-            categoriesSeeAllButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
+            categoriesSeeAllButton.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 5),
             
             recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 75),
+            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 95),
             recommendationHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
             
             recommendationSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             recommendationSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
-            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 75)
+            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 95)
         ])
     }
     
@@ -159,38 +157,18 @@ extension HomeVC: UITextFieldDelegate {
 extension HomeVC {
     func configureCompositionalLayout() {
         let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
-                    switch sectionIndex {
-                    case 0 :
-                        return UIHelper.categoriesSection()
-                    case 1 :
-                        return UIHelper.categoriesSection()
-                    default:
-                        return UIHelper.categoriesSection()
-                    }
-                }
-                collectionView.setCollectionViewLayout(layout, animated: true)
+            switch sectionIndex {
+            case 0 :
+                return UIHelper.categoriesSection()
+                
+            case 1 :
+                return UIHelper.restaurantsListSection()
+                
+            default:
+                return UIHelper.categoriesSection()
+            }
+        }
+        collectionView.setCollectionViewLayout(layout, animated: true)
     }
 }
-//extension HomeVC: UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: homeVCTableViewCell.reuseID) as! homeVCTableViewCell
-//        if recipes.isEmpty == false {
-//            cell.recipes = recipes
-//            cell.categoriesCollectionView.reloadData()
-//            cell.recommendationCollectionView.reloadData()
-//        }
-//        return cell
-//    }
-//
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 410
-//    }
-//}
-
 

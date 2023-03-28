@@ -30,7 +30,7 @@ enum UIHelper {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75)
-                , heightDimension: .absolute(90))
+                , heightDimension: .absolute(75))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize
                 , subitems: [item])
                 group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0
@@ -42,5 +42,26 @@ enum UIHelper {
                 section.orthogonalScrollingBehavior = .continuous
                 
                 return section
+    }
+    
+    static func restaurantsListSection()->NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(250))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 10)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        section.boundarySupplementaryItems = [
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top),
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Footer", alignment: .bottom)
+            
+        ]
+        
+        return section
     }
 }
