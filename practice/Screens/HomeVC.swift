@@ -13,17 +13,17 @@ class HomeVC: UIViewController {
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField                  = SPTextField()
     var recipes: [Recipes]              = []
-    let text                            = SPTextField()
-    let categoryView                    = UIView(frame: .zero)
-    //let layout                          = UICollectionViewFlowLayout()
-    let categoriesHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let text                           = SPTextField()
+    //let categoryHeaderView              =
+    //let layout                         = UICollectionViewFlowLayout()
     let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let categoriesSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
+    
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
@@ -32,6 +32,7 @@ class HomeVC: UIViewController {
         collectionView.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
         
         collectionView.backgroundColor = .systemBackground
+       
         return collectionView
     }()
     
@@ -45,7 +46,6 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
-        categoriesHeaderTitle.text = "Categories"
         recommendationHeaderTitle.text = "Recommendation"
     }
     
@@ -87,17 +87,9 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: queryTextField)
-        view.addSubviews(categoriesHeaderTitle, categoriesSeeAllButton, recommendationHeaderTitle, recommendationSeeAllButton)
+        view.addSubviews(categoryView, categoriesHeaderTitle, categoriesSeeAllButton, recommendationHeaderTitle, recommendationSeeAllButton)
       
         NSLayoutConstraint.activate([
-            
-            categoriesHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            categoriesHeaderTitle.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 5),
-            categoriesHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
-            
-            categoriesSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            categoriesSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
-            categoriesSeeAllButton.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 5),
             
             recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 95),
