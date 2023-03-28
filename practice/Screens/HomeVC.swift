@@ -13,8 +13,8 @@ class HomeVC: UIViewController {
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField                  = SPTextField()
     var recipes: [Recipes]              = []
-    let text                           = SPTextField()
-    //let categoryHeaderView              =
+    //let text                           = SPTextField()
+    let categoryHeaderView              = SPHeaderView()
     //let layout                         = UICollectionViewFlowLayout()
     let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
@@ -87,17 +87,17 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: queryTextField)
-        view.addSubviews(categoryView, categoriesHeaderTitle, categoriesSeeAllButton, recommendationHeaderTitle, recommendationSeeAllButton)
+        view.addSubviews(categoryView, recommendationHeaderTitle, recommendationSeeAllButton)
       
         NSLayoutConstraint.activate([
             
-            recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 95),
-            recommendationHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
-            
-            recommendationSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            recommendationSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
-            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 95)
+//            recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 95),
+//            recommendationHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
+//
+//            recommendationSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+//            recommendationSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
+//            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 95)
         ])
     }
     

@@ -27,7 +27,7 @@ class SPTextField: UITextField {
         layer.borderWidth = 2
         layer.borderColor = UIColor.systemGray4.cgColor
         
-        textColor = .label
+        textColor = .label //White in dark mode, black in light mode
         tintColor = .label
         textAlignment = .center
         font = UIFont.preferredFont(forTextStyle: .title2)

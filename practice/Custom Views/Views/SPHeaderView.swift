@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeaderView: UIView {
+class SPHeaderView: UIView {
     
     let categoriesHeaderTitle          = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let categoriesSeeAllButton         = SPButton(backgroundColor: .clear, title: "See All")
@@ -37,14 +37,14 @@ class HeaderView: UIView {
         addSubviews(categoriesHeaderTitle, categoriesSeeAllButton)
         
         NSLayoutConstraint.activate([
-        categoriesHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        categoriesHeaderTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
+        categoriesHeaderTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+        categoriesHeaderTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
         categoriesHeaderTitle.heightAnchor.constraint(equalToConstant: 20),
-        categoriesHeaderTitle.widthAnchor.constraint(equalToConstant: 50)
+        categoriesHeaderTitle.widthAnchor.constraint(equalToConstant: 50),
         
-        categoriesSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+        categoriesSeeAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
         categoriesSeeAllButton.heightAnchor.constraint(equalToConstant: 20),
-        categoriesSeeAllButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 5)
+        categoriesSeeAllButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
         categoriesSeeAllButton.widthAnchor.constraint(equalToConstant: 50)
         ])
 //        categoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
