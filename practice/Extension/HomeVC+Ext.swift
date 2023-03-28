@@ -12,6 +12,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         switch section {
         case 0:
             return recipes.count
+            
+        case 1:
+            return recipes.count
+       
         default:
             return recipes.count
         }
@@ -21,6 +25,15 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
+            if recipes.isEmpty == false {
+                let category = recipes[indexPath.row]
+                cell.set(category: category)
+            }
+            
+            return cell
+            
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)

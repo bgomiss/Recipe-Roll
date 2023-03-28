@@ -10,9 +10,19 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    let titleLabel              = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let queryTextField          = SPTextField()
-    var recipes: [Recipes]      = []
+    let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let queryTextField                  = SPTextField()
+    var recipes: [Recipes]              = []
+    let text                            = SPTextField()
+    let categoryView                    = UIView(frame: .zero)
+    var categoriesCollectionView        : UICollectionView!
+    var recommendationCollectionView    : UICollectionView!
+    let layout                          = UICollectionViewFlowLayout()
+    let categoriesHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let categoriesSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
+    let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
+    
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -30,13 +40,15 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubviews(queryTextField, titleLabel)
+        view.addSubviews(queryTextField, titleLabel, collectionView)
+        configureCompositionalLayout()
         layoutUI()
         getCategories(query: "pasta")
         configureUIElements()
-        configureTableView()
+        configure()
         createDismissKeyboardTapGesture()
-        print(recipes)
+        categoriesHeaderTitle.text = "Categories"
+        recommendationHeaderTitle.text = "Recommendation"
     }
     
     
@@ -54,7 +66,6 @@ class HomeVC: UIViewController {
             
             switch category {
             case .success(let categories):
-                //print(categories)
                 self.updateUI(with: categories)
             case .failure(let error):
                 return
@@ -76,16 +87,27 @@ class HomeVC: UIViewController {
 //        }
 //    }
     
-    func configureTableView() {
-        view.addSubviews(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+    func configure() {
+        collectionView.setUp(to: view, and: queryTextField)
+        view.addSubviews(categoriesHeaderTitle, categoriesSeeAllButton, recommendationHeaderTitle, recommendationSeeAllButton)
+      
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 30),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
+            categoriesHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoriesHeaderTitle.topAnchor.constraint(equalTo: view.topAnchor),
+            categoriesHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
+            
+            categoriesSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            categoriesSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
+            categoriesSeeAllButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
+            
+            recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 75),
+            recommendationHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
+            
+            recommendationSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            recommendationSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
+            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 75)
         ])
     }
     
@@ -94,8 +116,8 @@ class HomeVC: UIViewController {
         recipes.append(contentsOf: categories)
         
         DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.view.bringSubviewToFront(self.tableView)
+            self.collectionView.reloadData()
+            //self.view.bringSubviewToFront(self.tableView)
         }
     }
     
@@ -141,9 +163,9 @@ extension HomeVC {
                     case 0 :
                         return UIHelper.categoriesSection()
                     case 1 :
-                        break
+                        return UIHelper.categoriesSection()
                     default:
-                        return
+                        return UIHelper.categoriesSection()
                     }
                 }
                 collectionView.setCollectionViewLayout(layout, animated: true)
