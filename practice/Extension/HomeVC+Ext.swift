@@ -65,6 +65,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 0:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
             return header
+            
         default:
             fatalError("Unexpected section \(indexPath.section)")
         }

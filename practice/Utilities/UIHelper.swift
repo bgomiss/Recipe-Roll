@@ -34,14 +34,18 @@ struct UIHelper {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75)
                 , heightDimension: .absolute(75))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize
-                , subitems: [item])
+                                                             , subitems: [item])
                 group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0
                 , bottom: 0, trailing: 15)
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15
+                section.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15
                 , bottom: 10, trailing: 0)
                 section.orthogonalScrollingBehavior = .continuous
+        
+            section.boundarySupplementaryItems = [
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top),
+        ]
                 
                 return section
     }
@@ -58,11 +62,9 @@ struct UIHelper {
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         section.orthogonalScrollingBehavior = .continuous
         
-        section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top),
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Footer", alignment: .bottom)
-            
-        ]
+//        section.boundarySupplementaryItems = [
+//            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top)
+//            ]
         
         return section
     }
