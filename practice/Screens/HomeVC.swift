@@ -30,7 +30,7 @@ class HomeVC: UIViewController {
         collectionView.dataSource = self
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: CategoriesCollectionViewCell.reuseID)
         collectionView.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
-        
+        collectionView.register(SPHeaderView.self, forSupplementaryViewOfKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
        
         return collectionView
@@ -87,7 +87,7 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: queryTextField)
-        view.addSubviews(categoryView, recommendationHeaderTitle, recommendationSeeAllButton)
+        view.addSubviews(categoryHeaderView, recommendationHeaderTitle, recommendationSeeAllButton)
       
         NSLayoutConstraint.activate([
             

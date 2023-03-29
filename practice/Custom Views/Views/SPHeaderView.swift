@@ -7,10 +7,11 @@
 
 import UIKit
 
-class SPHeaderView: UIView {
+class SPHeaderView: UICollectionReusableView {
     
-    let categoriesHeaderTitle          = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let categoriesSeeAllButton         = SPButton(backgroundColor: .clear, title: "See All")
+    static let headerIdentifier         = "Header"
+    let categoriesHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let categoriesSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,22 +31,24 @@ class SPHeaderView: UIView {
         layer.cornerRadius = 16
         layer.borderWidth = 2
         layer.borderColor = UIColor.white.cgColor
-        translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        configureLayout()
     }
     
     private func configureLayout() {
-        addSubviews(categoriesHeaderTitle, categoriesSeeAllButton)
+        let stackView = UIStackView(arrangedSubviews: [categoriesHeaderTitle, categoriesSeeAllButton])
+                stackView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(stackView)
         
         NSLayoutConstraint.activate([
-        categoriesHeaderTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        categoriesHeaderTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-        categoriesHeaderTitle.heightAnchor.constraint(equalToConstant: 20),
-        categoriesHeaderTitle.widthAnchor.constraint(equalToConstant: 50),
-        
-        categoriesSeeAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-        categoriesSeeAllButton.heightAnchor.constraint(equalToConstant: 20),
-        categoriesSeeAllButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-        categoriesSeeAllButton.widthAnchor.constraint(equalToConstant: 50)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            stackView.heightAnchor.constraint(equalToConstant: 20),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
 //        categoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 //        categoryView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 10),

@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum UIHelper {
+struct UIHelper {
     
 //    static func createThreeColumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
 //        let width = view.bounds.width
@@ -23,6 +23,8 @@ enum UIHelper {
 //
 //        return flowLayout
  //   }
+    
+    let categoryHeaderView              = SPHeaderView()
     
     static func categoriesSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1)

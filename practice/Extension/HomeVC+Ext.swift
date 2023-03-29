@@ -22,9 +22,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         }
     }
     
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         3
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
@@ -57,5 +59,15 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         }
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch indexPath.section {
+        case 0:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
+            return header
+        default:
+            fatalError("Unexpected section \(indexPath.section)")
+        }
+    }
     
 }
