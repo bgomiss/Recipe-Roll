@@ -24,7 +24,7 @@ struct UIHelper {
 //        return flowLayout
  //   }
     
-    let categoryHeaderView              = SPHeaderView()
+    let categoryHeaderView              = CategoriesHeaderView()
     
     static func categoriesSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1)
@@ -44,13 +44,13 @@ struct UIHelper {
                 section.orthogonalScrollingBehavior = .continuous
         
             section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top),
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "CategoriesHeader", alignment: .top),
         ]
                 
                 return section
     }
     
-    static func restaurantsListSection()->NSCollectionLayoutSection {
+    static func recommendationSection()->NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -63,7 +63,7 @@ struct UIHelper {
         section.orthogonalScrollingBehavior = .continuous
         
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "Header", alignment: .top)
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "RecommendationHeader", alignment: .top)
             ]
         
         return section

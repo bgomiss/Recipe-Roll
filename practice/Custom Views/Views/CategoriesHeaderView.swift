@@ -7,9 +7,9 @@
 
 import UIKit
 
-class SPHeaderView: UICollectionReusableView {
+class CategoriesHeaderView: UICollectionReusableView {
     
-    static let headerIdentifier         = "Header"
+    static let headerIdentifier         = "CategoriesHeader"
     let categoriesHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let categoriesSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
 

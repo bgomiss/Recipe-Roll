@@ -14,7 +14,7 @@ class HomeVC: UIViewController {
     let queryTextField                  = SPTextField()
     var recipes: [Recipes]              = []
     //let text                           = SPTextField()
-    let categoryHeaderView              = SPHeaderView()
+    let categoryHeaderView              = CategoriesHeaderView()
     //let layout                         = UICollectionViewFlowLayout()
     let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
@@ -30,7 +30,8 @@ class HomeVC: UIViewController {
         collectionView.dataSource = self
         collectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: CategoriesCollectionViewCell.reuseID)
         collectionView.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
-        collectionView.register(SPHeaderView.self, forSupplementaryViewOfKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier)
+        collectionView.register(CategoriesHeaderView.self, forSupplementaryViewOfKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier)
+        collectionView.register(RecommendationHeaderView.self, forSupplementaryViewOfKind: "RecommendationHeader", withReuseIdentifier: RecommendationHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
        
         return collectionView
@@ -154,7 +155,7 @@ extension HomeVC {
                 return UIHelper.categoriesSection()
                 
             case 1 :
-                return UIHelper.restaurantsListSection()
+                return UIHelper.recommendationSection()
                 
             default:
                 return UIHelper.categoriesSection()

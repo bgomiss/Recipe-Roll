@@ -63,11 +63,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch indexPath.section {
         case 0:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: CategoriesHeaderView.headerIdentifier, for: indexPath) as! CategoriesHeaderView
             return header
             
         case 1:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: RecommendationHeaderView.headerIdentifier, for: indexPath) as! RecommendationHeaderView
             return header
             
         default:
