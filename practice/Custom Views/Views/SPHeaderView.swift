@@ -16,7 +16,6 @@ class SPHeaderView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
-        configureLayout()
     }
     
     
@@ -28,9 +27,8 @@ class SPHeaderView: UICollectionReusableView {
     private func configure() {
         categoriesHeaderTitle.text = "Categories"
         backgroundColor = .systemBackground
-        layer.cornerRadius = 16
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.white.cgColor
+        
+        
         
     }
     
@@ -41,15 +39,19 @@ class SPHeaderView: UICollectionReusableView {
     
     private func configureLayout() {
         let stackView = UIStackView(arrangedSubviews: [categoriesHeaderTitle, categoriesSeeAllButton])
-                stackView.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             stackView.heightAnchor.constraint(equalToConstant: 20),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor)
-        ])
+            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -20),
+            
+            categoriesHeaderTitle.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10),
+            categoriesHeaderTitle.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
+            ])
 //        categoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 //        categoryView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 10),
 //        categoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

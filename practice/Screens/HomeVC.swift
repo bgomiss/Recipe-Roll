@@ -87,7 +87,7 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: queryTextField)
-        view.addSubviews(categoryHeaderView, recommendationHeaderTitle, recommendationSeeAllButton)
+        //view.addSubviews(categoryHeaderView, recommendationHeaderTitle, recommendationSeeAllButton)
       
         NSLayoutConstraint.activate([
             

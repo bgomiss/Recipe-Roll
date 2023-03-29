@@ -24,7 +24,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
+        2
     }
     
     
@@ -63,6 +63,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch indexPath.section {
         case 0:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
+            return header
+            
+        case 1:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: "Header", withReuseIdentifier: SPHeaderView.headerIdentifier, for: indexPath) as! SPHeaderView
             return header
             
