@@ -47,15 +47,11 @@ class RecommendationHeaderView: UICollectionReusableView {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             stackView.heightAnchor.constraint(equalToConstant: 20),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             recommendationHeaderTitle.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10),
             recommendationHeaderTitle.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
             ])
-//        categoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//        categoryView.topAnchor.constraint(equalTo: queryTextField.bottomAnchor, constant: 10),
-//        categoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//        categoryView.heightAnchor.constraint(equalToConstant: 30)
     }
 
 }

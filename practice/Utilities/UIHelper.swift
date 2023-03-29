@@ -40,7 +40,7 @@ struct UIHelper {
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15
-                , bottom: 10, trailing: 0)
+                , bottom: 20, trailing: 15)
                 section.orthogonalScrollingBehavior = .continuous
         
             section.boundarySupplementaryItems = [
@@ -59,7 +59,7 @@ struct UIHelper {
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 20, trailing: 15)
         section.orthogonalScrollingBehavior = .continuous
         
         section.boundarySupplementaryItems = [
