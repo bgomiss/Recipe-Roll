@@ -20,7 +20,7 @@ class SPTitleLabel: UILabel {
     }
     
     
-    convenience init(text: String?, textAlignment: NSTextAlignment, fontSize: CGFloat) {
+    convenience init(text: String? = nil, textAlignment: NSTextAlignment, fontSize: CGFloat) {
         self.init(frame: .zero)
         self.text = text
         self.textAlignment = textAlignment
