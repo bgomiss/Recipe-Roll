@@ -32,6 +32,7 @@ class BookmarksVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(queryTextField, collectionView)
+        configureCompositionalLayout()
         createDismissKeyboardTapGesture()
         layoutUI()
         configure()
@@ -85,3 +86,20 @@ extension BookmarksVC: UITextFieldDelegate {
         }
     }
 
+extension BookmarksVC {
+    func configureCompositionalLayout() {
+        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
+            switch sectionIndex {
+            case 0 :
+                return UIHelper.RVSection()
+                
+            case 1 :
+                return UIHelper.recommendationSection()
+                
+            default:
+                return UIHelper.categoriesSection()
+            }
+        }
+        collectionView.setCollectionViewLayout(layout, animated: true)
+    }
+}
