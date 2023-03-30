@@ -12,7 +12,7 @@ class SPTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemMint
-        viewControllers = [createHomeNC(), createCategoriesNC(), createRecipesNC(), createShopListNC(), createProfileNC()]
+        viewControllers = [createHomeNC(), createRecipesNC(), createBookmarksNC(), createProfileNC()]
     }
     
     
@@ -24,16 +24,7 @@ class SPTabBarController: UITabBarController {
         return UINavigationController(rootViewController: homeVC)
     }
     
-    
-    func createCategoriesNC() -> UINavigationController {
-        let categoriesVC = CategoriesVC()
-        categoriesVC.title = "CATEGORIES"
-        categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "square.split.2x2.fill"), tag: 1)
-        
-        return UINavigationController(rootViewController: categoriesVC)
-    }
-    
-    
+ 
     func createRecipesNC() -> UINavigationController  {
         let recipesVC = RecipesVC()
         recipesVC.title = "View Recipe"
@@ -43,10 +34,10 @@ class SPTabBarController: UITabBarController {
     }
     
     
-    func createShopListNC() -> UINavigationController  {
-        let shopListVC = ShoppingListVC()
-        shopListVC.title = "Shopping List"
-        shopListVC.tabBarItem = UITabBarItem(title: "Shopping", image: UIImage(systemName: "cart"), tag: 3)
+    func createBookmarksNC() -> UINavigationController  {
+        let shopListVC = BookmarksVC()
+        shopListVC.title = "Bookmarks"
+        shopListVC.tabBarItem = UITabBarItem(title: "Bookmarks", image: UIImage(systemName: "bookmark.fill"), tag: 3)
         
         return UINavigationController(rootViewController: shopListVC)
     }

@@ -13,9 +13,7 @@ class HomeVC: UIViewController {
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let queryTextField                  = SPTextField()
     var recipes: [Recipes]              = []
-    //let text                           = SPTextField()
     let categoryHeaderView              = CategoriesHeaderView()
-    //let layout                         = UICollectionViewFlowLayout()
     let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
