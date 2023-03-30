@@ -20,8 +20,9 @@ class SPTitleLabel: UILabel {
     }
     
     
-    convenience init(textAlignment: NSTextAlignment, fontSize: CGFloat) {
+    convenience init(text: String?, textAlignment: NSTextAlignment, fontSize: CGFloat) {
         self.init(frame: .zero)
+        self.text = text
         self.textAlignment = textAlignment
         self.font = UIFont.systemFont(ofSize: fontSize, weight: .light)
     }

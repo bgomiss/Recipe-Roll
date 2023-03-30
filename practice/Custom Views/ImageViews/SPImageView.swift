@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SPCategoryImageView: UIImageView {
+class SPImageView: UIImageView {
     
     let cache = NetworkManager.shared.cache
     let placeholderImage = UIImage(systemName: "photo")

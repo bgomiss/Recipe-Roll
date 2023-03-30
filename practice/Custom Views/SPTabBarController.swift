@@ -35,11 +35,11 @@ class SPTabBarController: UITabBarController {
     
     
     func createBookmarksNC() -> UINavigationController  {
-        let shopListVC = BookmarksVC()
-        shopListVC.title = "Bookmarks"
-        shopListVC.tabBarItem = UITabBarItem(title: "Bookmarks", image: UIImage(systemName: "bookmark.fill"), tag: 3)
+        let bookmarksVC = BookmarksVC()
+        bookmarksVC.title = "Bookmarks"
+        bookmarksVC.tabBarItem = UITabBarItem(title: "Bookmarks", image: UIImage(systemName: "bookmark.fill"), tag: 3)
         
-        return UINavigationController(rootViewController: shopListVC)
+        return UINavigationController(rootViewController: bookmarksVC)
     }
     
     

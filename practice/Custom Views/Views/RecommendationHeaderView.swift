@@ -9,8 +9,8 @@ import UIKit
 
 class RecommendationHeaderView: UICollectionReusableView {
         
-    static let headerIdentifier         = "RecommendationHeader"
-    let recommendationHeaderTitle           = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    static let headerIdentifier             = "RecommendationHeader"
+    let recommendationHeaderTitle           = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     let recommendationSeeAllButton          = SPButton(backgroundColor: .clear, title: "See All")
 
     override init(frame: CGRect) {
@@ -25,12 +25,8 @@ class RecommendationHeaderView: UICollectionReusableView {
     
     
     private func configure() {
-        recommendationHeaderTitle.text = "Recommendation"
         backgroundColor = .systemBackground
-        
-        
-        
-    }
+        }
     
     override func layoutSubviews() {
         super.layoutSubviews()

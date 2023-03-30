@@ -10,7 +10,7 @@ import UIKit
 class RecommendationCollectionViewCell: UICollectionViewCell {
 
         static let reuseID = "RecommendationCell"
-        let recommendationImageView = SPCategoryImageView(frame: .zero)
+        let recommendationImageView = SPImageView(frame: .zero)
         let recommendationLabel = SPTitleLabel(textAlignment: .center, fontSize: 10)
         
         

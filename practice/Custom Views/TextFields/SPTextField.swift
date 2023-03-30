@@ -20,6 +20,12 @@ class SPTextField: UITextField {
     }
     
     
+    convenience init(placeholder: String?) {
+        self.init(frame: .zero)
+        self.placeholder = placeholder
+    }
+    
+    
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -38,6 +44,5 @@ class SPTextField: UITextField {
         autocorrectionType = .no
         returnKeyType = .search
         clearButtonMode = .whileEditing
-        placeholder = "Search for a Delicious Food"
     }
 }

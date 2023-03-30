@@ -10,7 +10,7 @@ import UIKit
 class CategoriesCollectionViewCell: UICollectionViewCell {
 
     static let reuseID = "CategoriesCell"
-    let categoryImageView = SPCategoryImageView(frame: .zero)
+    let categoryImageView = SPImageView(frame: .zero)
     let categoryLabel = SPTitleLabel(textAlignment: .center, fontSize: 10)
     
     

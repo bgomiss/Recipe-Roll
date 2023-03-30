@@ -10,11 +10,11 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let queryTextField                  = SPTextField()
+    let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
+    let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
     var recipes: [Recipes]              = []
     let categoryHeaderView              = CategoriesHeaderView()
-    let recommendationHeaderTitle       = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     
@@ -45,7 +45,6 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
-        recommendationHeaderTitle.text = "Recommendation"
     }
     
     
@@ -106,8 +105,13 @@ class HomeVC: UIViewController {
     
     
     func configureUIElements() {
-        titleLabel.text = "What would you like to cook today?"
+        let searchIcon = UIImage(systemName: "magnifyingglass")
+        let imageView = UIImageView(image: searchIcon)
+        imageView.contentMode = .scaleAspectFit
+        queryTextField.leftViewMode = .always
+        queryTextField.leftView = imageView
     }
+    
     
     func layoutUI() {
         queryTextField.delegate = self
