@@ -86,18 +86,6 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: queryTextField)
-        //view.addSubviews(categoryHeaderView, recommendationHeaderTitle, recommendationSeeAllButton)
-      
-        NSLayoutConstraint.activate([
-            
-//            recommendationHeaderTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            recommendationHeaderTitle.topAnchor.constraint(equalTo: categoriesHeaderTitle.bottomAnchor, constant: 95),
-//            recommendationHeaderTitle.heightAnchor.constraint(equalToConstant: 30),
-//
-//            recommendationSeeAllButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-//            recommendationSeeAllButton.heightAnchor.constraint(equalToConstant: 28),
-//            recommendationSeeAllButton.topAnchor.constraint(equalTo: categoriesSeeAllButton.bottomAnchor, constant: 95)
-        ])
     }
     
     
