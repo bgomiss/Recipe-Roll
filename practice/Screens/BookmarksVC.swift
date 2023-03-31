@@ -120,7 +120,7 @@ extension BookmarksVC {
                 return UIHelper.RVSection()
                 
             case 1 :
-                return UIHelper.recommendationSection()
+                return UIHelper.MadeItSection()
                 
             default:
                 return UIHelper.categoriesSection()

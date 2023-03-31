@@ -24,7 +24,7 @@ class SPTitleLabel: UILabel {
         self.init(frame: .zero)
         self.text = text
         self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .light)
+        self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
     }
     
     

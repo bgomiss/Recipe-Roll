@@ -24,7 +24,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
+        2
     }
     
     
@@ -40,7 +40,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             return cell
             
         case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MadeItCollectionViewCell.reuseID, for: indexPath) as? MadeItCollectionViewCell else {fatalError("unable to dequeue")}
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -67,7 +67,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             return header
             
         case 1:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RVHeader", withReuseIdentifier: RVHeaderView.headerIdentifier, for: indexPath) as! RVHeaderView
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "MadeItHeader", withReuseIdentifier: MadeItHeaderView.headerIdentifier, for: indexPath) as! MadeItHeaderView
             return header
             
         default:
