@@ -69,34 +69,34 @@ enum UIHelper {
     }
     
     static func RVSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1)
-                , heightDimension: .fractionalHeight(1))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75)
-                        , heightDimension: .absolute(75))
-                        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize
-                                                                     , subitems: [item])
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        
+//        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75), heightDimension: .absolute(75))
+//        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let verticalStackItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
         let verticalStackItem = NSCollectionLayoutItem(layoutSize: verticalStackItemSize)
-                
+        
         let verticalStackGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1))
         let verticalStackGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalStackGroupSize, subitem: verticalStackItem, count: 2)
         
+        let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(3/5))
+        let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitems: [item, verticalStackGroup])
         
-                group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0
-                , bottom: 0, trailing: 15)
-                
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15
-                , bottom: 20, trailing: 15)
-                section.orthogonalScrollingBehavior = .continuous
         
-            section.boundarySupplementaryItems = [
+        horizontalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
+        
+        let section = NSCollectionLayoutSection(group: horizontalGroup)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15, bottom: 20, trailing: 15)
+        //section.orthogonalScrollingBehavior = .continuous
+        
+        section.boundarySupplementaryItems = [
             .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: "RVHeader", alignment: .top),
         ]
-                
-                return section
+        
+        return section
     }
     
 }

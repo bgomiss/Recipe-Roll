@@ -33,6 +33,7 @@ class BookmarksVC: UIViewController {
         super.viewDidLoad()
         view.addSubviews(queryTextField, collectionView)
         configureCompositionalLayout()
+        getCategories(query: "sushi")
         createDismissKeyboardTapGesture()
         layoutUI()
         configure()
@@ -65,6 +66,31 @@ class BookmarksVC: UIViewController {
         imageView.contentMode = .scaleAspectFit
         queryTextField.leftViewMode = .always
         queryTextField.leftView = imageView
+    }
+    
+    
+    func getCategories(query: String) {
+        NetworkManager.shared.getCategoriesInfo(for: query) { [weak self] category in
+            
+            guard let self = self else { return }
+            
+            switch category {
+            case .success(let categories):
+                self.updateUI(with: categories)
+            case .failure(let error):
+                return
+            }
+        }
+    }
+    
+    
+    func updateUI(with categories: [Recipes]) {
+        recipes.append(contentsOf: categories)
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            //self.view.bringSubviewToFront(self.tableView)
+        }
     }
     
     
