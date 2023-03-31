@@ -25,6 +25,8 @@
 		1C46973D29BD3FF900918782 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C46973C29BD3FF900918782 /* HomeVC.swift */; };
 		1C46974229BD3FFA00918782 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C46974129BD3FFA00918782 /* Assets.xcassets */; };
 		1C46974529BD3FFA00918782 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C46974329BD3FFA00918782 /* LaunchScreen.storyboard */; };
+		1C4BF8FB29D7299F009286D4 /* MadeItHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */; };
+		1C4BF8FD29D72AED009286D4 /* MadeItCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF8FC29D72AED009286D4 /* MadeItCollectionViewCell.swift */; };
 		1C517FE629D5A17A00922940 /* BookmarksVC+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE529D5A17A00922940 /* BookmarksVC+Ext.swift */; };
 		1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */; };
 		1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE929D5AA9100922940 /* RVHeaderView.swift */; };
@@ -63,6 +65,8 @@
 		1C46974129BD3FFA00918782 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C46974429BD3FFA00918782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C46974629BD3FFA00918782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeItHeaderView.swift; sourceTree = "<group>"; };
+		1C4BF8FC29D72AED009286D4 /* MadeItCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeItCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C517FE529D5A17A00922940 /* BookmarksVC+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksVC+Ext.swift"; sourceTree = "<group>"; };
 		1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C517FE929D5AA9100922940 /* RVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVHeaderView.swift; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 				1C2E8EDC29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift */,
 				1C70FD4C29D1CE5F0025120B /* RecommendationCollectionViewCell.swift */,
 				1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */,
+				1C4BF8FC29D72AED009286D4 /* MadeItCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 				1C5EA47729D3800800FDCEE0 /* CategoriesHeaderView.swift */,
 				1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */,
 				1C517FE929D5AA9100922940 /* RVHeaderView.swift */,
+				1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,12 +345,14 @@
 				1C2EE92529C1C0AB00B3D24A /* SPSecondaryTitleLabel.swift in Sources */,
 				1C322F1C29C76FED000BA900 /* PersistenceManager.swift in Sources */,
 				1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */,
+				1C4BF8FB29D7299F009286D4 /* MadeItHeaderView.swift in Sources */,
 				1C982B9A29C0A64700CA7471 /* UIView+Ext.swift in Sources */,
 				1C982B9129C06C8A00CA7471 /* NetworkManager.swift in Sources */,
 				1C6BD91129D1DA4F00B7390B /* HomeVC+Ext.swift in Sources */,
 				1C2EE92829C1C23100B3D24A /* SPAlertVC.swift in Sources */,
 				1C2E8EDA29C1E21B00DB0822 /* Tableview+Ext.swift in Sources */,
 				1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */,
+				1C4BF8FD29D72AED009286D4 /* MadeItCollectionViewCell.swift in Sources */,
 				1C70FD4D29D1CE5F0025120B /* RecommendationCollectionViewCell.swift in Sources */,
 				1C2EE92329C1C07700B3D24A /* SPBodyLabel.swift in Sources */,
 				1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */,

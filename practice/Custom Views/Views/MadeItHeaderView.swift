@@ -1,17 +1,17 @@
 //
-//  RVHeaderView.swift
+//  MadeItHeaderView.swift
 //  practice
 //
-//  Created by aycan duskun on 30.03.2023.
+//  Created by aycan duskun on 31.03.2023.
 //
 
 import UIKit
 
-class RVHeaderView: UICollectionReusableView {
+class MadeItHeaderView: UICollectionReusableView {
         
-    static let headerIdentifier         = "RVHeader"
-    let rvHeaderTitle                   = SPTitleLabel(text: "Recently Viewed", textAlignment: .left, fontSize: 20)
-    let rvSeeAllButton                  = SPButton(backgroundColor: .clear, title: "See All")
+    static let headerIdentifier         = "MadeItHeader"
+    let madeItHeaderTitle                   = SPTitleLabel(text: "Made It", textAlignment: .left, fontSize: 20)
+    let madeItSeeAllButton                  = SPButton(backgroundColor: .clear, title: "See All")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,7 +34,7 @@ class RVHeaderView: UICollectionReusableView {
     }
     
     private func configureLayout() {
-        let stackView = UIStackView(arrangedSubviews: [rvHeaderTitle, rvSeeAllButton])
+        let stackView = UIStackView(arrangedSubviews: [madeItHeaderTitle, madeItSeeAllButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .equalSpacing
         addSubview(stackView)
@@ -45,8 +45,8 @@ class RVHeaderView: UICollectionReusableView {
             stackView.heightAnchor.constraint(equalToConstant: 20),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            rvHeaderTitle.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10),
-            rvHeaderTitle.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
+            madeItHeaderTitle.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10),
+            madeItHeaderTitle.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
             ])
     }
 
