@@ -24,7 +24,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        5
     }
     
     
@@ -41,6 +41,33 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MadeItCollectionViewCell.reuseID, for: indexPath) as? MadeItCollectionViewCell else {fatalError("unable to dequeue")}
+            if recipes.isEmpty == false {
+                let category = recipes[indexPath.row]
+                cell.set(category: category)
+            }
+            
+            return cell
+            
+        case 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BreakfastCollectionViewCell.reuseID, for: indexPath) as? BreakfastCollectionViewCell else {fatalError("unable to dequeue")}
+            if recipes.isEmpty == false {
+                let category = recipes[indexPath.row]
+                cell.set(category: category)
+            }
+            
+            return cell
+            
+        case 3:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LunchCollectionViewCell.reuseID, for: indexPath) as? LunchCollectionViewCell else {fatalError("unable to dequeue")}
+            if recipes.isEmpty == false {
+                let category = recipes[indexPath.row]
+                cell.set(category: category)
+            }
+            
+            return cell
+            
+        case 4:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DinnerCollectionViewCell.reuseID, for: indexPath) as? DinnerCollectionViewCell else {fatalError("unable to dequeue")}
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -68,6 +95,18 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 1:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: "MadeItHeader", withReuseIdentifier: MadeItHeaderView.headerIdentifier, for: indexPath) as! MadeItHeaderView
+            return header
+            
+        case 2:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "BreakfastHeader", withReuseIdentifier: BreakfastHeaderView.headerIdentifier, for: indexPath) as! BreakfastHeaderView
+            return header
+            
+        case 3:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "LunchHeader", withReuseIdentifier: LunchHeaderView.headerIdentifier, for: indexPath) as! LunchHeaderView
+            return header
+            
+        case 4:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "DinnerHeader", withReuseIdentifier: DinnerHeaderView.headerIdentifier, for: indexPath) as! DinnerHeaderView
             return header
             
         default:

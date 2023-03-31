@@ -14,15 +14,23 @@ class BookmarksVC: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        
+        //CollectionViewCells
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(RVCollectionViewCell.self, forCellWithReuseIdentifier: RVCollectionViewCell.reuseID)
         collectionView.register(MadeItCollectionViewCell.self, forCellWithReuseIdentifier: MadeItCollectionViewCell.reuseID)
+        collectionView.register(BreakfastCollectionViewCell.self, forCellWithReuseIdentifier: BreakfastCollectionViewCell.reuseID)
+        collectionView.register(LunchCollectionViewCell.self, forCellWithReuseIdentifier: LunchCollectionViewCell.reuseID)
+        collectionView.register(DinnerCollectionViewCell.self, forCellWithReuseIdentifier: DinnerCollectionViewCell.reuseID)
+        
+        //HeaderViews
         collectionView.register(RVHeaderView.self, forSupplementaryViewOfKind: "RVHeader", withReuseIdentifier: RVHeaderView.headerIdentifier)
         collectionView.register(MadeItHeaderView.self, forSupplementaryViewOfKind: "MadeItHeader", withReuseIdentifier: MadeItHeaderView.headerIdentifier)
+        collectionView.register(BreakfastHeaderView.self, forSupplementaryViewOfKind: "BreakfastHeader", withReuseIdentifier: BreakfastHeaderView.headerIdentifier)
+        collectionView.register(LunchHeaderView.self, forSupplementaryViewOfKind: "LunchHeader", withReuseIdentifier: LunchHeaderView.headerIdentifier)
+        collectionView.register(DinnerHeaderView.self, forSupplementaryViewOfKind: "DinnerHeader", withReuseIdentifier: DinnerHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
        
         return collectionView
@@ -117,10 +125,19 @@ extension BookmarksVC {
         let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
             switch sectionIndex {
             case 0 :
-                return UIHelper.RVSection()
+                return UIHelper.rvSection()
                 
             case 1 :
-                return UIHelper.MadeItSection()
+                return UIHelper.madeItSection()
+                
+            case 2 :
+                return UIHelper.breakfastSection()
+                
+            case 3 :
+                return UIHelper.lunchSection()
+                
+            case 4 :
+                return UIHelper.dinnerSection()
                 
             default:
                 return UIHelper.categoriesSection()
