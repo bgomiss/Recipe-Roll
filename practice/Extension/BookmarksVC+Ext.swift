@@ -32,6 +32,14 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
+            
+            if indexPath.item == 2 {
+                cell.overlayView.isHidden = false
+            } else {
+                cell.overlayView.isHidden = true
+            }
+            
+            
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -41,6 +49,14 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MadeItCollectionViewCell.reuseID, for: indexPath) as? MadeItCollectionViewCell else {fatalError("unable to dequeue")}
+            
+            if indexPath.item == 2 {
+                cell.overlayView?.isHidden = false
+            } else {
+                cell.overlayView?.isHidden = true
+            }
+            
+            
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -50,6 +66,14 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BreakfastCollectionViewCell.reuseID, for: indexPath) as? BreakfastCollectionViewCell else {fatalError("unable to dequeue")}
+            
+            if indexPath.item == 2 {
+                cell.overlayView?.isHidden = false
+            } else {
+                cell.overlayView?.isHidden = true
+            }
+            
+            
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -59,6 +83,14 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LunchCollectionViewCell.reuseID, for: indexPath) as? LunchCollectionViewCell else {fatalError("unable to dequeue")}
+            
+            if indexPath.item == 2 {
+                cell.overlayView.isHidden = false
+            } else {
+                cell.overlayView.isHidden = true
+            }
+            
+            
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
@@ -68,6 +100,14 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             
         case 4:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DinnerCollectionViewCell.reuseID, for: indexPath) as? DinnerCollectionViewCell else {fatalError("unable to dequeue")}
+            
+            if indexPath.item == 2 {
+                cell.overlayView.isHidden = false
+            } else {
+                cell.overlayView.isHidden = true
+            }
+            
+            
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)

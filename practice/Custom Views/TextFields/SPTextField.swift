@@ -29,7 +29,7 @@ class SPTextField: UITextField {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         
-        layer.cornerRadius = 10
+        layer.cornerRadius = 20
         layer.borderWidth = 2
         layer.borderColor = UIColor.systemGray4.cgColor
         

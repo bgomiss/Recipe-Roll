@@ -12,6 +12,7 @@ class SPTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemMint
+        UITabBar.appearance().backgroundColor = .systemBackground
         viewControllers = [createHomeNC(), createRecipesNC(), createBookmarksNC(), createProfileNC()]
     }
     
@@ -28,7 +29,7 @@ class SPTabBarController: UITabBarController {
     func createRecipesNC() -> UINavigationController  {
         let recipesVC = RecipesVC()
         recipesVC.title = "View Recipe"
-        recipesVC.tabBarItem = UITabBarItem(title: "Recipes", image: UIImage(systemName: "fork.knife"), tag: 2)
+        recipesVC.tabBarItem = UITabBarItem(title: "Recipes", image: UIImage(systemName: "fork.knife"), tag: 1)
         
         return UINavigationController(rootViewController: recipesVC)
     }
@@ -37,7 +38,7 @@ class SPTabBarController: UITabBarController {
     func createBookmarksNC() -> UINavigationController  {
         let bookmarksVC = BookmarksVC()
         bookmarksVC.title = "Bookmarks"
-        bookmarksVC.tabBarItem = UITabBarItem(title: "Bookmarks", image: UIImage(systemName: "bookmark.fill"), tag: 3)
+        bookmarksVC.tabBarItem = UITabBarItem(title: "Bookmarks", image: UIImage(systemName: "bookmark.fill"), tag: 2)
         
         return UINavigationController(rootViewController: bookmarksVC)
     }
@@ -46,7 +47,7 @@ class SPTabBarController: UITabBarController {
     func createProfileNC() -> UINavigationController  {
         let profileVC = ProfileVC()
         profileVC.title = "View Profile"
-        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 4)
+        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
         
         return UINavigationController(rootViewController: profileVC)
     }

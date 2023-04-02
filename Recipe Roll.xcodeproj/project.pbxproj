@@ -33,6 +33,7 @@
 		1C4BF90529D72F85009286D4 /* BreakfastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF90429D72F85009286D4 /* BreakfastCollectionViewCell.swift */; };
 		1C4BF90729D72F95009286D4 /* LunchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF90629D72F95009286D4 /* LunchCollectionViewCell.swift */; };
 		1C4BF90929D72FA5009286D4 /* DinnerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF90829D72FA5009286D4 /* DinnerCollectionViewCell.swift */; };
+		1C4D728429D9C233009F911E /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4D728329D9C233009F911E /* OverlayView.swift */; };
 		1C517FE629D5A17A00922940 /* BookmarksVC+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE529D5A17A00922940 /* BookmarksVC+Ext.swift */; };
 		1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */; };
 		1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE929D5AA9100922940 /* RVHeaderView.swift */; };
@@ -79,6 +80,7 @@
 		1C4BF90429D72F85009286D4 /* BreakfastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C4BF90629D72F95009286D4 /* LunchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C4BF90829D72FA5009286D4 /* DinnerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinnerCollectionViewCell.swift; sourceTree = "<group>"; };
+		1C4D728329D9C233009F911E /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
 		1C517FE529D5A17A00922940 /* BookmarksVC+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksVC+Ext.swift"; sourceTree = "<group>"; };
 		1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C517FE929D5AA9100922940 /* RVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVHeaderView.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				1C4BF8FE29D72E67009286D4 /* BreakfastHeaderView.swift */,
 				1C4BF90029D72E84009286D4 /* LunchHeaderView.swift */,
 				1C4BF90229D72E95009286D4 /* DinnerHeaderView.swift */,
+				1C4D728329D9C233009F911E /* OverlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				1C2EE92529C1C0AB00B3D24A /* SPSecondaryTitleLabel.swift in Sources */,
 				1C322F1C29C76FED000BA900 /* PersistenceManager.swift in Sources */,
 				1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */,
+				1C4D728429D9C233009F911E /* OverlayView.swift in Sources */,
 				1C4BF8FB29D7299F009286D4 /* MadeItHeaderView.swift in Sources */,
 				1C982B9A29C0A64700CA7471 /* UIView+Ext.swift in Sources */,
 				1C4BF90929D72FA5009286D4 /* DinnerCollectionViewCell.swift in Sources */,

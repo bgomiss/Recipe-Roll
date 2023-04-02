@@ -11,6 +11,7 @@ class RVCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "RVCell"
     let rvImageView = SPImageView(frame: .zero)
+    var overlayView = OverlayView(frame: .zero)
     
     
     override init(frame: CGRect) {
@@ -24,6 +25,13 @@ class RVCollectionViewCell: UICollectionViewCell {
     }
     
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        overlayView.frame = bounds
+    }
+
+    
+    
     func set(category: Recipes) {
         rvImageView.downloadImage(fromURL: category.image)
     }
@@ -31,7 +39,8 @@ class RVCollectionViewCell: UICollectionViewCell {
     
     private func configure() {
         addSubviews(rvImageView)
-            
+        addSubview(overlayView)
+
         NSLayoutConstraint.activate([
            rvImageView.topAnchor.constraint(equalTo: topAnchor),
            rvImageView.leadingAnchor.constraint(equalTo: leadingAnchor),

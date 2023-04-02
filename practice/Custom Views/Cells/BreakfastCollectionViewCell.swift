@@ -11,6 +11,7 @@ class BreakfastCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "BreakfastCell"
     let breakfastImageView = SPImageView(frame: .zero)
+    var overlayView: OverlayView?
     
     
     override init(frame: CGRect) {
@@ -24,6 +25,12 @@ class BreakfastCollectionViewCell: UICollectionViewCell {
     }
     
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        overlayView?.frame = bounds
+    }
+    
+    
     func set(category: Recipes) {
         breakfastImageView.downloadImage(fromURL: category.image)
     }
@@ -31,6 +38,8 @@ class BreakfastCollectionViewCell: UICollectionViewCell {
     
     private func configure() {
         addSubviews(breakfastImageView)
+        overlayView = OverlayView(frame: bounds)
+        addSubview(overlayView!)
             
         NSLayoutConstraint.activate([
            breakfastImageView.topAnchor.constraint(equalTo: topAnchor),
