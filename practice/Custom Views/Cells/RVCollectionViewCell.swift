@@ -36,7 +36,7 @@ class RVCollectionViewCell: UICollectionViewCell {
         rvImageView.downloadImage(fromURL: category.image)
     }
     
-    
+    //
     private func configure() {
         addSubviews(rvImageView)
         addSubview(overlayView)
