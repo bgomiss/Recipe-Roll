@@ -10,14 +10,22 @@ import UIKit
 class ProfileVC: UIViewController {
 
     let signUpImage = SignUpImageView(frame: .zero)
-    let overlayView = OverlayView(frame: .zero)
+    let containerView = SPContainerView(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubviews(signUpImage, overlayView)
+        configureContainerView()
+        view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
-//        overlayView.frame = view.bounds
-        
+    }
+    
+    func configureContainerView() {
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: 280),
+            containerView.heightAnchor.constraint(equalToConstant: 220)
+        ])
     }
  }
