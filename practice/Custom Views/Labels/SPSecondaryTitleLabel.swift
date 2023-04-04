@@ -22,13 +22,13 @@ class SPSecondaryTitleLabel: UILabel {
     
    convenience init(fontSize: CGFloat) {
         self.init(frame: .zero)
-       font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
+       font = UIFont.systemFont(ofSize: fontSize, weight: .light)
         
     }
     
     
     private func configure() {
-        textColor = .secondaryLabel
+        textColor = .label
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.90
         lineBreakMode = .byTruncatingTail

@@ -22,7 +22,7 @@ class SPContainerView: UIView {
     
     private func configure() {
         backgroundColor = UIColor.black.withAlphaComponent(0.75)
-        layer.cornerRadius = 6
+        layer.cornerRadius = 8
         layer.borderWidth = 2
         layer.borderColor = UIColor.white.cgColor
         translatesAutoresizingMaskIntoConstraints = false

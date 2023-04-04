@@ -8,6 +8,8 @@
 import UIKit
 
 class SPTextField: UITextField {
+    
+    let padding = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +27,18 @@ class SPTextField: UITextField {
         self.placeholder = placeholder
     }
     
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+            return bounds.inset(by: padding)
+        }
+
+        override func editingRect(forBounds bounds: CGRect) -> CGRect {
+            return bounds.inset(by: padding)
+        }
+
+        override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+            return bounds.inset(by: padding)
+        }
+    
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +49,7 @@ class SPTextField: UITextField {
         
         textColor = .label //White in dark mode, black in light mode
         tintColor = .label
-        textAlignment = .center
+        textAlignment = .left
         font = UIFont.preferredFont(forTextStyle: .title2)
         adjustsFontSizeToFitWidth = true
         minimumFontSize = 12
