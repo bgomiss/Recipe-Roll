@@ -9,12 +9,15 @@ import UIKit
 
 class ProfileVC: UIViewController {
 
-    let signUpImage     = SignUpImageView(frame: .zero)
-    let containerView   = SPContainerView(frame: .zero)
-    let greetingLabel   = SPTitleLabel(textAlignment: .left, fontSize: 50)
-    let orLabel         = SPSecondaryTitleLabel(fontSize: 25)
-    let signUpField     = SPTextField(placeholder: "Email")
-    let continueButton  = SPButton(backgroundColor: .systemMint, title: "Continue")
+    let signUpImage         = SignUpImageView(frame: .zero)
+    let containerView       = SPContainerView(frame: .zero)
+    let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
+    let orLabel             = SPSecondaryTitleLabel(fontSize: 25)
+    let dhaLabel            = SPSecondaryTitleLabel(fontSize: 18)
+    let signUpField         = SPTextField(placeholder: "Email")
+    let continueButton      = SPButton(backgroundColor: .systemMint, title: "Continue")
+    let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
+    let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,9 @@ class ProfileVC: UIViewController {
         configureSignUpField()
         configureContButton()
         configureOrLabel()
+        configureDHALabel()
+        configureSignUpButton()
+        configureforgotPassButton()
     }
     
     func configureContainerView() {
@@ -34,7 +40,7 @@ class ProfileVC: UIViewController {
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            containerView.heightAnchor.constraint(equalToConstant: 450)
+            containerView.heightAnchor.constraint(equalToConstant: 350)
         ])
     }
     
@@ -84,6 +90,42 @@ class ProfileVC: UIViewController {
             orLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             orLabel.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: 20),
             orLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    func configureDHALabel() {
+        view.addSubview(dhaLabel)
+        
+        dhaLabel.text = "Don't have an account?"
+        dhaLabel.textColor = .white
+        
+        NSLayoutConstraint.activate([
+            dhaLabel.leadingAnchor.constraint(equalTo: continueButton.leadingAnchor),
+            dhaLabel.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
+            dhaLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    func configureSignUpButton() {
+        view.addSubview(signupButton)
+        signupButton.setTitleColor(.systemGreen, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            signupButton.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
+            signupButton.leadingAnchor.constraint(equalTo: dhaLabel.trailingAnchor),
+            signupButton.centerYAnchor.constraint(equalTo: dhaLabel.centerYAnchor),
+            signupButton.heightAnchor.constraint(equalToConstant: 26)
+        ])
+    }
+    
+    func configureforgotPassButton() {
+        view.addSubview(forgotPassButton)
+        forgotPassButton.setTitleColor(.systemGreen, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            forgotPassButton.topAnchor.constraint(equalTo: dhaLabel.bottomAnchor, constant: 30),
+            forgotPassButton.leadingAnchor.constraint(equalTo: dhaLabel.leadingAnchor),
+            forgotPassButton.heightAnchor.constraint(equalToConstant: 26)
         ])
     }
  }
