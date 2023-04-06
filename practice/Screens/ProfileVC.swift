@@ -24,6 +24,7 @@ class ProfileVC: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
+        configureUIElements()
         configureContainerView()
         configureGreetingLabel(text: "Hi!")
         configureSignUpField()
@@ -32,6 +33,10 @@ class ProfileVC: UIViewController {
         configureDHALabel()
         configureSignUpButton()
         configureforgotPassButton()
+    }
+    
+    func configureUIElements() {
+        add(childVC: <#T##UIViewController#>, to: containerView)
     }
     
     func configureContainerView() {
@@ -127,5 +132,12 @@ class ProfileVC: UIViewController {
             forgotPassButton.leadingAnchor.constraint(equalTo: dhaLabel.leadingAnchor),
             forgotPassButton.heightAnchor.constraint(equalToConstant: 26)
         ])
+    }
+    
+    func add(childVC: UIViewController, to containerView: UIView) {
+        addChild(childVC)
+        containerView.addSubview(childVC.view)
+        childVC.view.frame = containerView.bounds
+        childVC.didMove(toParent: self)
     }
  }
