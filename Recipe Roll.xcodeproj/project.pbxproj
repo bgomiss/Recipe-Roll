@@ -51,6 +51,7 @@
 		1C982B9329C0702E00CA7471 /* SPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9229C0702E00CA7471 /* SPError.swift */; };
 		1C982B9729C09DEE00CA7471 /* SPTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */; };
 		1C982B9A29C0A64700CA7471 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9929C0A64700CA7471 /* UIView+Ext.swift */; };
+		1CF8D4E529DEDB6C002DD589 /* SPSignupScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4E429DEDB6C002DD589 /* SPSignupScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		1C982B9229C0702E00CA7471 /* SPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPError.swift; sourceTree = "<group>"; };
 		1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTitleLabel.swift; sourceTree = "<group>"; };
 		1C982B9929C0A64700CA7471 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		1CF8D4E429DEDB6C002DD589 /* SPSignupScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSignupScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,16 +149,9 @@
 		1C2EE92929C1C33E00B3D24A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1C2EE92A29C1C35E00B3D24A /* SPAlertContainerView.swift */,
-				1C5EA47729D3800800FDCEE0 /* CategoriesHeaderView.swift */,
-				1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */,
-				1C517FE929D5AA9100922940 /* RVHeaderView.swift */,
-				1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */,
-				1C4BF8FE29D72E67009286D4 /* BreakfastHeaderView.swift */,
-				1C4BF90029D72E84009286D4 /* LunchHeaderView.swift */,
-				1C4BF90229D72E95009286D4 /* DinnerHeaderView.swift */,
-				1C4D728329D9C233009F911E /* OverlayView.swift */,
+				1CF8D4E329DEDA75002DD589 /* CollectionViews */,
 				1C41DA6C29DC272400297F1A /* SPContainerView.swift */,
+				1CF8D4E429DEDB6C002DD589 /* SPSignupScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +288,22 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		1CF8D4E329DEDA75002DD589 /* CollectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				1C2EE92A29C1C35E00B3D24A /* SPAlertContainerView.swift */,
+				1C5EA47729D3800800FDCEE0 /* CategoriesHeaderView.swift */,
+				1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */,
+				1C517FE929D5AA9100922940 /* RVHeaderView.swift */,
+				1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */,
+				1C4BF8FE29D72E67009286D4 /* BreakfastHeaderView.swift */,
+				1C4BF90029D72E84009286D4 /* LunchHeaderView.swift */,
+				1C4BF90229D72E95009286D4 /* DinnerHeaderView.swift */,
+				1C4D728329D9C233009F911E /* OverlayView.swift */,
+			);
+			path = CollectionViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -376,6 +387,7 @@
 				1C4BF8FB29D7299F009286D4 /* MadeItHeaderView.swift in Sources */,
 				1C982B9A29C0A64700CA7471 /* UIView+Ext.swift in Sources */,
 				1C41DA6B29DC1B2800297F1A /* SignUpImageView.swift in Sources */,
+				1CF8D4E529DEDB6C002DD589 /* SPSignupScreenView.swift in Sources */,
 				1C4BF90929D72FA5009286D4 /* DinnerCollectionViewCell.swift in Sources */,
 				1C982B9129C06C8A00CA7471 /* NetworkManager.swift in Sources */,
 				1C4BF90129D72E84009286D4 /* LunchHeaderView.swift in Sources */,
