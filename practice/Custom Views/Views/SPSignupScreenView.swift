@@ -120,6 +120,17 @@ class SPSignupScreenView: UIView {
         ])
     }
     
+    private func configureWarningLabel() {
+        addSubview(warningLabel)
+        
+        NSLayoutConstraint.activate([
+            warningLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            warningLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            warningLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            warningLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
+    }
+    
     private func configure(bottomConstant: CGFloat, containerHeight: CGFloat) {
         addSubviews(signUpImage, containerView)
         
@@ -149,6 +160,8 @@ class SPSignupScreenView: UIView {
             
             
         case.signup:
+            configureWarningLabel()
+            
             greetingLabel.text = "Sign up"
             
         case .signin:
