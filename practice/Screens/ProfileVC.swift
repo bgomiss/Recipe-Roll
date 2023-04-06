@@ -50,88 +50,88 @@ class ProfileVC: UIViewController {
     }
     
     func configureGreetingLabel(text: String?) {
-        view.addSubview(greetingLabel)
-        greetingLabel.text = text
-        greetingLabel.textColor = .white
+//        view.addSubview(greetingLabel)
+//        greetingLabel.text = text
+//        greetingLabel.textColor = .white
         
         NSLayoutConstraint.activate([
-            greetingLabel.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: -20),
-            greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            greetingLabel.heightAnchor.constraint(equalToConstant: 60)
+//            greetingLabel.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: -20),
+//            greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+//            greetingLabel.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
     func configureSignUpField() {
         view.addSubview(signUpField)
-        signUpField.layer.cornerRadius = 10
+//        signUpField.layer.cornerRadius = 10
         
         NSLayoutConstraint.activate([
-            signUpField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
-            signUpField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            signUpField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
-            signUpField.heightAnchor.constraint(equalToConstant: 50)
+//            signUpField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
+//            signUpField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+//            signUpField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+//            signUpField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     func configureContButton() {
-        view.addSubview(continueButton)
-        continueButton.setTitleColor(.white, for: .normal)
-        
-        NSLayoutConstraint.activate([
-            continueButton.topAnchor.constraint(equalTo: signUpField.bottomAnchor, constant: 20),
-            continueButton.leadingAnchor.constraint(equalTo: signUpField.leadingAnchor),
-            continueButton.trailingAnchor.constraint(equalTo: signUpField.trailingAnchor),
-            continueButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
+//        view.addSubview(continueButton)
+//        continueButton.setTitleColor(.white, for: .normal)
+//        
+//        NSLayoutConstraint.activate([
+//            continueButton.topAnchor.constraint(equalTo: signUpField.bottomAnchor, constant: 20),
+//            continueButton.leadingAnchor.constraint(equalTo: signUpField.leadingAnchor),
+//            continueButton.trailingAnchor.constraint(equalTo: signUpField.trailingAnchor),
+//            continueButton.heightAnchor.constraint(equalToConstant: 50)
+//        ])
     }
     
     func configureOrLabel() {
-        view.addSubview(orLabel)
-        
-        orLabel.text = "or"
-        orLabel.textColor = .white
-        
-        NSLayoutConstraint.activate([
-            orLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            orLabel.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: 20),
-            orLabel.heightAnchor.constraint(equalToConstant: 30)
-        ])
+//        view.addSubview(orLabel)
+//        
+//        orLabel.text = "or"
+//        orLabel.textColor = .white
+//        
+//        NSLayoutConstraint.activate([
+//            orLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+//            orLabel.topAnchor.constraint(equalTo: continueButton.bottomAnchor, constant: 20),
+//            orLabel.heightAnchor.constraint(equalToConstant: 30)
+//        ])
     }
     
     func configureDHALabel() {
-        view.addSubview(dhaLabel)
-        
-        dhaLabel.text = "Don't have an account?"
-        dhaLabel.textColor = .white
-        
-        NSLayoutConstraint.activate([
-            dhaLabel.leadingAnchor.constraint(equalTo: continueButton.leadingAnchor),
-            dhaLabel.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
-            dhaLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
+//        view.addSubview(dhaLabel)
+//        
+//        dhaLabel.text = "Don't have an account?"
+//        dhaLabel.textColor = .white
+//        
+//        NSLayoutConstraint.activate([
+//            dhaLabel.leadingAnchor.constraint(equalTo: continueButton.leadingAnchor),
+//            dhaLabel.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
+//            dhaLabel.heightAnchor.constraint(equalToConstant: 20)
+//        ])
     }
     
     func configureSignUpButton() {
-        view.addSubview(signupButton)
-        signupButton.setTitleColor(.systemGreen, for: .normal)
-        
-        NSLayoutConstraint.activate([
-            signupButton.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
-            signupButton.leadingAnchor.constraint(equalTo: dhaLabel.trailingAnchor),
-            signupButton.centerYAnchor.constraint(equalTo: dhaLabel.centerYAnchor),
-            signupButton.heightAnchor.constraint(equalToConstant: 26)
-        ])
+//        view.addSubview(signupButton)
+//        signupButton.setTitleColor(.systemGreen, for: .normal)
+//        
+//        NSLayoutConstraint.activate([
+//            signupButton.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
+//            signupButton.leadingAnchor.constraint(equalTo: dhaLabel.trailingAnchor),
+//            signupButton.centerYAnchor.constraint(equalTo: dhaLabel.centerYAnchor),
+//            signupButton.heightAnchor.constraint(equalToConstant: 26)
+//        ])
     }
     
     func configureforgotPassButton() {
-        view.addSubview(forgotPassButton)
-        forgotPassButton.setTitleColor(.systemGreen, for: .normal)
-        
-        NSLayoutConstraint.activate([
-            forgotPassButton.topAnchor.constraint(equalTo: dhaLabel.bottomAnchor, constant: 30),
-            forgotPassButton.leadingAnchor.constraint(equalTo: dhaLabel.leadingAnchor),
-            forgotPassButton.heightAnchor.constraint(equalToConstant: 26)
-        ])
+//        view.addSubview(forgotPassButton)
+//        forgotPassButton.setTitleColor(.systemGreen, for: .normal)
+//        
+//        NSLayoutConstraint.activate([
+//            forgotPassButton.topAnchor.constraint(equalTo: dhaLabel.bottomAnchor, constant: 30),
+//            forgotPassButton.leadingAnchor.constraint(equalTo: dhaLabel.leadingAnchor),
+//            forgotPassButton.heightAnchor.constraint(equalToConstant: 26)
+//        ])
     }
     
     func add(childVC: UIViewController, to containerView: UIView) {

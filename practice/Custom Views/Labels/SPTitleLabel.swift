@@ -30,10 +30,11 @@ class SPTitleLabel: UILabel {
     
     private func configure() {
         textColor = .label
+        adjustsFontForContentSizeCategory = true
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.9
         numberOfLines = 0
-        lineBreakMode = .byTruncatingTail
+        lineBreakMode = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false
     }
 }
