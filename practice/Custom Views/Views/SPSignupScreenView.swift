@@ -13,17 +13,10 @@ class SPSignupScreenView: UIView {
         case welcome, signup, signin
     }
     
-    let containerView       = SPContainerView(frame: .zero)
-    let signUpImage         = SignUpImageView(frame: .zero)
-    let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
     let warningLabel        = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let orLabel             = SPSecondaryTitleLabel(fontSize: 25)
-    let dhaLabel            = SPSecondaryTitleLabel(fontSize: 18)
-    let eMailField          = SPTextField(placeholder: "Email")
     let passwordField       = SPTextField(placeholder: "Password")
-    let continueButton      = SPButton(backgroundColor: .systemMint, title: "Continue")
-    let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
-    let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
