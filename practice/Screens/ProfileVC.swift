@@ -19,11 +19,13 @@ class ProfileVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
+        
     }
     
    
     func configureUIElements() {
-        add(childVC: WelcomeVC(), to: self.view)
+        //add(childVC: WelcomeVC(), to: self.view)
+        add(childVC: SignUpVC(), to: self.view)
     }
   
     
