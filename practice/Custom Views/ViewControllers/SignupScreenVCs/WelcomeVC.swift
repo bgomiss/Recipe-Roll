@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol WelcomeVCDelegate: AnyObject {
+    func didTapContinueButton()
+}
+
 class WelcomeVC: UIViewController {
     
     let containerView       = SPContainerView(frame: .zero)
@@ -17,6 +21,8 @@ class WelcomeVC: UIViewController {
     let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
     let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     let stackView           = UIStackView()
+    
+    weak var delegate: WelcomeVCDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +31,12 @@ class WelcomeVC: UIViewController {
         configureStackView()
         layoutUI()
         
+        continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        
+    }
+    
+    @objc func continueButtonTapped() {
+        delegate?.didTapContinueButton()
     }
     
     
