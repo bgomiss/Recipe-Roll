@@ -28,7 +28,8 @@ class SPSecondaryTitleLabel: UILabel {
     
     
     private func configure() {
-        textColor = .label
+        textColor = .white
+        textAlignment = .center
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.90
         lineBreakMode = .byTruncatingTail
