@@ -36,8 +36,19 @@ class SPButton: UIButton {
     }
     
     
-    func set(backgroundColor: UIColor, title: String) {
+    func set(backgroundColor: UIColor, title: String = "") {
         self.backgroundColor = backgroundColor
         setTitle(title, for: .normal)
+    }
+    
+    func attributedButton() {
+
+        let attributedString = NSMutableAttributedString(string: "Don't have an account? Sign Up",
+                                                         attributes: [.font: UIFont.systemFont(ofSize: 18)])
+
+        let range1 = NSRange(location: 22, length: 8)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.green, range: range1)
+
+        setAttributedTitle(attributedString, for: .normal)
     }
 }
