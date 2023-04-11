@@ -40,5 +40,4 @@ class SPButton: UIButton {
         self.backgroundColor = backgroundColor
         setTitle(title, for: .normal)
     }
-
 }

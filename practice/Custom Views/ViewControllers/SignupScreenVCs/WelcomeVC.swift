@@ -43,6 +43,10 @@ class WelcomeVC: UIViewController {
         greetingLabel.text = "Hi!"
         orLabel.text = "or"
         
+        continueButton.setTitleColor(.white, for: .normal)
+        forgotPassButton.contentHorizontalAlignment = .left
+        forgotPassButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        
         dhaLabel.textAlignment = .left
         dhaLabel.text = "Don't have an account?"
         
@@ -55,6 +59,9 @@ class WelcomeVC: UIViewController {
             eMailField.heightAnchor.constraint(equalToConstant: 50),
             eMailField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),
             eMailField.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -20),
+            
+            continueButton.heightAnchor.constraint(equalToConstant: 40),
+            continueButton.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -20),
             
             stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
