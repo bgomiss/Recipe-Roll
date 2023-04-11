@@ -11,7 +11,7 @@ class SignUpVC: UIViewController {
 
     let containerView       = SPContainerView(frame: .zero)
     let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
-    let warningLabel        = SPTitleLabel(textAlignment: .left, fontSize: 15)
+    let warningLabel        = SPSecondaryTitleLabel(fontSize: 20)
     let eMailField          = SPTextField(placeholder: "Email")
     let passwordField       = SPTextField(placeholder: "Password")
     let signupButton        = SPButton(backgroundColor: .systemMint, title: "Sign up")
@@ -56,13 +56,19 @@ class SignUpVC: UIViewController {
             greetingLabel.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: -25),
             greetingLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             
-            eMailField.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 20),
+            warningLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            
             eMailField.heightAnchor.constraint(equalToConstant: 50),
             eMailField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),
             eMailField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             
-            signupButton.heightAnchor.constraint(equalToConstant: 40),
+            passwordField.heightAnchor.constraint(equalToConstant: 50),
+            passwordField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),
+            passwordField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            
+            signupButton.heightAnchor.constraint(equalToConstant: 50),
             signupButton.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -20),
+            signupButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             
             stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),

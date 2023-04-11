@@ -46,8 +46,8 @@ class SPButton: UIButton {
         let attributedString = NSMutableAttributedString(string: "Don't have an account? Sign Up",
                                                          attributes: [.font: UIFont.systemFont(ofSize: 18)])
 
-        let range1 = NSRange(location: 22, length: 8)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.green, range: range1)
+        let range = NSRange(location: 22, length: 8)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.green, range: range)
 
         setAttributedTitle(attributedString, for: .normal)
     }
