@@ -22,7 +22,7 @@ class SignInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(containerView,greetingLabel)
-        containerView.addSubviews(stackView, userImage, usernameLabel, emailLabel)
+        containerView.addSubviews(userImage, stackView, usernameLabel, emailLabel)
         configureStackView()
         layoutUI()
         
@@ -39,11 +39,20 @@ class SignInVC: UIViewController {
     
     private func layoutUI() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        userImage.translatesAutoresizingMaskIntoConstraints = false
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         greetingLabel.textColor = .white
         greetingLabel.text = "Sign in"
         userImage.image = UIImage(systemName: "person.circle")
+        usernameLabel.text = "Sevket-i Bostan"
+        usernameLabel.textColor = .white
+        emailLabel.text = "sevketibostan@gmail.com"
+        emailLabel.textColor = .white
         
         signinButton.setTitleColor(.white, for: .normal)
+        forgotPassButton.contentHorizontalAlignment = .left
         
         NSLayoutConstraint.activate([
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
@@ -56,10 +65,11 @@ class SignInVC: UIViewController {
             
             userImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             userImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            userImage.heightAnchor.constraint(equalToConstant: 20),
+            userImage.heightAnchor.constraint(equalToConstant: 60),
+            userImage.widthAnchor.constraint(equalToConstant: 60),
             
             usernameLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10),
-            usernameLabel.centerYAnchor.constraint(equalTo: userImage.centerYAnchor),
+            usernameLabel.centerYAnchor.constraint(equalTo: userImage.centerYAnchor, constant: -10),
             usernameLabel.heightAnchor.constraint(equalToConstant: 20),
             
             emailLabel.heightAnchor.constraint(equalToConstant: 15),
@@ -74,7 +84,9 @@ class SignInVC: UIViewController {
             signinButton.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -20),
             signinButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             
-            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 90),
+            forgotPassButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -15),
+            
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 110),
             stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
