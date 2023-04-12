@@ -83,7 +83,7 @@ class SignUpVC: UIViewController {
         signupButton.setTitleColor(.white, for: .normal)
         
         NSLayoutConstraint.activate([
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -3580),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -350),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             containerView.heightAnchor.constraint(equalToConstant: 350),
