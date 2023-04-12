@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol WelcomeVCDelegate: AnyObject {
     func didTapContinueButton()
@@ -35,8 +36,33 @@ class WelcomeVC: UIViewController {
         
     }
     
+    
+    func checkIfEmailIsRegistered(email: String, completion: @escaping (Bool) -> Void) {
+        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+            if let error = error {
+                print("Error checking email: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            if let signInMethods = signInMethods, !signInMethods.isEmpty {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    
     @objc func continueButtonTapped() {
-        delegate?.didTapContinueButton()
+        //delegate?.didTapContinueButton()
+        checkIfEmailIsRegistered(email: eMailField.text ?? "") { isRegistered in
+            if isRegistered {
+                print("Email is registered")
+            } else {
+                print("Email is not registered")
+            }
+        }
     }
     
     
@@ -63,7 +89,7 @@ class WelcomeVC: UIViewController {
         signupButton.setTitleColor(.white, for: .normal)
         
         NSLayoutConstraint.activate([
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             containerView.heightAnchor.constraint(equalToConstant: 350),

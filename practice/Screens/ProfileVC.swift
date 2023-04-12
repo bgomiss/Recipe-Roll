@@ -28,8 +28,9 @@ class ProfileVC: UIViewController {
     
    
     func configureUIElements() {
-        signUpVC.view.isHidden = true
+        signUpVC.view.isHidden = false
         welcomeVC.view.isHidden = true
+        signinVC.view.isHidden = true
         welcomeVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)

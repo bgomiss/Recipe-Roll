@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SignUpVC: UIViewController {
 
@@ -23,6 +24,41 @@ class SignUpVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
+        
+        signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    func registerNewUser(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let authResult = authResult {
+                completion(.success(authResult))
+            }
+        }
+    }
+    
+    @objc func signupButtonTapped() {
+        // Validate and get the email and password
+        guard let email = eMailField.text, !email.isEmpty,
+              let password = passwordField.text, !password.isEmpty else {
+            print("Email or password is empty")
+            return
+        }
+        // Call the registerNewUser function with the email and password
+        registerNewUser(email: email, password: password) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let authResult):
+                    print("User registered successfully: \(authResult.user.uid)")
+                    // Navigate to the next screen or show a success message
+                case .failure(let error):
+                    print("Error registering user: \(error.localizedDescription)")
+                    // Show an error message
+                }
+            }
+        }
         
     }
     
@@ -47,7 +83,7 @@ class SignUpVC: UIViewController {
         signupButton.setTitleColor(.white, for: .normal)
         
         NSLayoutConstraint.activate([
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -3580),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             containerView.heightAnchor.constraint(equalToConstant: 350),
