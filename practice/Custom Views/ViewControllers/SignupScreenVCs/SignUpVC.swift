@@ -15,7 +15,6 @@ class SignUpVC: UIViewController {
     let eMailField          = SPTextField(placeholder: "Email")
     let passwordField       = SPTextField(placeholder: "Password")
     let signupButton        = SPButton(backgroundColor: .systemMint, title: "Sign up")
-    
     let stackView           = UIStackView()
 
     override func viewDidLoad() {

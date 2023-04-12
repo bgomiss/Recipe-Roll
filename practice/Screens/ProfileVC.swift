@@ -12,8 +12,9 @@ class ProfileVC: UIViewController {
     let signUpImage         = SignUpImageView(frame: .zero)
     let signUpField         = SPTextField(placeholder: "Email")
     let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
-    let welcomeVC = WelcomeVC()
-    let signUpVC = SignUpVC()
+    let welcomeVC           = WelcomeVC()
+    let signUpVC            = SignUpVC()
+    let signinVC            = SignInVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +29,11 @@ class ProfileVC: UIViewController {
    
     func configureUIElements() {
         signUpVC.view.isHidden = true
+        welcomeVC.view.isHidden = true
         welcomeVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
+        add(childVC: signinVC, to: self.view)
     }
   
     

@@ -9,21 +9,77 @@ import UIKit
 
 class SignInVC: UIViewController {
 
+    let containerView       = SPContainerView(frame: .zero)
+    let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
+    let userImage           = UIImageView()
+    let usernameLabel       = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let emailLabel          = SPSecondaryTitleLabel(fontSize: 15)
+    let passwordField       = SPTextField(placeholder: "Password")
+    let signinButton        = SPButton(backgroundColor: .systemMint, title: "Sign in")
+    let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
+    let stackView           = UIStackView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addSubviews(containerView,greetingLabel)
+        containerView.addSubviews(stackView, userImage, usernameLabel, emailLabel)
+        configureStackView()
+        layoutUI()
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func configureStackView() {
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        
+        stackView.addArrangedSubviews(passwordField, signinButton, forgotPassButton)
     }
-    */
+    
+    
+    private func layoutUI() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        greetingLabel.textColor = .white
+        greetingLabel.text = "Sign in"
+        userImage.image = UIImage(systemName: "person.circle")
+        
+        signinButton.setTitleColor(.white, for: .normal)
+        
+        NSLayoutConstraint.activate([
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            containerView.heightAnchor.constraint(equalToConstant: 350),
+            
+            greetingLabel.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: -25),
+            greetingLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            
+            userImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            userImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            userImage.heightAnchor.constraint(equalToConstant: 20),
+            
+            usernameLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10),
+            usernameLabel.centerYAnchor.constraint(equalTo: userImage.centerYAnchor),
+            usernameLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            emailLabel.heightAnchor.constraint(equalToConstant: 15),
+            emailLabel.leadingAnchor.constraint(equalTo: usernameLabel.leadingAnchor),
+            emailLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 5),
+            
+            passwordField.heightAnchor.constraint(equalToConstant: 50),
+            passwordField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),
+            passwordField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            
+            signinButton.heightAnchor.constraint(equalToConstant: 50),
+            signinButton.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -20),
+            signinButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 90),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+    }
+
 
 }
