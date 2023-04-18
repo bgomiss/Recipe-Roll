@@ -30,7 +30,7 @@ enum UIHelper {
                 , heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(95)
                 , heightDimension: .absolute(75))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize
                                                              , subitems: [item])
@@ -53,7 +53,7 @@ enum UIHelper {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(250))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.65), heightDimension: .absolute(250))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 10)
         

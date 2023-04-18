@@ -37,7 +37,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
                 cell.set(category: category)
                 
               let mealNames = ["Breakfast", "Lunch", "Dinner", "Vegetarian", "SeaFood"]
-                if indexPath.row < mealNames.count + 1 {
+                if indexPath.row < mealNames.count {
                     cell.set(categoryName:mealNames[indexPath.row])
                 }
             }
