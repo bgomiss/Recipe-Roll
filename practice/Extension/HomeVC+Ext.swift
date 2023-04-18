@@ -12,10 +12,10 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return recipes.count
+            return 5
             
         case 1:
-            return recipes.count
+            return 5
        
         default:
             return recipes.count
