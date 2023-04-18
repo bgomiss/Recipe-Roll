@@ -35,6 +35,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             if recipes.isEmpty == false {
                 let category = recipes[indexPath.row]
                 cell.set(category: category)
+                
+              let mealNames = ["Breakfast", "Lunch", "Dinner", "Vegetarian", "SeaFood"]
+                if indexPath.row < mealNames.count + 1 {
+                    cell.set(categoryName:mealNames[indexPath.row])
+                }
             }
             
             return cell

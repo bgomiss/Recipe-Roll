@@ -25,9 +25,12 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func set(category: Recipes) {
-        categoryImageView.downloadImage(fromURL: category.image)
-        categoryLabel.text = category.title
+    func set(category: Recipes? = nil, categoryName: String? = nil) {
+        categoryImageView.downloadImage(fromURL: category?.image ?? "")
+        
+        if let categoryName = categoryName {
+            categoryLabel.text = categoryName
+        }
     }
     
     
