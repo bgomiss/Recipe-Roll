@@ -41,7 +41,7 @@ class HomeVC: UIViewController {
         view.addSubviews(queryTextField, titleLabel, collectionView)
         configureCompositionalLayout()
         layoutUI()
-        getCategories(query: "pasta")
+        getCategories(tag: Tags.breakfast)
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
@@ -55,8 +55,8 @@ class HomeVC: UIViewController {
     }
     
     
-    func getCategories(query: String) {
-        NetworkManager.shared.getCategoriesInfo(for: query) { [weak self] category in
+    func getCategories(tag: String) {
+        NetworkManager.shared.getCategoriesInfo(for: tag) { [weak self] category in
             
             guard let self = self else { return }
             

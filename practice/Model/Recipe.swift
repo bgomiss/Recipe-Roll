@@ -7,14 +7,28 @@
 
 import Foundation
 
-struct Recipe: Codable, Hashable {
-    let results: [Recipes]
-    let offset, number, totalResults: Int
+// MARK: - Recipe
+struct Recipe: Codable {
+    let recipes: [Recipes]
 }
 
-// MARK: - Result
-struct Recipes: Codable, Hashable {
+// MARK: - RecipeElement
+struct Recipes: Codable, Equatable {
+    let vegetarian, vegan, glutenFree, dairyFree: Bool
+    let veryHealthy, cheap, veryPopular, sustainable: Bool
+    let lowFodmap: Bool
+    let weightWatcherSmartPoints: Int
+    let gaps: String
+    let preparationMinutes, cookingMinutes, aggregateLikes, healthScore: Int
+    let creditsText, sourceName: String
+    let pricePerServing: Double
     let id: Int
     let title: String
+    let readyInMinutes, servings: Int
+    let sourceUrl: String
     let image: String
+    let imageType, summary: String
+    let instructions: String
+    let spoonacularSourceUrl: String
+
 }

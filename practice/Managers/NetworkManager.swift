@@ -10,13 +10,13 @@ import UIKit
 class NetworkManager {
     
     static let shared = NetworkManager()
-    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?"
+    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=5&tags="
     let cache = NSCache<NSString, UIImage>()
     
     private init() {}
     
-    func getCategoriesInfo(for query: String, completed: @escaping (Result<[Recipes], SPError>) -> Void) {
-        let endpoint = baseURL + "query=\(query)&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
+    func getCategoriesInfo(for tags: String, completed: @escaping (Result<[Recipes], SPError>) -> Void) {
+        let endpoint = baseURL + "\(tags)&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
         
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidQuery))
@@ -42,8 +42,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let recipes = try decoder.decode(Recipe.self, from: data)
-                completed(.success(recipes.results))
-                
+                completed(.success(recipes.recipes))
             } catch {
                 completed(.failure(.invalidData))
             }

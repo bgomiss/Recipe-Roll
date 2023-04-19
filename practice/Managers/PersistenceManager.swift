@@ -23,7 +23,7 @@ enum PersistenceManager {
                 
                 switch actionType {
                 case .add:
-                    guard !categories.contains(category) else {
+                    guard !categories.contains(where: { $0 == category }) else {
                         completed(.alreadyInCategories)
                         return
                     }
