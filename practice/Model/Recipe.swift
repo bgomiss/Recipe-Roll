@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Recipe
 struct Recipe: Codable {
-    let recipes: [Recipes]
+    let results: [Recipes]
 }
 
 // MARK: - RecipeElement

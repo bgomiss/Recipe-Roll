@@ -10,7 +10,7 @@ import UIKit
 class NetworkManager {
     
     static let shared = NetworkManager()
-    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=5&tags="
+    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?type="
     let cache = NSCache<NSString, UIImage>()
     
     private init() {}
@@ -42,7 +42,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let recipes = try decoder.decode(Recipe.self, from: data)
-                completed(.success(recipes.recipes))
+                completed(.success(recipes.results))
             } catch {
                 completed(.failure(.invalidData))
             }
