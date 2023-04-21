@@ -25,13 +25,18 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     }
     
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        categoryImageView.image = nil
+        categoryLabel.text = ""
+    }
+
+    
+    
     func set(category: Recipes? = nil, categoryName: String? = nil) {
         categoryImageView.downloadImage(fromURL: category?.image ?? "")
-        
-        if let categoryName = categoryName {
-            categoryLabel.text = categoryName
-        }
-    }
+        categoryLabel.text = categoryName
+       }
     
     
     private func configure() {

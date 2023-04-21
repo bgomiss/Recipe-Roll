@@ -12,7 +12,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 5
+            return recipes.count
             
         case 1:
             return 5
@@ -32,32 +32,29 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
-                cell.set(category: category)
-                
-              let mealNames = ["Breakfast", "Lunch", "Dinner", "Vegetarian", "SeaFood"]
-                if indexPath.row < mealNames.count {
-                    cell.set(categoryName:mealNames[indexPath.row])
-                }
-            }
             
+            if recipes.isEmpty == false {
+                let categoryTuple = recipes[indexPath.row]
+                cell.set(category: categoryTuple.recipes.first, categoryName: categoryTuple.tag)
+            }
             return cell
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
-                cell.set(category: category)
-            }
+
+//            if recipes.isEmpty == false {
+//                let categoryTuple = recipes[indexPath.row]
+//                cell.set(category: categoryTuple.recipes.first!)
+            
             
             return cell
        
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+            
             if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
-                cell.set(category: category)
+                let categoryTuple = recipes[indexPath.row]
+                cell.set(category: categoryTuple.recipes.first!)
             }
             
             return cell

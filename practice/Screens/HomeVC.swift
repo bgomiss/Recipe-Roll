@@ -12,12 +12,12 @@ class HomeVC: UIViewController {
     
     let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
     let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
-    var recipes: [Recipes]              = []
+    var recipes: [(tag: String, recipes: [Recipes])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
-    
+    let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.vegetarian, Tags.seafood]
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -41,7 +41,9 @@ class HomeVC: UIViewController {
         view.addSubviews(queryTextField, titleLabel, collectionView)
         configureCompositionalLayout()
         layoutUI()
-        getCategories(tag: Tags.breakfast)
+        for tag in tags {
+            getCategories(tag: tag)
+        }
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
@@ -62,7 +64,7 @@ class HomeVC: UIViewController {
             
             switch category {
             case .success(let categories):
-                self.updateUI(with: categories)
+                self.updateUI(with: categories, tag: tag)
             case .failure(let error):
                 return
             }
@@ -88,8 +90,9 @@ class HomeVC: UIViewController {
     }
     
     
-    func updateUI(with categories: [Recipes]) {
-        recipes.append(contentsOf: categories)
+    func updateUI(with categories: [Recipes], tag: String) {
+
+        recipes.append((tag: tag, recipes: categories))
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
