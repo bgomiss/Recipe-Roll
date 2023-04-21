@@ -10,7 +10,7 @@ import UIKit
 class BookmarksVC: UIViewController {
     
     let queryTextField                  = SPTextField(placeholder: "Search Saved recipes")
-    var recipes: [Recipes]              = []
+    var recipes: [Recipe]              = []
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -92,7 +92,7 @@ class BookmarksVC: UIViewController {
     }
     
     
-    func updateUI(with categories: [Recipes]) {
+    func updateUI(with categories: [Recipe]) {
         recipes.append(contentsOf: categories)
         
         DispatchQueue.main.async {

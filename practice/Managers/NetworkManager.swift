@@ -15,7 +15,7 @@ class NetworkManager {
     
     private init() {}
     
-    func getCategoriesInfo(for tags: String, completed: @escaping (Result<[Recipes], SPError>) -> Void) {
+    func getCategoriesInfo(for tags: String, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
         let endpoint = baseURL + "\(tags)&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
         
         guard let url = URL(string: endpoint) else {
@@ -41,7 +41,7 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let recipes = try decoder.decode(Recipe.self, from: data)
+                let recipes = try decoder.decode(RecipeResults.self, from: data)
                 completed(.success(recipes.results))
             } catch {
                 completed(.failure(.invalidData))

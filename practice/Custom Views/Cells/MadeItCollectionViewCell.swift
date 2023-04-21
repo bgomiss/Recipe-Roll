@@ -31,7 +31,7 @@ class MadeItCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func set(category: Recipes) {
+    func set(category: Recipe) {
         madeItImageView.downloadImage(fromURL: category.image)
     }
     

@@ -16,7 +16,7 @@ enum PersistenceManager {
     static private let defaults = UserDefaults.standard
     enum Keys { static let categories = "categories" }
     
-    static func updateWith(category: Recipes, actionType: PersistenceActionType, completed: @escaping(SPError?) -> Void) {
+    static func updateWith(category: Recipe, actionType: PersistenceActionType, completed: @escaping(SPError?) -> Void) {
         retrievedCategories { result in
             switch result {
             case .success(var categories):
@@ -38,7 +38,7 @@ enum PersistenceManager {
     }
     
     
-    static func retrievedCategories(completed: @escaping (Result<[Recipes], SPError>) -> Void) {
+    static func retrievedCategories(completed: @escaping (Result<[Recipe], SPError>) -> Void) {
         guard let categoriesData = defaults.object(forKey: Keys.categories) as? Data else {
             completed(.success([]))
             return
@@ -46,7 +46,7 @@ enum PersistenceManager {
         
         do {
             let decoder = JSONDecoder()
-            let categories = try decoder.decode([Recipes].self, from: categoriesData)
+            let categories = try decoder.decode([Recipe].self, from: categoriesData)
             completed(.success(categories))
         } catch {
             completed(.failure(.unableToCategory))

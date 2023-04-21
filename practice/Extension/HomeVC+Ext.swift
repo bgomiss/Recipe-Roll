@@ -35,7 +35,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
             if recipes.isEmpty == false {
                 let categoryTuple = recipes[indexPath.row]
-                cell.set(category: categoryTuple.recipes.first, categoryName: categoryTuple.tag)
+                cell.set(category: categoryTuple.recipe.first, categoryName: categoryTuple.tag)
             }
             return cell
             
@@ -54,7 +54,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
             if recipes.isEmpty == false {
                 let categoryTuple = recipes[indexPath.row]
-                cell.set(category: categoryTuple.recipes.first!)
+                cell.set(category: categoryTuple.recipe.first!)
             }
             
             return cell

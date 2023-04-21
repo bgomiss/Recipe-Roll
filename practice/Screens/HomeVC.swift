@@ -12,7 +12,7 @@ class HomeVC: UIViewController {
     
     let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
     let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
-    var recipes: [(tag: String, recipes: [Recipes])]      = []
+    var recipes: [(tag: String, recipe: [Recipe])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
@@ -90,9 +90,9 @@ class HomeVC: UIViewController {
     }
     
     
-    func updateUI(with categories: [Recipes], tag: String) {
+    func updateUI(with categories: [Recipe], tag: String) {
 
-        recipes.append((tag: tag, recipes: categories))
+        recipes.append((tag: tag, recipe: categories))
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()

@@ -33,7 +33,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
 
     
     
-    func set(category: Recipes? = nil, categoryName: String? = nil) {
+    func set(category: Recipe? = nil, categoryName: String? = nil) {
         categoryImageView.downloadImage(fromURL: category?.image ?? "")
         categoryLabel.text = categoryName
        }

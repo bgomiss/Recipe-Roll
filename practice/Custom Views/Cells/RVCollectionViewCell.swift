@@ -32,7 +32,7 @@ class RVCollectionViewCell: UICollectionViewCell {
 
     
     
-    func set(category: Recipes) {
+    func set(category: Recipe) {
         rvImageView.downloadImage(fromURL: category.image)
     }
     
