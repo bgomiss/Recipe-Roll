@@ -31,9 +31,15 @@ class SPImageView: UIImageView {
     
     
     func downloadImage(fromURL url: String) {
-        NetworkManager.shared.downloadImage(from: url) { [weak self] image in
+        NetworkManager.shared.downloadImage(from: url) { [weak self] image, isFromCache in
             guard let self = self else { return }
-            DispatchQueue.main.async { self.image = image }
+            DispatchQueue.main.async { self.image = image
+                if isFromCache {
+                    print("Image loaded from cache")
+                } else {
+                    print("Image downloaded from URL")
+                }
+            }
         }
     }
 }

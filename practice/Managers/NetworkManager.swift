@@ -51,15 +51,15 @@ class NetworkManager {
     }
     
     
-    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+    func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {
         let cacheKey = NSString(string: urlString)
         
         if let image = cache.object(forKey: cacheKey) {
-            completed(image)
+            completed(image, true)
             return
         }
         guard let url = URL(string: urlString) else {
-            completed(nil)
+            completed(nil, false)
             return }
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -69,12 +69,12 @@ class NetworkManager {
                     let response = response as? HTTPURLResponse, response.statusCode == 200,
                     let data = data,
                     let image = UIImage(data: data) else {
-                    completed(nil)
+                    completed(nil, false)
                 return
             }
          
             self.cache.setObject(image, forKey: cacheKey)
-            completed(image)
+            completed(image, false)
         }
         task.resume()
     }
