@@ -31,11 +31,18 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
+            
+            let lunchIndex = tags.firstIndex(of: Tags.lunch) ?? -1
+            let categoryTuple = recipes[indexPath.row]
+            
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
             
             if recipes.isEmpty == false {
-                let categoryTuple = recipes[indexPath.row]
-                cell.set(category: categoryTuple.recipe.first, categoryName: categoryTuple.tag)
+                if indexPath.row == lunchIndex, categoryTuple.recipe.count > 1 {
+                    cell.set(category: categoryTuple.recipe[2], categoryName: categoryTuple.tag)
+                } else {
+                    cell.set(category: categoryTuple.recipe.first, categoryName: categoryTuple.tag)
+                }
             }
             return cell
             

@@ -8,9 +8,9 @@
 import UIKit
 
 enum Tags {
-    static let breakfast = "breakfast"
-    static let lunch = "lunch"
-    static let dinner = "dinner"
-    static let vegetarian = "vegetarian"
-    static let seafood = "seafood"
+    static let breakfast = "Breakfast"
+    static let lunch = "Lunch"
+    static let dinner = "Dinner"
+    static let soup = "Soup"
+    static let dessert = "Dessert"
 }

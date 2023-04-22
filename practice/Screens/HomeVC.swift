@@ -17,7 +17,8 @@ class HomeVC: UIViewController {
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
-    let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.vegetarian, Tags.seafood]
+    let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.soup, Tags.dessert]
+    let group = DispatchGroup()
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -41,8 +42,14 @@ class HomeVC: UIViewController {
         view.addSubviews(queryTextField, titleLabel, collectionView)
         configureCompositionalLayout()
         layoutUI()
-        for tag in tags {
-            getCategories(tag: tag)
+        recipes = tags.map { (tag: $0, recipe: []) }
+        
+        for (index, tag) in tags.enumerated() {
+            group.enter()
+            getCategories(tag: tag, atIndex: index, group: group)
+        }
+        group.notify(queue: .main) {
+            self.collectionView.reloadData()
         }
         configureUIElements()
         configure()
@@ -57,17 +64,18 @@ class HomeVC: UIViewController {
     }
     
     
-    func getCategories(tag: String) {
+    func getCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
         NetworkManager.shared.getCategoriesInfo(for: tag) { [weak self] category in
             
             guard let self = self else { return }
             
             switch category {
             case .success(let categories):
-                self.updateUI(with: categories, tag: tag)
+                self.updateUI(with: categories, atIndex: index)
             case .failure(let error):
                 return
             }
+            group.leave()
         }
     }
     
@@ -90,12 +98,12 @@ class HomeVC: UIViewController {
     }
     
     
-    func updateUI(with categories: [Recipe], tag: String) {
+    func updateUI(with categories: [Recipe], atIndex index: Int) {
 
-        recipes.append((tag: tag, recipe: categories))
+        //recipes.append((tag: tag, recipe: categories))
         
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.recipes[index].recipe = categories
             //self.view.bringSubviewToFront(self.tableView)
         }
     }
