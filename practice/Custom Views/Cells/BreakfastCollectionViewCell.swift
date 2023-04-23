@@ -17,7 +17,7 @@ class BreakfastCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
-        contentView.backgroundColor = .systemYellow
+        //contentView.backgroundColor = .systemYellow
     }
     
     required init?(coder: NSCoder) {
