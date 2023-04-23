@@ -50,7 +50,7 @@ class NetworkManager {
         task.resume()
     }
     
-// - Mark 
+    
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {
         let cacheKey = NSString(string: urlString)
         
