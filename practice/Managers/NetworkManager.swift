@@ -16,7 +16,7 @@ class NetworkManager {
     private init() {}
     
     func getCategoriesInfo(for tags: String, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
-        let endpoint = baseURL + "\(tags)&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
+        let endpoint = baseURL + "\(tags)\(Api.apiKey)"
         
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidQuery))

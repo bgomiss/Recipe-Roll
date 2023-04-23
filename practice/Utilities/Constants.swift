@@ -14,3 +14,7 @@ enum Tags {
     static let soup = "Soup"
     static let dessert = "Dessert"
 }
+
+enum Api {
+    static let apiKey = "&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
+}
