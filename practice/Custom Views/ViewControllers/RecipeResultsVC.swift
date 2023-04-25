@@ -37,3 +37,18 @@ class RecipeResultsVC: UIViewController {
         tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
     }
 }
+
+extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return recipeResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipesCell.reuseID) as! RecipesCell
+        let recipe = recipeResults[indexPath.row]
+        cell.set(recipe: recipe)
+        return cell
+    }
+    
+    
+}
