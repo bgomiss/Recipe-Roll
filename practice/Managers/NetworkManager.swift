@@ -10,7 +10,7 @@ import UIKit
 class NetworkManager {
     
     static let shared = NetworkManager()
-    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?type="
+    private let baseURL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=2&limitLicense=false&ranking=2&type="
     let cache = NSCache<NSString, UIImage>()
     
     private init() {}
