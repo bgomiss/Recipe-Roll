@@ -23,7 +23,7 @@ class RecipesCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(recipe: Recipe) {
+    func set(recipe: Recipe, categoryTitle: String? = nil) {
         recipeImage.downloadImage(fromURL: recipe.image)
         recipeTitle.text = recipe.title
         readyInMinutes.text = String(recipe.readyInMinutes)

@@ -9,9 +9,21 @@ import UIKit
 
 class RecipeResultsVC: UIViewController {
     
+    var category: String?
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
-
+    
+    
+    init(category: String? = nil) {
+        super.init(nibName: nil, bundle: nil)
+        self.category = category
+        title = category
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
@@ -21,7 +33,6 @@ class RecipeResultsVC: UIViewController {
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
-        title = "RECIPES"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -35,6 +46,11 @@ class RecipeResultsVC: UIViewController {
         tableView.delegate = self
         
         tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
+    }
+    
+    
+    func updateUI(with: [Recipe]) {
+        
     }
 }
 
