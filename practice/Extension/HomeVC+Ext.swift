@@ -70,8 +70,8 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipe = recipes[indexPath.row]
-        let destVC = RecipeResultsVC(category: 
+        let selectedCategory = recipes[indexPath.row]
+        let destVC = RecipeResultsVC(category: selectedCategory.tag)
         
         navigationController?.pushViewController(destVC, animated: true)
     }

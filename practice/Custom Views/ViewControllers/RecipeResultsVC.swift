@@ -28,6 +28,7 @@ class RecipeResultsVC: UIViewController {
         super.viewDidLoad()
         configureTableView()
         configureViewController()
+        updateUI()
     }
 
     
@@ -49,8 +50,21 @@ class RecipeResultsVC: UIViewController {
     }
     
     
-    func updateUI(with: [Recipe]) {
-        
+    func updateUI() {
+        guard let category = category else {return}
+        NetworkManager.shared.getCategoriesInfo(for: category) { [weak self] result in
+            guard let self = self else {return}
+            
+            switch result {
+            case .success(let recipes):
+                DispatchQueue.main.async {
+                    self.recipeResults = recipes
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

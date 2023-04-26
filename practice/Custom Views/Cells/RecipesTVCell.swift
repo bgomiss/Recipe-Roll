@@ -10,13 +10,14 @@ import UIKit
 class RecipesCell: UITableViewCell {
 
     static let reuseID = "RecipesCell"
-    let recipeTitle          = SPTitleLabel(textAlignment: .center, fontSize: 20)
+    let recipeTitle    = SPTitleLabel(textAlignment: .center, fontSize: 20)
     let readyInMinutes = SPSecondaryTitleLabel(fontSize: 15)
     let servings       = SPSecondaryTitleLabel(fontSize: 15)
     let recipeImage    = SPImageView(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configure()
     }
     
     required init?(coder: NSCoder) {

@@ -100,8 +100,6 @@ class HomeVC: UIViewController {
     
     func updateUI(with categories: [Recipe], atIndex index: Int) {
 
-        //recipes.append((tag: tag, recipe: categories))
-        
         DispatchQueue.main.async {
             self.recipes[index].recipe = categories
             //self.view.bringSubviewToFront(self.tableView)
@@ -125,7 +123,7 @@ class HomeVC: UIViewController {
     
     
     func layoutUI() {
-        queryTextField.delegate = self
+        queryTextField.delegate     = self
         
         NSLayoutConstraint.activate([
             queryTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
