@@ -11,8 +11,8 @@ class RecipesCell: UITableViewCell {
 
     static let reuseID = "RecipesCell"
     let recipeTitle    = SPTitleLabel(textAlignment: .center, fontSize: 20)
-    let readyInMinutes = SPSecondaryTitleLabel(fontSize: 15)
-    let servings       = SPSecondaryTitleLabel(fontSize: 15)
+    let readyInMinutes = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
+    let servings       = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
     let recipeImage    = SPImageView(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -27,8 +27,8 @@ class RecipesCell: UITableViewCell {
     func set(recipe: Recipe, categoryTitle: String? = nil) {
         recipeImage.downloadImage(fromURL: recipe.image)
         recipeTitle.text = recipe.title
-        readyInMinutes.text = String(recipe.readyInMinutes)
-        servings.text = String(recipe.servings)
+        readyInMinutes.text = "Ready In Minutes\n\(String(recipe.readyInMinutes))"
+        servings.text = "Servings\n\(String(recipe.servings))"
     }
     
     private func configure() {
@@ -37,21 +37,21 @@ class RecipesCell: UITableViewCell {
         NSLayoutConstraint.activate([
             recipeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             recipeImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            recipeImage.heightAnchor.constraint(equalToConstant: 60),
-            recipeImage.widthAnchor.constraint(equalToConstant: 60),
+            recipeImage.heightAnchor.constraint(equalToConstant: 80),
+            recipeImage.widthAnchor.constraint(equalToConstant: 90),
             
             recipeTitle.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: 20),
             recipeTitle.topAnchor.constraint(equalTo: recipeImage.topAnchor),
             recipeTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
-            recipeTitle.heightAnchor.constraint(equalToConstant: 40),
+            recipeTitle.heightAnchor.constraint(equalToConstant: 30),
             
-            readyInMinutes.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: 25),
-            readyInMinutes.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: 15),
-            readyInMinutes.heightAnchor.constraint(equalToConstant: 20),
+            readyInMinutes.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: 45),
+            readyInMinutes.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: 5),
+            readyInMinutes.heightAnchor.constraint(equalToConstant: 40),
             
-            servings.leadingAnchor.constraint(equalTo: readyInMinutes.trailingAnchor, constant: 25),
-            servings.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: 15),
-            servings.heightAnchor.constraint(equalToConstant: 20)
+            servings.leadingAnchor.constraint(equalTo: readyInMinutes.trailingAnchor, constant: 45),
+            servings.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: 5),
+            servings.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

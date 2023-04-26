@@ -40,6 +40,8 @@
 		1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */; };
 		1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE929D5AA9100922940 /* RVHeaderView.swift */; };
 		1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */; };
+		1C5351E429F9236F00EF1F35 /* InstructionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5351E329F9236F00EF1F35 /* InstructionsVC.swift */; };
+		1C5351E629F9264300EF1F35 /* InstructionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5351E529F9264300EF1F35 /* InstructionsCell.swift */; };
 		1C5684F629D46F0F00A12137 /* RecommendationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */; };
 		1C5B031A29E6C679003C6AD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C5B031929E6C678003C6AD8 /* GoogleService-Info.plist */; };
 		1C5B031D29E6C89E003C6AD8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1C5B031C29E6C89E003C6AD8 /* FirebaseAnalytics */; };
@@ -104,6 +106,8 @@
 		1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C517FE929D5AA9100922940 /* RVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVHeaderView.swift; sourceTree = "<group>"; };
 		1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTabBarController.swift; sourceTree = "<group>"; };
+		1C5351E329F9236F00EF1F35 /* InstructionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsVC.swift; sourceTree = "<group>"; };
+		1C5351E529F9264300EF1F35 /* InstructionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsCell.swift; sourceTree = "<group>"; };
 		1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationHeaderView.swift; sourceTree = "<group>"; };
 		1C5B031929E6C678003C6AD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1C5EA47729D3800800FDCEE0 /* CategoriesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesHeaderView.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				1C4BF90629D72F95009286D4 /* LunchCollectionViewCell.swift */,
 				1C4BF90829D72FA5009286D4 /* DinnerCollectionViewCell.swift */,
 				1C6F615329F7B53A004BA86F /* RecipesTVCell.swift */,
+				1C5351E529F9264300EF1F35 /* InstructionsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 				1CF8D4E629DEF68E002DD589 /* SignupScreenVCs */,
 				1C2EE92729C1C23100B3D24A /* SPAlertVC.swift */,
 				1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */,
+				1C5351E329F9236F00EF1F35 /* InstructionsVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -433,6 +439,7 @@
 				1C46121829BF795700B3C891 /* BookmarksVC.swift in Sources */,
 				1C46973D29BD3FF900918782 /* HomeVC.swift in Sources */,
 				1C46973929BD3FF900918782 /* AppDelegate.swift in Sources */,
+				1C5351E429F9236F00EF1F35 /* InstructionsVC.swift in Sources */,
 				1C2E8EDD29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift in Sources */,
 				1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */,
 				1C517FE629D5A17A00922940 /* BookmarksVC+Ext.swift in Sources */,
@@ -466,6 +473,7 @@
 				1C982B8F29C06B3D00CA7471 /* Recipe.swift in Sources */,
 				1C2EE92E29C1C3BB00B3D24A /* SPButton.swift in Sources */,
 				1CF8D4E829DEF6BF002DD589 /* WelcomeVC.swift in Sources */,
+				1C5351E629F9264300EF1F35 /* InstructionsCell.swift in Sources */,
 				1C46973B29BD3FF900918782 /* SceneDelegate.swift in Sources */,
 				1C982B9329C0702E00CA7471 /* SPError.swift in Sources */,
 				1C5684F629D46F0F00A12137 /* RecommendationHeaderView.swift in Sources */,
