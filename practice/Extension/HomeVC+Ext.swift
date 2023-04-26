@@ -16,7 +16,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
         case 1:
             return 5
-       
+            
         default:
             return recipes.count
         }
@@ -48,14 +48,14 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
-
-//            if recipes.isEmpty == false {
-//                let categoryTuple = recipes[indexPath.row]
-//                cell.set(category: categoryTuple.recipes.first!)
+            
+            //            if recipes.isEmpty == false {
+            //                let categoryTuple = recipes[indexPath.row]
+            //                cell.set(category: categoryTuple.recipes.first!)
             
             
             return cell
-       
+            
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
             
@@ -70,25 +70,32 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCategory = recipes[indexPath.row]
-        let destVC = RecipeResultsVC(category: selectedCategory.tag)
-        
-        navigationController?.pushViewController(destVC, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch indexPath.section {
         case 0:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier, for: indexPath) as! CategoriesHeaderView
-            return header
+            let selectedCategory = recipes[indexPath.row]
+            let destVC = RecipeResultsVC(category: selectedCategory.tag)
             
-        case 1:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RecommendationHeader", withReuseIdentifier: RecommendationHeaderView.headerIdentifier, for: indexPath) as! RecommendationHeaderView
-            return header
+            navigationController?.pushViewController(destVC, animated: true)
             
         default:
-            fatalError("Unexpected section \(indexPath.section)")
+            break
         }
     }
-    
-}
+        
+        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            switch indexPath.section {
+            case 0:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier, for: indexPath) as! CategoriesHeaderView
+                return header
+                
+            case 1:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RecommendationHeader", withReuseIdentifier: RecommendationHeaderView.headerIdentifier, for: indexPath) as! RecommendationHeaderView
+                return header
+                
+            default:
+                fatalError("Unexpected section \(indexPath.section)")
+            }
+        }
+        
+    }
+

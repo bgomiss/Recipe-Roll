@@ -102,13 +102,13 @@ class HomeVC: UIViewController {
 
         DispatchQueue.main.async {
             self.recipes[index].recipe = categories
-            //self.view.bringSubviewToFront(self.tableView)
         }
     }
     
     
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     

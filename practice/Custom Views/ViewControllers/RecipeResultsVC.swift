@@ -60,6 +60,7 @@ class RecipeResultsVC: UIViewController {
                 DispatchQueue.main.async {
                     self.recipeResults = recipes
                     self.tableView.reloadData()
+                    self.view.bringSubviewToFront(self.tableView)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
