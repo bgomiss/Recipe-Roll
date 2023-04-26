@@ -42,15 +42,7 @@ class HomeVC: UIViewController {
         view.addSubviews(queryTextField, titleLabel, collectionView)
         configureCompositionalLayout()
         layoutUI()
-        recipes = tags.map { (tag: $0, recipe: []) }
-        
-        for (index, tag) in tags.enumerated() {
-            group.enter()
-            getCategories(tag: tag, atIndex: index, group: group)
-        }
-        group.notify(queue: .main) {
-            self.collectionView.reloadData()
-        }
+        fetchRecipeData()
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
@@ -79,6 +71,17 @@ class HomeVC: UIViewController {
         }
     }
     
+    func fetchRecipeData() {
+        recipes = tags.map { (tag: $0, recipe: []) }
+        
+        for (index, tag) in tags.enumerated() {
+            group.enter()
+            getCategories(tag: tag, atIndex: index, group: group)
+        }
+        group.notify(queue: .main) {
+            self.collectionView.reloadData()
+        }
+    }
 //    func getCategories() {
 //        PersistenceManager.retrievedCategories { [weak self] result in
 //            guard let self = self else { return }
