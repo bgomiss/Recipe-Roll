@@ -62,7 +62,7 @@ class InstructionsCell: UITableViewCell {
         NSLayoutConstraint.activate([
             cellTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             cellTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
-            cellTitle.topAnchor.constraint(equalTo: topAnchor, constant: 40),
+            cellTitle.topAnchor.constraint(equalTo: topAnchor),
             cellTitle.heightAnchor.constraint(equalToConstant: 25),
             
             clockImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
