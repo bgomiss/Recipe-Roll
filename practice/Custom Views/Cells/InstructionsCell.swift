@@ -42,7 +42,7 @@ class InstructionsCell: UITableViewCell {
         cellTitle.text = recipe.title
         readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
         servings.text = "\(String(recipe.servings)) people"
-        aggregateLikes.text = "(String(recipe.servings)) likes"
+        aggregateLikes.text = "\(String(recipe.servings)) likes"
         
         clockImageView.translatesAutoresizingMaskIntoConstraints = false
         clockImageView.image = RIMimage
@@ -76,7 +76,7 @@ class InstructionsCell: UITableViewCell {
             peopleImageView.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
             peopleImageView.heightAnchor.constraint(equalToConstant: 30),
             
-            servings.leadingAnchor.constraint(equalTo: peopleImageView.trailingAnchor, constant: 25),
+            servings.leadingAnchor.constraint(equalTo: peopleImageView.trailingAnchor, constant: 15),
             servings.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
             servings.heightAnchor.constraint(equalToConstant: 30),
             
@@ -84,7 +84,7 @@ class InstructionsCell: UITableViewCell {
             likesImageView.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
             likesImageView.heightAnchor.constraint(equalToConstant: 30),
             
-            aggregateLikes.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 25),
+            aggregateLikes.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 15),
             aggregateLikes.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
             aggregateLikes.heightAnchor.constraint(equalToConstant: 30)
             

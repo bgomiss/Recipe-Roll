@@ -12,6 +12,7 @@ class InstructionsVC: UIViewController {
     var recipe: Recipe?
     let tableView = UITableView()
     var instructions: [Recipe] = []
+//    let recipeImage    = SPImageView(frame: .zero)
     
     
     init(recipe: Recipe) {
@@ -32,6 +33,9 @@ class InstructionsVC: UIViewController {
 
     
     func configureViewController() {
+//        view.addSubview(recipeImage)
+//        recipeImage.downloadImage(fromURL: recipe!.image)
+//        recipeImage.frame = view.bounds
         view.backgroundColor = .systemBackground
     }
     
