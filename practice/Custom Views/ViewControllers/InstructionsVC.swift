@@ -9,14 +9,14 @@ import UIKit
 
 class InstructionsVC: UIViewController {
     
-    var recipe: String?
+    var recipe: Recipe?
     let tableView = UITableView()
     var instructions: [Recipe] = []
     
     
-    init(category: String? = nil) {
+    init(recipe: Recipe) {
         super.init(nibName: nil, bundle: nil)
-        self.recipe = category
+        self.recipe = recipe
     }
     
     required init?(coder: NSCoder) {
@@ -49,22 +49,25 @@ class InstructionsVC: UIViewController {
     
     
     func updateUI() {
-        guard let recipe = recipe else {return}
-        NetworkManager.shared.getCategoriesInfo(for: recipe) { [weak self] result in
-            guard let self = self else {return}
-            
-            switch result {
-            case .success(let instructions):
-                DispatchQueue.main.async {
-                    self.instructions = instructions
-                    self.tableView.reloadData()
-                    self.view.bringSubviewToFront(self.tableView)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        self.tableView.reloadData()
+        //        guard let recipe = recipe else {return}
+        //        NetworkManager.shared.getCategoriesInfo(for: recipe) { [weak self] result in
+        //            guard let self = self else {return}
+        //
+        //            switch result {
+        //            case .success(let instructions):
+        //                DispatchQueue.main.async {
+        //                    self.instructions = instructions
+        //                    self.tableView.reloadData()
+        //                    self.view.bringSubviewToFront(self.tableView)
+        //                }
+        //            case .failure(let error):
+        //                print(error.localizedDescription)
+        //            }
+        //        }
+        
     }
+    
 }
 
 extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {

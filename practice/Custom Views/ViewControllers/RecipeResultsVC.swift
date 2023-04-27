@@ -82,4 +82,20 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRecipe = recipeResults[indexPath.row]
+        let destVC = InstructionsVC(recipe: selectedRecipe)
+        let nav = UINavigationController(rootViewController: destVC)
+        nav.modalPresentationStyle = .pageSheet
+        
+        // Create and configure the UISheetPresentationController
+        if let sheet = nav.sheetPresentationController{
+            sheet.detents = [.medium(), .large()]
+            sheet.preferredCornerRadius = 40
+            sheet.prefersGrabberVisible = true
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        present(nav, animated: true)
+    }
 }
