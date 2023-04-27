@@ -48,12 +48,12 @@ class InstructionsCell: UITableViewCell {
         clockImageView.contentMode = .scaleAspectFill
         
        peopleImageView.translatesAutoresizingMaskIntoConstraints = false
-       peopleImageView.image = RIMimage
+       peopleImageView.image = servingsImage
        peopleImageView.tintColor = .label
        peopleImageView.contentMode = .scaleAspectFill
         
        likesImageView.translatesAutoresizingMaskIntoConstraints = false
-       likesImageView.image = RIMimage
+       likesImageView.image = ALimage
        likesImageView.tintColor = .label
        likesImageView.contentMode = .scaleAspectFill
         
@@ -69,6 +69,21 @@ class InstructionsCell: UITableViewCell {
             readyInMinutes.leadingAnchor.constraint(equalTo: clockImageView.trailingAnchor, constant: 15),
             readyInMinutes.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
             
+            peopleImageView.leadingAnchor.constraint(equalTo: readyInMinutes.trailingAnchor, constant: 25),
+            peopleImageView.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
+            peopleImageView.heightAnchor.constraint(equalToConstant: 30),
+            
+            servings.leadingAnchor.constraint(equalTo: peopleImageView.trailingAnchor, constant: 25),
+            servings.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
+            servings.heightAnchor.constraint(equalToConstant: 30),
+            
+            likesImageView.leadingAnchor.constraint(equalTo: servings.trailingAnchor, constant: 25),
+            likesImageView.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
+            likesImageView.heightAnchor.constraint(equalToConstant: 30),
+            
+            aggregateLikes.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 25),
+            aggregateLikes.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 20),
+            aggregateLikes.heightAnchor.constraint(equalToConstant: 30)
             
         ])
     }
