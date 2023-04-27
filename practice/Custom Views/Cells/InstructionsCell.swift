@@ -26,7 +26,7 @@ class InstructionsCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configure()
+        
     }
     
     
@@ -36,6 +36,8 @@ class InstructionsCell: UITableViewCell {
     
     
     func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
+        addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
+        
         recipeImage.downloadImage(fromURL: recipe.image)
         cellTitle.text = recipe.title
         readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
@@ -104,30 +106,5 @@ class InstructionsCell: UITableViewCell {
     func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
         cellTitle.text = recipe.title
         
-    }
-    
-    
-    private func configure() {
-        addSubviews(cellTitle, readyInMinutes, servings, recipeImage)
-        
-        NSLayoutConstraint.activate([
-            recipeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            recipeImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            recipeImage.heightAnchor.constraint(equalToConstant: 80),
-            recipeImage.widthAnchor.constraint(equalToConstant: 90),
-            
-            cellTitle.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: 20),
-            cellTitle.topAnchor.constraint(equalTo: recipeImage.topAnchor),
-            cellTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
-            cellTitle.heightAnchor.constraint(equalToConstant: 30),
-            
-            readyInMinutes.leadingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: 45),
-            readyInMinutes.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 5),
-            readyInMinutes.heightAnchor.constraint(equalToConstant: 40),
-            
-            servings.leadingAnchor.constraint(equalTo: readyInMinutes.trailingAnchor, constant: 45),
-            servings.topAnchor.constraint(equalTo: cellTitle.bottomAnchor, constant: 5),
-            servings.heightAnchor.constraint(equalToConstant: 40)
-        ])
     }
 }

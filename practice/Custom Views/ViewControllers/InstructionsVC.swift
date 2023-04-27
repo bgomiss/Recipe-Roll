@@ -69,13 +69,13 @@ class InstructionsVC: UIViewController {
 
 extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
         let recipe = instructions[indexPath.row]
-        cell.set(recipe: recipe)
+        cell.setFeaturesCell(recipe: recipe)
         return cell
     }
     
