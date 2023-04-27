@@ -60,7 +60,8 @@ class InstructionsCell: UITableViewCell {
        likesImageView.contentMode = .scaleAspectFill
         
         NSLayoutConstraint.activate([
-            cellTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            cellTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            cellTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
             cellTitle.topAnchor.constraint(equalTo: topAnchor, constant: 40),
             cellTitle.heightAnchor.constraint(equalToConstant: 25),
             

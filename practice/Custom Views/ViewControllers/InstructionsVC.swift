@@ -40,6 +40,7 @@ class InstructionsVC: UIViewController {
         view.addSubview(tableView)
         
         tableView.frame = view.bounds
+        tableView.separatorStyle = .none
         tableView.rowHeight = 100
         tableView.dataSource = self
         tableView.delegate = self
@@ -49,23 +50,11 @@ class InstructionsVC: UIViewController {
     
     
     func updateUI() {
-        self.tableView.reloadData()
-        //        guard let recipe = recipe else {return}
-        //        NetworkManager.shared.getCategoriesInfo(for: recipe) { [weak self] result in
-        //            guard let self = self else {return}
-        //
-        //            switch result {
-        //            case .success(let instructions):
-        //                DispatchQueue.main.async {
-        //                    self.instructions = instructions
-        //                    self.tableView.reloadData()
-        //                    self.view.bringSubviewToFront(self.tableView)
-        //                }
-        //            case .failure(let error):
-        //                print(error.localizedDescription)
-        //            }
-        //        }
-        
+        guard let recipe = recipe else {return}
+        instructions = [recipe]
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
 }
