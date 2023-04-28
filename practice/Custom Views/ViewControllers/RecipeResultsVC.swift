@@ -12,6 +12,7 @@ class RecipeResultsVC: UIViewController {
     var category: String?
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
+    let recipeImage    = SPImageView(frame: .zero)
     
     
     init(category: String? = nil) {
@@ -84,6 +85,14 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRecipe = recipeResults[indexPath.row]
+        
+        // Download and set the full-screen background image
+        recipeImage.downloadImage(fromURL: selectedRecipe.image) { image in
+            if let image = image {
+                self.setBackgroundImage(image)
+            }
+        }
+        
         let destVC = InstructionsVC(recipe: selectedRecipe)
         let nav = UINavigationController(rootViewController: destVC)
         nav.modalPresentationStyle = .pageSheet

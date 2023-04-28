@@ -20,7 +20,7 @@ class InstructionsCell: UITableViewCell {
     let servingsImage  = SFSymbols.servings
     let aggregateLikes = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
     let ALimage        = SFSymbols.aggregateLikes
-    let recipeImage    = SPImageView(frame: .zero)
+    
     
     let descriptionLabel    = SPBodyLabel(textAlignment: .left)
     
@@ -38,7 +38,7 @@ class InstructionsCell: UITableViewCell {
     func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
         addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
         
-        recipeImage.downloadImage(fromURL: recipe.image)
+        
         cellTitle.text = recipe.title
         readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
         servings.text = "\(String(recipe.servings)) people"
