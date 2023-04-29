@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecipeResultsVC: UIViewController {
+class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
     var category: String?
     let tableView = UITableView()
@@ -30,6 +30,20 @@ class RecipeResultsVC: UIViewController {
         configureViewController()
         updateUI()
         }
+    
+    
+    func setBackgroundImage() {
+        view.addSubview(recipeImage)
+        //view.sendSubviewToBack(recipeImage)
+        //recipeImage.contentMode = .scaleAspectFill
+        
+        NSLayoutConstraint.activate([
+                recipeImage.topAnchor.constraint(equalTo: view.topAnchor),
+                recipeImage.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 440),
+                recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+    }
 
     
     func configureViewController() {
@@ -70,7 +84,7 @@ class RecipeResultsVC: UIViewController {
     }
 }
 
-extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
+extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptivePresentationControllerDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recipeResults.count
     }
@@ -87,11 +101,8 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
         let selectedRecipe = recipeResults[indexPath.row]
         
         // Download and set the full-screen background image
-        recipeImage.downloadImage(fromURL: selectedRecipe.image) { image in
-            if let image = image {
-                self.setBackgroundImage(image)
-            }
-        }
+        recipeImage.downloadImage(fromURL: selectedRecipe.image)
+        setBackgroundImage()
         
         let destVC = InstructionsVC(recipe: selectedRecipe)
         let nav = UINavigationController(rootViewController: destVC)
@@ -104,7 +115,16 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate {
             sheet.prefersGrabberVisible = true
             sheet.largestUndimmedDetentIdentifier = .medium
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.delegate = self
         }
         present(nav, animated: true)
+    }
+    
+    func presentationControllerDidDismiss(_ presantationController: UIPresentationController) {
+        UIView.animate(withDuration: 0.7, animations: {
+                self.recipeImage.transform = CGAffineTransform(translationX: 0, y: -self.view.bounds.height)
+            }, completion: { _ in
+                self.recipeImage.removeFromSuperview()
+            })
     }
 }
