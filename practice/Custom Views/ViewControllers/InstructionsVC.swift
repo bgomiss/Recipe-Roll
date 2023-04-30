@@ -29,8 +29,8 @@ class InstructionsVC: UIViewController {
         configureTableView()
         configureViewController()
         updateUI()
-        }
-
+    }
+    
     
     func configureViewController() {
 //        view.addSubview(recipeImage)
