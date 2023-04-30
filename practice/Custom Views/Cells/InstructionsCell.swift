@@ -95,7 +95,10 @@ class InstructionsCell: UITableViewCell {
     func setDescriptionCell(recipe: Recipe, categoryTitle: String? = nil) {
         addSubviews(descriptionLabel, summary)
         descriptionLabel.text = "Description"
-        summary.text = recipe.summary
+        if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary) {
+            summary.attributedText = attributedText
+        }
+        
         
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -105,8 +108,9 @@ class InstructionsCell: UITableViewCell {
             
             summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
-            summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            summary.heightAnchor.constraint(equalToConstant: 80)
+            summary.bottomAnchor.constraint(equalTo: bottomAnchor),
+            summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            //summary.heightAnchor.constraint(equalToConstant: 80)
             ])
     }
     

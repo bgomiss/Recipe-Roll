@@ -45,7 +45,7 @@ class InstructionsVC: UIViewController {
         
         tableView.frame = view.bounds
         tableView.separatorStyle = .none
-        tableView.rowHeight = 100
+        //tableView.rowHeight = 100
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -81,6 +81,12 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 100 // Height for InstructionsCell
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
 }
-
-

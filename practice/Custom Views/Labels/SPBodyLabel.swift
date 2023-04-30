@@ -37,8 +37,19 @@ class SPBodyLabel: UILabel {
             lineBreakMode = .byWordWrapping
             translatesAutoresizingMaskIntoConstraints = false
         }
-
+    
+    
+    static func convertHTMLToAttributedString(html: String) -> NSAttributedString? {
+        guard let data = html.data(using: .utf8) else {return nil}
+        do {
+            let attributedString = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return attributedString
+        } catch {
+            print("Error converting HTML to attributed string: \(error.localizedDescription)")
+            return nil
+        }
     }
+}
 
 
 
