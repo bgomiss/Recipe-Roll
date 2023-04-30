@@ -33,6 +33,7 @@ class SPBodyLabel: UILabel {
             adjustsFontForContentSizeCategory = true
             adjustsFontSizeToFitWidth = true
             minimumScaleFactor = 0.75
+            numberOfLines = 0
             lineBreakMode = .byWordWrapping
             translatesAutoresizingMaskIntoConstraints = false
         }

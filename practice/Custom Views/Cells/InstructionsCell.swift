@@ -22,7 +22,8 @@ class InstructionsCell: UITableViewCell {
     let ALimage        = SFSymbols.aggregateLikes
     
     
-    let descriptionLabel    = SPBodyLabel(textAlignment: .left)
+    let descriptionLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let summary          = SPBodyLabel(textAlignment: .left)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,7 +38,6 @@ class InstructionsCell: UITableViewCell {
     
     func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
         addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
-        
         
         cellTitle.text = recipe.title
         readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
@@ -93,8 +93,21 @@ class InstructionsCell: UITableViewCell {
     
     
     func setDescriptionCell(recipe: Recipe, categoryTitle: String? = nil) {
-        cellTitle.text = "Description"
-        descriptionLabel.text = recipe.summary
+        addSubviews(descriptionLabel, summary)
+        descriptionLabel.text = "Description"
+        summary.text = recipe.summary
+        
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
+            descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
+            
+            summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
+            summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            summary.heightAnchor.constraint(equalToConstant: 80)
+            ])
     }
     
     

@@ -65,18 +65,22 @@ class InstructionsVC: UIViewController {
 
 extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-        let recipe = instructions[indexPath.row]
-        cell.setFeaturesCell(recipe: recipe)
+        
+        if indexPath.row == 0 {
+            let recipe = instructions[0]
+            cell.setFeaturesCell(recipe: recipe)
+            return cell
+        } else if indexPath.row == 1 {
+            let description = instructions[0]
+            cell.setDescriptionCell(recipe: description)
+        }
         return cell
     }
-    
-    
 }
-
 
 
