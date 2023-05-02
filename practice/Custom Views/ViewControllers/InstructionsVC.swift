@@ -30,8 +30,7 @@ class InstructionsVC: UIViewController {
         configureViewController()
         updateUI()
     }
-    
-    
+
     func configureViewController() {
 //        view.addSubview(recipeImage)
 //        recipeImage.downloadImage(fromURL: recipe!.image)

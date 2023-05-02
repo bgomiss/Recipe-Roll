@@ -9,6 +9,7 @@ import UIKit
 
 class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
+    var vc = UIViewController()
     var category: String?
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
@@ -24,12 +25,19 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configureViewController()
         updateUI()
         }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        vc.dismiss(animated: true)
+    }
     
     
     func setBackgroundImage() {
@@ -105,6 +113,7 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         setBackgroundImage()
         
         let destVC = InstructionsVC(recipe: selectedRecipe)
+        vc = destVC
         let nav = UINavigationController(rootViewController: destVC)
         nav.modalPresentationStyle = .pageSheet
         
