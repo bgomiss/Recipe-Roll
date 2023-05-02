@@ -25,6 +25,10 @@ class InstructionsCell: UITableViewCell {
     let descriptionLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let summary          = SPBodyLabel(textAlignment: .left)
     
+    let ingredientsImg = SPImageView(frame: .zero)
+    let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
+    let ingredientsLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -115,9 +119,41 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setIngredientsCell(recipe: Recipe, categoryTitle: String? = nil) {
-        cellTitle.text = "Ingredients"
+    func setIngredientsCell(ingredients: [Ent], categoryTitle: String? = nil) {
+        let stackView = UIStackView()
+        addSubviews(ingredientsLabel, stackView)
+        ingredientsLabel.text = "Ingredients"
         
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            ingredientsLabel.topAnchor.constraint(equalTo: topAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 5),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        
+        for ingredient in ingredients {
+            ingredientsImg.downloadImage(fromURL: ingredient.image)
+            ingredientsAndEquipments.text = ingredient.name
+            
+            let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
+            ingredientStackView.axis = .horizontal
+            ingredientStackView.spacing = 8
+            ingredientStackView.alignment = .center
+            ingredientStackView.distribution = .fill
+            
+            stackView.addArrangedSubview(ingredientStackView)
+        }
     }
     
     

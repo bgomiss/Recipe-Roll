@@ -25,3 +25,4 @@ enum SFSymbols {
     static let aggregateLikes = UIImage(systemName: "heart")
     static let servings = UIImage(systemName: "person.3")
 }
+

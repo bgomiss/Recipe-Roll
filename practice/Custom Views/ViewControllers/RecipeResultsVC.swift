@@ -14,7 +14,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
     let recipeImage    = SPImageView(frame: .zero)
-    
+    var recipe: Recipe?
     
     init(category: String? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -37,6 +37,19 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         vc.dismiss(animated: true)
+        }
+    
+    
+    func extractIngredients(from analyzedInstructions: [AnalyzedInstruction]) {
+        for instruction in analyzedInstructions {
+            for step in instruction.steps {
+                for ingredient in step.ingredients {
+                    let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
+                    let newIngredient = Ent(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL, temperature: ingredient.temperature)
+                    ingredients.append(newIngredient)
+                }
+            }
+        }
     }
     
     
@@ -112,7 +125,11 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         recipeImage.downloadImage(fromURL: selectedRecipe.image)
         setBackgroundImage()
         
-        let destVC = InstructionsVC(recipe: selectedRecipe)
+        if let analyzedInstructions = recipe?.analyzedInstructions {
+                extractIngredients(from: analyzedInstructions)
+            }
+        
+        let destVC = InstructionsVC(recipe: selectedRecipe, ingredients: <#Ent#>)
         vc = destVC
         let nav = UINavigationController(rootViewController: destVC)
         nav.modalPresentationStyle = .pageSheet
