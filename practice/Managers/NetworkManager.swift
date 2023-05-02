@@ -43,7 +43,6 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 let recipes = try decoder.decode(RecipeResults.self, from: data)
                 completed(.success(recipes.results))
-                print(recipes.results)
             } catch {
                 completed(.failure(.invalidData))
             }

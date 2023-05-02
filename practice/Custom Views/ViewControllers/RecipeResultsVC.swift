@@ -15,7 +15,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     var recipeResults: [Recipe] = []
     var ingredientsResults: [Ent] = []
     let recipeImage    = SPImageView(frame: .zero)
-    var recipe: Recipe?
+    
     
     init(category: String? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -128,7 +128,7 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         // Download and set the full-screen background image
         recipeImage.downloadImage(fromURL: selectedRecipe.image)
         setBackgroundImage()
-
+        
         let ingredientsForSelectedRecipe = ingredientsResults.filter { ingredient in
             return selectedRecipe.analyzedInstructions.contains { analyzedInstruction in
                 return analyzedInstruction.steps.contains { step in

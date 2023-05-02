@@ -93,7 +93,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             return 100 // Height for InstructionsCell
         } else if indexPath.row == 1 {
-            return UITableView.automaticDimension
+            return UITableView.automaticDimension // Default height for other cases
         } else {
             return UITableView.automaticDimension
         }

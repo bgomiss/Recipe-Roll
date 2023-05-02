@@ -25,8 +25,7 @@ class InstructionsCell: UITableViewCell {
     let descriptionLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let summary          = SPBodyLabel(textAlignment: .left)
     
-    let ingredientsImg = SPImageView(frame: .zero)
-    let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
+    
     let ingredientsLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -118,7 +117,7 @@ class InstructionsCell: UITableViewCell {
             descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
             
             summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor),
+            summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
             summary.bottomAnchor.constraint(equalTo: bottomAnchor),
             summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
             //summary.heightAnchor.constraint(equalToConstant: 80)
@@ -132,17 +131,18 @@ class InstructionsCell: UITableViewCell {
         ingredientsLabel.text = "Ingredients"
         
         stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.alignment = .center
-        stackView.distribution = .fill
+        stackView.spacing = 13
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            ingredientsLabel.heightAnchor.constraint(equalToConstant: 25),
             ingredientsLabel.topAnchor.constraint(equalTo: topAnchor),
             
-            stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 5),
+            stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 25),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -150,14 +150,17 @@ class InstructionsCell: UITableViewCell {
         
         
         for ingredient in ingredients {
+            let ingredientsImg = SPImageView(frame: .zero)
+            let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
             ingredientsImg.downloadImage(fromURL: ingredient.image)
             ingredientsAndEquipments.text = ingredient.name
             
             let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
             ingredientStackView.axis = .horizontal
-            ingredientStackView.spacing = 8
-            ingredientStackView.alignment = .center
-            ingredientStackView.distribution = .fill
+            ingredientStackView.spacing = 10
+            ingredientStackView.alignment = .leading
+            ingredientStackView.distribution = .equalSpacing
+            
             
             stackView.addArrangedSubview(ingredientStackView)
         }
