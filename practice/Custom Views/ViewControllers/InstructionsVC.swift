@@ -74,7 +74,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-        cell.resetCell()
+
         
         if indexPath.row == 0 {
             let recipe = instructions[0]
