@@ -53,12 +53,13 @@ class NetworkManager {
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {
         let cacheKey = NSString(string: urlString)
+        let updatedURLString = urlString.replacingOccurrences(of: "312x231", with: "636x393")
         
         if let image = cache.object(forKey: cacheKey) {
             completed(image, true)
             return
         }
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: updatedURLString) else {
             completed(nil, false)
             return }
         
