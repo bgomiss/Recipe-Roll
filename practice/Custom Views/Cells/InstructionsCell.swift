@@ -40,6 +40,13 @@ class InstructionsCell: UITableViewCell {
     }
     
     
+    func resetCell() {
+        for view in contentView.subviews {
+            view.removeFromSuperview()
+        }
+    }
+    
+    
     func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
         addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
         

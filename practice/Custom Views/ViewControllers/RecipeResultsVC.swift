@@ -13,6 +13,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     var category: String?
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
+    var ingredientsResults: [Ent] = []
     let recipeImage    = SPImageView(frame: .zero)
     var recipe: Recipe?
     
@@ -46,7 +47,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
                 for ingredient in step.ingredients {
                     let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
                     let newIngredient = Ent(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL, temperature: ingredient.temperature)
-                    ingredients.append(newIngredient)
+                    ingredientsResults.append(newIngredient)
                 }
             }
         }
@@ -95,6 +96,9 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
             case .success(let recipes):
                 DispatchQueue.main.async {
                     self.recipeResults = recipes
+                    for recipe in recipes {
+                        self.extractIngredients(from: recipe.analyzedInstructions)
+                    }
                     self.tableView.reloadData()
                     self.view.bringSubviewToFront(self.tableView)
                 }
@@ -124,12 +128,18 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         // Download and set the full-screen background image
         recipeImage.downloadImage(fromURL: selectedRecipe.image)
         setBackgroundImage()
-        
-        if let analyzedInstructions = recipe?.analyzedInstructions {
-                extractIngredients(from: analyzedInstructions)
+
+        let ingredientsForSelectedRecipe = ingredientsResults.filter { ingredient in
+            return selectedRecipe.analyzedInstructions.contains { analyzedInstruction in
+                return analyzedInstruction.steps.contains { step in
+                    return step.ingredients.contains { ent in
+                        return ent.id == ingredient.id
+                    }
+                }
             }
+        }
         
-        let destVC = InstructionsVC(recipe: selectedRecipe, ingredients: <#Ent#>)
+        let destVC = InstructionsVC(recipe: selectedRecipe, ingredients: ingredientsForSelectedRecipe)
         vc = destVC
         let nav = UINavigationController(rootViewController: destVC)
         nav.modalPresentationStyle = .pageSheet

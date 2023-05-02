@@ -10,14 +10,14 @@ import UIKit
 class InstructionsVC: UIViewController {
     
     var recipe: Recipe?
-    var ingredients: Ent?
+    var ingredients: [Ent]?
     let tableView = UITableView()
     var instructions: [Recipe] = []
     var ingredientsArray: [Ent] = []
 //    let recipeImage    = SPImageView(frame: .zero)
     
     
-    init(recipe: Recipe, ingredients: Ent) {
+    init(recipe: Recipe, ingredients: [Ent]) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
         self.ingredients = ingredients
@@ -59,7 +59,7 @@ class InstructionsVC: UIViewController {
     func updateUI() {
         guard let recipe = recipe, let ingredients = ingredients else {return}
         instructions = [recipe]
-        ingredientsArray = [ingredients]
+        ingredientsArray = ingredients
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -74,6 +74,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
+        cell.resetCell()
         
         if indexPath.row == 0 {
             let recipe = instructions[0]
@@ -83,7 +84,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
             let description = instructions[0]
             cell.setDescriptionCell(recipe: description)
         } else if indexPath.row == 2 {
-            cell.setIngredientsCell(ingredients: ingredients)
+            cell.setIngredientsCell(ingredients: ingredientsArray)
         }
         return cell
     }
