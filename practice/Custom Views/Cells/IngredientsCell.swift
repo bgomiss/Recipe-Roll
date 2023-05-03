@@ -7,25 +7,9 @@
 
 import UIKit
 
-class CustomCell: UITableViewCell {
+class IngredientsCell: UITableViewCell {
 
-    static let reuseID = "CustomCell"
-    let cellTitle      = SPTitleLabel(textAlignment: .center, fontSize: 20)
-    let readyInMinutes = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
-    let RIMimage       = SFSymbols.clock
-    let clockImageView = UIImageView()
-    let peopleImageView = UIImageView()
-    let likesImageView = UIImageView()
-    let servings       = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
-    let servingsImage  = SFSymbols.servings
-    let aggregateLikes = SPSecondaryTitleLabel(fontSize: 15, color: .secondaryLabel)
-    let ALimage        = SFSymbols.aggregateLikes
-    
-    
-    let descriptionLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
-    let summary          = SPBodyLabel(textAlignment: .left)
-    
-    
+    static let reuseID = "IngredientsCell"
     let ingredientsLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -52,10 +36,10 @@ class CustomCell: UITableViewCell {
         stackView.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
         
         NSLayoutConstraint.activate([
-            ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             ingredientsLabel.heightAnchor.constraint(equalToConstant: 25),
-            ingredientsLabel.topAnchor.constraint(equalTo: topAnchor),
+            ingredientsLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             
             stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 25),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),

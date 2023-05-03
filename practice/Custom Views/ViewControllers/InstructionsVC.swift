@@ -53,7 +53,7 @@ class InstructionsVC: UIViewController {
         tableView.delegate = self
         
         tableView.register(InstructionsCell.self, forCellReuseIdentifier: InstructionsCell.reuseID)
-        tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.reuseID)
+        tableView.register(IngredientsCell.self, forCellReuseIdentifier: IngredientsCell.reuseID)
     }
     
     
@@ -75,7 +75,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-        let customCell = tableView.dequeueReusableCell(withIdentifier: CustomCell.reuseID) as! CustomCell
+        let customCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
         
         if indexPath.row == 0 {
             let recipe = instructions[0]

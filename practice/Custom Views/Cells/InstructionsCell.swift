@@ -118,50 +118,6 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setIngredientsCell(ingredients: [Ent], categoryTitle: String? = nil) {
-        let stackView = UIStackView()
-        addSubviews(ingredientsLabel, stackView)
-        ingredientsLabel.text = "Ingredients"
-        
-        stackView.axis = .vertical
-        stackView.spacing = 13
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-        
-        NSLayoutConstraint.activate([
-            ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            ingredientsLabel.heightAnchor.constraint(equalToConstant: 25),
-            ingredientsLabel.topAnchor.constraint(equalTo: topAnchor),
-            
-            stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 25),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        
-        
-        for ingredient in ingredients {
-            let ingredientsImg = SPImageView(frame: .zero)
-            let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
-            ingredientsImg.downloadImage(fromURL: ingredient.image)
-            ingredientsAndEquipments.text = ingredient.name
-            
-            let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
-            ingredientStackView.axis = .horizontal
-            ingredientStackView.spacing = 10
-            ingredientStackView.alignment = .leading
-            ingredientStackView.distribution = .equalSpacing
-            
-            
-            stackView.addArrangedSubview(ingredientStackView)
-        }
-    }
-    
-    
     func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
         cellTitle.text = recipe.title
         
