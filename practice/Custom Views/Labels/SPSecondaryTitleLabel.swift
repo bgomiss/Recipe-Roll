@@ -20,9 +20,9 @@ class SPSecondaryTitleLabel: UILabel {
     }
     
     
-    convenience init(fontSize: CGFloat, color: UIColor? = nil) {
+    convenience init(fontSize: CGFloat, color: UIColor? = nil, weight: UIFont.Weight? = nil) {
         self.init(frame: .zero)
-       font = UIFont.systemFont(ofSize: fontSize, weight: .light)
+        font = UIFont.systemFont(ofSize: fontSize, weight: weight ?? .light)
        textColor = color
         
     }

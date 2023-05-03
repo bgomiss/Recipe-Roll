@@ -50,18 +50,20 @@ class IngredientsCell: UITableViewCell {
         
         for ingredient in ingredients {
             let ingredientsImg = SPImageView(frame: .zero)
-            let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
+            let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black, weight: .bold)
             ingredientsImg.downloadImage(fromURL: ingredient.image)
-            ingredientsAndEquipments.text = ingredient.name
+            ingredientsAndEquipments.text = ingredient.name.uppercased()
             ingredientsImg.heightAnchor.constraint(equalToConstant: 40).isActive = true
             ingredientsImg.widthAnchor.constraint(equalToConstant: 40).isActive = true
             
+            
             let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
             ingredientStackView.axis = .horizontal
-            ingredientStackView.spacing = 10
-            ingredientStackView.alignment = .leading
+            ingredientStackView.spacing = 45
+            ingredientStackView.alignment = .center
             ingredientStackView.distribution = .equalSpacing
-            
+            ingredientStackView.layer.cornerRadius = 10
+            ingredientStackView.backgroundColor = .systemMint.withAlphaComponent(0.5)
             
             stackView.addArrangedSubview(ingredientStackView)
         }
