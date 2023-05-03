@@ -15,6 +15,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     var recipeResults: [Recipe] = []
     var ingredientsResults: [Ent] = []
     let recipeImage    = SPImageView(frame: .zero)
+    var uniqueIngredientNames = Set<String>()
     
     
     init(category: String? = nil) {
@@ -130,11 +131,19 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         recipeImage.downloadImage(fromURL: selectedRecipe.image)
         setBackgroundImage()
         
+        // The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
         let ingredientsForSelectedRecipe = ingredientsResults.filter { ingredient in
             return selectedRecipe.analyzedInstructions.contains { analyzedInstruction in
                 return analyzedInstruction.steps.contains { step in
                     return step.ingredients.contains { ent in
-                        return ent.id == ingredient.id
+                        if ent.id == ingredient.id {
+                            // Check if the ingredient name is unique
+                            if !uniqueIngredientNames.contains(ent.name) {
+                                uniqueIngredientNames.insert(ent.name)
+                                return true
+                            }
+                        }
+                        return false
                     }
                 }
             }

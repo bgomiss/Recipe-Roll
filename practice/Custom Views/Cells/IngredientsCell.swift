@@ -40,7 +40,7 @@ class IngredientsCell: UITableViewCell {
             ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             ingredientsLabel.heightAnchor.constraint(equalToConstant: 25),
             ingredientsLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            
+        
             stackView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 25),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -53,6 +53,8 @@ class IngredientsCell: UITableViewCell {
             let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black)
             ingredientsImg.downloadImage(fromURL: ingredient.image)
             ingredientsAndEquipments.text = ingredient.name
+            ingredientsImg.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            ingredientsImg.widthAnchor.constraint(equalToConstant: 40).isActive = true
             
             let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
             ingredientStackView.axis = .horizontal
