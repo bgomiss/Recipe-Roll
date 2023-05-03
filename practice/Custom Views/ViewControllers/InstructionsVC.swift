@@ -53,6 +53,7 @@ class InstructionsVC: UIViewController {
         tableView.delegate = self
         
         tableView.register(InstructionsCell.self, forCellReuseIdentifier: InstructionsCell.reuseID)
+        tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.reuseID)
     }
     
     
@@ -74,7 +75,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-
+        let customCell = tableView.dequeueReusableCell(withIdentifier: CustomCell.reuseID) as! CustomCell
         
         if indexPath.row == 0 {
             let recipe = instructions[0]
@@ -83,10 +84,11 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
         } else if indexPath.row == 1 {
             let description = instructions[0]
             cell.setDescriptionCell(recipe: description)
-        } else if indexPath.row == 2 {
-            cell.setIngredientsCell(ingredients: ingredientsArray)
+            return cell
+        } else {
+            customCell.setIngredientsCell(ingredients: ingredientsArray)
+            return customCell
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

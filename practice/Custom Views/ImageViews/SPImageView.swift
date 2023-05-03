@@ -35,9 +35,9 @@ class SPImageView: UIImageView {
             guard let self = self else { return }
             DispatchQueue.main.async { self.image = image
                 if isFromCache {
-                    print("Image loaded from cache")
+                    //print("Image loaded from cache")
                 } else {
-                    print("Image downloaded from URL")
+                    //print("Image downloaded from URL")
                 }
             }
         }

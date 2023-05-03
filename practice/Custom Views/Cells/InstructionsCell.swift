@@ -128,6 +128,8 @@ class InstructionsCell: UITableViewCell {
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
         
         NSLayoutConstraint.activate([
             ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

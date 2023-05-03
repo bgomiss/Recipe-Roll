@@ -32,13 +32,13 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         configureTableView()
         configureViewController()
         updateUI()
-        }
+    }
     
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         vc.dismiss(animated: true)
-        }
+    }
     
     
     func extractIngredients(from analyzedInstructions: [AnalyzedInstruction]) {
@@ -60,13 +60,13 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         //recipeImage.contentMode = .scaleAspectFill
         
         NSLayoutConstraint.activate([
-                recipeImage.topAnchor.constraint(equalTo: view.topAnchor),
-                recipeImage.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 440),
-                recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
+            recipeImage.topAnchor.constraint(equalTo: view.topAnchor),
+            recipeImage.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 440),
+            recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
-
+    
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
@@ -89,6 +89,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
     func updateUI() {
         guard let category = category else {return}
+        
         NetworkManager.shared.getCategoriesInfo(for: category) { [weak self] result in
             guard let self = self else {return}
             
