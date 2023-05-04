@@ -17,6 +17,11 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     let recipeImage    = SPImageView(frame: .zero)
     var uniqueIngredientNames = Set<String>()
     
+    struct SimplifiedStep {
+        let number: Int
+        let step: String
+    }
+
     
     init(category: String? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -45,6 +50,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     func extractIngredients(from analyzedInstructions: [AnalyzedInstruction]) {
         for instruction in analyzedInstructions {
             for step in instruction.steps {
+                let steps = SimplifiedStep(number: step.number, step: step.step)
                 for ingredient in step.ingredients {
                     let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
                     let newIngredient = Ent(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL, temperature: ingredient.temperature)
@@ -133,10 +139,10 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
         
         // The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
         let ingredientsForSelectedRecipe = ingredientsResults.filter { ingredient in
-            return selectedRecipe.analyzedInstructions.contains { analyzedInstruction in
-                return analyzedInstruction.steps.contains { step in
-                    return step.ingredients.contains { ent in
-                        if ent.id == ingredient.id {
+            let allSteps = selectedRecipe.analyzedInstructions.flatMap { $0.steps }
+            return allSteps.contains { step in
+                step.ingredients.contains { ent in
+                    if ent.id == ingredient.id {
                             // Check if the ingredient name is unique
                             if !uniqueIngredientNames.contains(ent.name) {
                                 uniqueIngredientNames.insert(ent.name)
@@ -147,7 +153,7 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
                     }
                 }
             }
-        }
+        
         
         let destVC = InstructionsVC(recipe: selectedRecipe, ingredients: ingredientsForSelectedRecipe)
         vc = destVC
