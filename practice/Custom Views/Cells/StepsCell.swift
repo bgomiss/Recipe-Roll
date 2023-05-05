@@ -22,7 +22,7 @@ class StepsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setInstructionsCell(steps: [Step], categoryTitle: String? = nil) {
+    func setInstructionsCell(steps: [SimplifiedStep], categoryTitle: String? = nil) {
         let stackView = UIStackView()
         addSubviews(stepsLabel, stackView)
         stepsLabel.text = "STEPS"

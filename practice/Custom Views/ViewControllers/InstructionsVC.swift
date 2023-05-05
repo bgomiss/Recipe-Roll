@@ -14,14 +14,15 @@ class InstructionsVC: UIViewController {
     let tableView = UITableView()
     var instructions: [Recipe] = []
     var ingredientsArray: [Ent] = []
-    var stepsArray: [Step] = []
+    var stepsArray: [SimplifiedStep] = []
 //    let recipeImage    = SPImageView(frame: .zero)
     
     
-    init(recipe: Recipe, ingredients: [Ent]) {
+    init(recipe: Recipe, ingredients: [Ent], steps: [SimplifiedStep]) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
         self.ingredients = ingredients
+        self.stepsArray = steps
     }
     
     required init?(coder: NSCoder) {
@@ -55,7 +56,7 @@ class InstructionsVC: UIViewController {
         
         tableView.register(InstructionsCell.self, forCellReuseIdentifier: InstructionsCell.reuseID)
         tableView.register(IngredientsCell.self, forCellReuseIdentifier: IngredientsCell.reuseID)
-        tableView.register(IngredientsCell.self, forCellReuseIdentifier: StepsCell.reuseID)
+        tableView.register(StepsCell.self, forCellReuseIdentifier: StepsCell.reuseID)
     }
     
     
