@@ -51,6 +51,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         for instruction in analyzedInstructions {
             for step in instruction.steps {
                 let steps = SimplifiedStep(number: step.number, step: step.step)
+                print(steps)
                 for ingredient in step.ingredients {
                     let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
                     let newIngredient = Ent(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL, temperature: ingredient.temperature)

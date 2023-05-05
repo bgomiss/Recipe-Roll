@@ -58,6 +58,7 @@
 		1C6F615629F7F3B6004BA86F /* RecipeResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */; };
 		1C70FD4D29D1CE5F0025120B /* RecommendationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C70FD4C29D1CE5F0025120B /* RecommendationCollectionViewCell.swift */; };
 		1C7474DB2A0278E20003AE75 /* IngredientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */; };
+		1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7918A72A04FF67009951EA /* StepsCell.swift */; };
 		1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7FF06629C6D01C0063B280 /* UIHelper.swift */; };
 		1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8A29C0597700CA7471 /* SPTextField.swift */; };
 		1C982B8F29C06B3D00CA7471 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8E29C06B3D00CA7471 /* Recipe.swift */; };
@@ -118,6 +119,7 @@
 		1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeResultsVC.swift; sourceTree = "<group>"; };
 		1C70FD4C29D1CE5F0025120B /* RecommendationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsCell.swift; sourceTree = "<group>"; };
+		1C7918A72A04FF67009951EA /* StepsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsCell.swift; sourceTree = "<group>"; };
 		1C7FF06629C6D01C0063B280 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		1C982B8A29C0597700CA7471 /* SPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTextField.swift; sourceTree = "<group>"; };
 		1C982B8E29C06B3D00CA7471 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				1C6F615329F7B53A004BA86F /* RecipesTVCell.swift */,
 				1C5351E529F9264300EF1F35 /* InstructionsCell.swift */,
 				1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */,
+				1C7918A72A04FF67009951EA /* StepsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */,
 				1C6F217629EFC9F900586291 /* Constants.swift in Sources */,
 				1C4BF8FD29D72AED009286D4 /* MadeItCollectionViewCell.swift in Sources */,
+				1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */,
 				1C70FD4D29D1CE5F0025120B /* RecommendationCollectionViewCell.swift in Sources */,
 				1C2EE92329C1C07700B3D24A /* SPBodyLabel.swift in Sources */,
 				1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */,
