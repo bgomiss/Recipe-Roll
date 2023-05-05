@@ -14,6 +14,7 @@ class InstructionsVC: UIViewController {
     let tableView = UITableView()
     var instructions: [Recipe] = []
     var ingredientsArray: [Ent] = []
+    var stepsArray: [Step] = []
 //    let recipeImage    = SPImageView(frame: .zero)
     
     
@@ -54,6 +55,7 @@ class InstructionsVC: UIViewController {
         
         tableView.register(InstructionsCell.self, forCellReuseIdentifier: InstructionsCell.reuseID)
         tableView.register(IngredientsCell.self, forCellReuseIdentifier: IngredientsCell.reuseID)
+        tableView.register(IngredientsCell.self, forCellReuseIdentifier: StepsCell.reuseID)
     }
     
     
@@ -70,12 +72,13 @@ class InstructionsVC: UIViewController {
 
 extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-        let customCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
+        let ingredientsCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
+        let stepsCell = tableView.dequeueReusableCell(withIdentifier: StepsCell.reuseID) as! StepsCell
         
         if indexPath.row == 0 {
             let recipe = instructions[0]
@@ -85,9 +88,12 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
             let description = instructions[0]
             cell.setDescriptionCell(recipe: description)
             return cell
+        } else if indexPath.row == 2 {
+            ingredientsCell.setIngredientsCell(ingredients: ingredientsArray)
+            return ingredientsCell
         } else {
-            customCell.setIngredientsCell(ingredients: ingredientsArray)
-            return customCell
+            stepsCell.setInstructionsCell(steps: stepsArray)
+            return stepsCell
         }
     }
     
@@ -96,6 +102,8 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
             return 100 // Height for InstructionsCell
         } else if indexPath.row == 1 {
             return UITableView.automaticDimension // Default height for other cases
+        } else if indexPath.row == 2 {
+            return UITableView.automaticDimension
         } else {
             return UITableView.automaticDimension
         }
