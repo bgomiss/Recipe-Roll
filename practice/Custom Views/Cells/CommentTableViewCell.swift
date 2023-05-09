@@ -10,7 +10,8 @@ import UIKit
 class CommentTableViewCell: UITableViewCell {
 
     let userImageView = SPImageView(cornerRadius: 20)
-    let commentTextField = SPTextField(placeholder: "Add a comment")
+    let commentLabel = SPBodyLabel(frame: .zero)
+    static let reuseID = "CommentCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,7 +23,7 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(userImageView, commentTextField)
+        addSubviews(userImageView, commentLabel)
         
         NSLayoutConstraint.activate([
             userImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -30,10 +31,10 @@ class CommentTableViewCell: UITableViewCell {
             userImageView.widthAnchor.constraint(equalToConstant: 40),
             userImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            commentTextField.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8),
-            commentTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            commentTextField.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            commentTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            commentLabel.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8),
+            commentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            commentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            commentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
     
