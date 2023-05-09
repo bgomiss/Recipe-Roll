@@ -28,7 +28,7 @@ class StepsCell: UITableViewCell {
         stepsLabel.text = "STEPS"
         
         stackView.axis = .vertical
-        stackView.spacing = 13
+        stackView.spacing = 10
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,13 +59,17 @@ class StepsCell: UITableViewCell {
             
             let stepsStackView = UIStackView(arrangedSubviews: [stepNumber, steps])
             stepsStackView.axis = .horizontal
-            stepsStackView.spacing = 45
-            stepsStackView.alignment = .center
+            stepsStackView.alignment = .leading
             stepsStackView.distribution = .equalSpacing
             stepsStackView.layer.cornerRadius = 10
             stepsStackView.backgroundColor = .systemMint.withAlphaComponent(0.5)
             
             stackView.addArrangedSubview(stepsStackView)
+            
+            stepNumber.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            stepNumber.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            stepNumber.trailingAnchor.constraint(equalTo: steps.leadingAnchor, constant: -10).isActive = true
+            steps.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
         }
     }
 }
