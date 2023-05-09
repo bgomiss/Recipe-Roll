@@ -59,13 +59,15 @@ class IngredientsCell: UITableViewCell {
             
             let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
             ingredientStackView.axis = .horizontal
-            ingredientStackView.spacing = 45
+            ingredientStackView.spacing = 10
             ingredientStackView.alignment = .center
-            ingredientStackView.distribution = .equalSpacing
+            ingredientStackView.distribution = .fill
             ingredientStackView.layer.cornerRadius = 10
             ingredientStackView.backgroundColor = .systemMint.withAlphaComponent(0.5)
             
             stackView.addArrangedSubview(ingredientStackView)
+            
+            ingredientsAndEquipments.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
         }
     }
 }
