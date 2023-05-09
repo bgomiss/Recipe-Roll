@@ -15,6 +15,7 @@ class InstructionsVC: UIViewController {
     var instructions: [Recipe] = []
     var ingredientsArray: [Ent] = []
     var stepsArray: [SimplifiedStep] = []
+    var comments: [Comment] = []
 //    let recipeImage    = SPImageView(frame: .zero)
     
     
