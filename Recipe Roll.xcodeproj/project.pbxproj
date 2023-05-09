@@ -66,6 +66,7 @@
 		1C982B9329C0702E00CA7471 /* SPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9229C0702E00CA7471 /* SPError.swift */; };
 		1C982B9729C09DEE00CA7471 /* SPTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */; };
 		1C982B9A29C0A64700CA7471 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9929C0A64700CA7471 /* UIView+Ext.swift */; };
+		1CC9814E2A0A1DFD0048919B /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC9814D2A0A1DFD0048919B /* CommentTableViewCell.swift */; };
 		1CD522C929E354E700430F97 /* StackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD522C829E354E700430F97 /* StackView+Ext.swift */; };
 		1CF8D4E829DEF6BF002DD589 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4E729DEF6BF002DD589 /* WelcomeVC.swift */; };
 		1CF8D4EA29DEF6D6002DD589 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4E929DEF6D6002DD589 /* SignUpVC.swift */; };
@@ -127,6 +128,7 @@
 		1C982B9229C0702E00CA7471 /* SPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPError.swift; sourceTree = "<group>"; };
 		1C982B9629C09DEE00CA7471 /* SPTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTitleLabel.swift; sourceTree = "<group>"; };
 		1C982B9929C0A64700CA7471 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		1CC9814D2A0A1DFD0048919B /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		1CD522C829E354E700430F97 /* StackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView+Ext.swift"; sourceTree = "<group>"; };
 		1CF8D4E729DEF6BF002DD589 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		1CF8D4E929DEF6D6002DD589 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				1C5351E529F9264300EF1F35 /* InstructionsCell.swift */,
 				1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */,
 				1C7918A72A04FF67009951EA /* StepsCell.swift */,
+				1CC9814D2A0A1DFD0048919B /* CommentTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				1C6F615629F7F3B6004BA86F /* RecipeResultsVC.swift in Sources */,
 				1C982B9729C09DEE00CA7471 /* SPTitleLabel.swift in Sources */,
 				1C46121A29BF798400B3C891 /* RecipesVC.swift in Sources */,
+				1CC9814E2A0A1DFD0048919B /* CommentTableViewCell.swift in Sources */,
 				1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */,
 				1C2E8EE029C1E93200DB0822 /* SPImageView.swift in Sources */,
 				1C5EA47829D3800800FDCEE0 /* CategoriesHeaderView.swift in Sources */,
