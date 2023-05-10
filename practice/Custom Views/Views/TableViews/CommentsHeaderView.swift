@@ -42,7 +42,7 @@ class CommentsHeaderView: UITableViewHeaderFooterView {
            commentTextfield.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 8),
            commentTextfield.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
            commentTextfield.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-           commentTextfield.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+           commentTextfield.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -3)
         ])
     }
 
