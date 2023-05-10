@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 
 protocol WelcomeVCDelegate: AnyObject {
-    func didTapContinueButton()
+    func didTapContinueButton(emailIsRegistered: Bool)
 }
 
 class WelcomeVC: UIViewController {
@@ -62,6 +62,8 @@ class WelcomeVC: UIViewController {
             } else {
                 print("Email is not registered")
             }
+            
+            self.delegate?.didTapContinueButton(emailIsRegistered: isRegistered)
         }
     }
     

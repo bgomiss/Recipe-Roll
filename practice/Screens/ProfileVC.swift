@@ -28,8 +28,8 @@ class ProfileVC: UIViewController {
     
    
     func configureUIElements() {
-        signUpVC.view.isHidden = false
-        welcomeVC.view.isHidden = true
+        signUpVC.view.isHidden = true
+        welcomeVC.view.isHidden = false
         signinVC.view.isHidden = true
         welcomeVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
@@ -47,15 +47,19 @@ class ProfileVC: UIViewController {
  }
 
 extension ProfileVC: WelcomeVCDelegate {
-    func didTapContinueButton() {
+    func didTapContinueButton(emailIsRegistered: Bool) {
         for child in children {
             if let welcomeVC = child as? WelcomeVC {
                 welcomeVC.view.isHidden = true
             } else if let signUpVC = child as? SignUpVC {
-                signUpVC.view.isHidden = false
+                if !emailIsRegistered {
+                    signUpVC.view.isHidden = false
+                }
+            } else if let signInVC = child as? SignInVC {
+                if emailIsRegistered {
+                    signInVC.view.isHidden = false
+                }
             }
         }
     }
-    
-    
 }
