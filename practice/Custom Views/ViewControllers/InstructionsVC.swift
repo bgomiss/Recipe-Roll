@@ -121,36 +121,8 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
            default:
                fatalError("Invalid section")
            }
-//        let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-//        let ingredientsCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
-//        let stepsCell = tableView.dequeueReusableCell(withIdentifier: StepsCell.reuseID) as! StepsCell
-//
-//        if indexPath.row == 0 {
-//            let recipe = instructions[0]
-//            cell.setFeaturesCell(recipe: recipe)
-//            return cell
-//        } else if indexPath.row == 1 {
-//            let description = instructions[0]
-//            cell.setDescriptionCell(recipe: description)
-//            return cell
-//        } else if indexPath.row == 2 {
-//            ingredientsCell.setIngredientsCell(ingredients: ingredientsArray)
-//            return ingredientsCell
-//        } else {
-//            stepsCell.setInstructionsCell(steps: stepsArray)
-//            return stepsCell
-//        }
-//
-//
-//        if indexPath.section == 1 {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
-//            let comment = comments[indexPath.row]
-//            cell.userImageView.image = UIImage(named: "appicon")
-//            cell.commentLabel.text = "cok guzel dodo" //"\(comment.userName): \(comment.commentText)"
-//            return cell
-//        }
-
     }
+    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 1 {

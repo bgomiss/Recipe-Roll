@@ -9,9 +9,10 @@ import UIKit
 
 class CommentsHeaderView: UITableViewHeaderFooterView {
 
-    let userImageView = SPImageView(cornerRadius: 20)
+    let userImageView    = SPImageView(cornerRadius: 20)
+    let sendIcon         = SPImageView(frame: .zero)
     let commentTextfield = SPTextField(placeholder: "Add a comment")
-    static let reuseID = "CommentsHeaderView"
+    static let reuseID   = "CommentsHeaderView"
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -23,7 +24,14 @@ class CommentsHeaderView: UITableViewHeaderFooterView {
     }
     
     private func setupLayout() {
-        addSubviews(userImageView, commentTextfield)
+        addSubviews(userImageView, commentTextfield, sendIcon)
+        
+        sendIcon.image = UIImage(systemName: "paperplane.fill")
+        sendIcon.contentMode = .scaleAspectFit
+        sendIcon.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        
+        commentTextfield.rightView = sendIcon
+        commentTextfield.rightViewMode = .always
         
         NSLayoutConstraint.activate([
             userImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),

@@ -10,7 +10,7 @@ import UIKit
 class StepsCell: UITableViewCell {
 
     static let reuseID = "StepsCell"
-    let stepsLabel = SPTitleLabel(textAlignment: .left, fontSize: 20)
+    let stepsLabel     = SPTitleLabel(textAlignment: .left, fontSize: 20)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
