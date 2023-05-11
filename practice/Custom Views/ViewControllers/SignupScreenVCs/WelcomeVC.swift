@@ -24,6 +24,7 @@ class WelcomeVC: UIViewController {
     let stackView           = UIStackView()
     
     weak var delegate: WelcomeVCDelegate?
+    weak var coordinator: WelcomeCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()

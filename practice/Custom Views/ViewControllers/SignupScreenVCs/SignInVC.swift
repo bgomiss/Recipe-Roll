@@ -18,6 +18,8 @@ class SignInVC: UIViewController {
     let signinButton        = SPButton(backgroundColor: .systemMint, title: "Sign in")
     let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     let stackView           = UIStackView()
+    
+    weak var coordinator: WelcomeCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()

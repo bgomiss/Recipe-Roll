@@ -17,6 +17,8 @@ class SignUpVC: UIViewController {
     let passwordField       = SPTextField(placeholder: "Password")
     let signupButton        = SPButton(backgroundColor: .systemMint, title: "Sign up")
     let stackView           = UIStackView()
+    
+    weak var coordinator: WelcomeCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
