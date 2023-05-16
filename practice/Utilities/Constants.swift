@@ -17,7 +17,7 @@ enum Tags {
 
 
 enum Api {
-    static let apiKey = "&rapidapi-key=76d66bbeebmsheefcdd9555def70p17b61djsn4d50d52f9d2f"
+    static let apiKey = "&apiKey=99d4d97012c44408bdf8e4e4df9e8d17"
 }
 
 enum SFSymbols {

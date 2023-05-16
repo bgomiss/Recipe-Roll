@@ -11,6 +11,7 @@ import UIKit
 class HomeVC: UIViewController {
     
     let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
+    let userImage                       = SPImageView(cornerRadius: 40)
     let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
@@ -39,7 +40,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubviews(queryTextField, titleLabel, collectionView)
+        
         configureCompositionalLayout()
         layoutUI()
         fetchRecipeData()
@@ -65,7 +66,7 @@ class HomeVC: UIViewController {
             case .success(let categories):
                 self.updateUI(with: categories, atIndex: index)
             case .failure(let error):
-                return
+                break
             }
             group.leave()
         }
@@ -126,7 +127,8 @@ class HomeVC: UIViewController {
     
     
     func layoutUI() {
-        queryTextField.delegate     = self
+        view.addSubviews(queryTextField, titleLabel, userImage, collectionView)
+        queryTextField.delegate = self
         
         NSLayoutConstraint.activate([
             queryTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
@@ -137,7 +139,12 @@ class HomeVC: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -150),
-            titleLabel.heightAnchor.constraint(equalToConstant: 48)
+            titleLabel.heightAnchor.constraint(equalToConstant: 48),
+            
+            userImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            userImage.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+            userImage.heightAnchor.constraint(equalToConstant: 60),
+            userImage.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
 }
