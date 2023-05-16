@@ -17,13 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let navController = UINavigationController()
-        appCoordinator = AppCoordinator(navigationController: navController)
-        appCoordinator?.start()
+//        let navController = UINavigationController()
+//        appCoordinator = AppCoordinator(navigationController: navController)
+//        appCoordinator?.start()
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = navController
+        window?.rootViewController = SPTabBarController()
         window?.makeKeyAndVisible()
     }
 

@@ -94,8 +94,5 @@ class SPAlertVC: UIViewController {
     }
     
     
-    @objc func dismissVC(in viewController: UIViewController) {
-        dismiss(animated: true)
-        viewController.tabBarController?.selectedIndex = (viewController.tabBarController?.viewControllers?.count ?? 1) - 1
-    }
+    @objc func dismissVC() { dismiss(animated: true) }
 }

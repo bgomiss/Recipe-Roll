@@ -16,15 +16,21 @@ class ProfileVC: UIViewController {
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
     
+    var coordinator: Coordinator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        
-        
+     }
+    
+    
+    func showAuthenticationFlow() {
+        (coordinator as? AppCoordinator)?.startAuthenticationFlow(from: self)
     }
+
     
    
     func configureUIElements() {

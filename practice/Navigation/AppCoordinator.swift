@@ -18,7 +18,7 @@ class AppCoordinator: Coordinator {
     
     func start() {
         let mainTabBarController = SPTabBarController()
-        navigationController.pushViewController(mainTabBarController, animated: false)
+        navigationController.viewControllers = [mainTabBarController]
     }
     
     func childDidFinish(_ child: Coordinator) {

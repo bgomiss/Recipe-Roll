@@ -65,7 +65,12 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
     
     func setBackgroundImage() {
+        let bookmarkIcon = UIImageView()
+        bookmarkIcon.image = UIImage(systemName: "bookmark.fill")
+        bookmarkIcon.image?.withTintColor(.systemCyan)
+        bookmarkIcon.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(recipeImage)
+        recipeImage.addSubview(bookmarkIcon)
         //view.sendSubviewToBack(recipeImage)
         //recipeImage.contentMode = .scaleAspectFill
         
@@ -73,7 +78,12 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
             recipeImage.topAnchor.constraint(equalTo: view.topAnchor),
             recipeImage.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 440),
             recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            bookmarkIcon.topAnchor.constraint(equalTo: recipeImage.topAnchor, constant: 50),
+            bookmarkIcon.trailingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: -40),
+            bookmarkIcon.heightAnchor.constraint(equalToConstant: 40),
+            bookmarkIcon.widthAnchor.constraint(equalToConstant: 40)
         ])
     }
     
