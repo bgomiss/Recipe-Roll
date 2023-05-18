@@ -17,20 +17,18 @@ struct SimplifiedStep {
 class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
     var vc = UIViewController()
-    var category: String?
+    static var category: String?
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
     var ingredientsResults: [Ent] = []
     let recipeImage    = SPImageView(frame: .zero)
-    let bookmarkIcon = UIImageView()
     var uniqueIngredientNames = Set<String>()
     var stepsResults: [SimplifiedStep] = []
-    let db = Firestore.firestore()
-    var displayedRecipe: Recipe?
+    static var displayedRecipe: Recipe?
     
     init(category: String? = nil) {
         super.init(nibName: nil, bundle: nil)
-        self.category = category
+        RecipeResultsVC.category = category
     }
     
     required init?(coder: NSCoder) {
@@ -43,7 +41,6 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         configureTableView()
         configureViewController()
         updateUI()
-        saveRecipeToBookmarks()
     }
     
     
@@ -69,51 +66,51 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     }
     
     
-    func saveRecipeToBookmarks() {
-        
-        let tap = UIGestureRecognizer(target: self, action: #selector(bookmarkTapped))
-        bookmarkIcon.addGestureRecognizer(tap)
-        bookmarkIcon.isUserInteractionEnabled = true
-    }
+//    func saveRecipeToBookmarks() {
+//
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(bookmarkTapped))
+//        bookmarkIcon.addGestureRecognizer(tap)
+//        bookmarkIcon.isUserInteractionEnabled = true
+//    }
     
-    @objc func bookmarkTapped() {
-        print("bookmark tapped")
-        
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
-            alertVC.completionHandler = {
-                let destVC = WelcomeVC()
-                self.present(destVC, animated: true)
-            }
-            present(alertVC, animated: true, completion: nil)
-        } else {
-            guard let displayedRecipe = self.displayedRecipe else {return}
-            
-            let bookmark = ["id": displayedRecipe.id,
-                            "title": displayedRecipe.title,
-                            "image": displayedRecipe.image] as [String : Any]
-            
-            var ref: DocumentReference? = nil
-            guard let category = self.category else {return}
-            
-            ref = db.collection("bookmarks/\(category)").addDocument(data: bookmark) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    print("Document added with ID: \(ref!.documentID)")
-                }
-            }
-        }
-    }
+//    @objc func bookmarkTapped() {
+//        print("bookmark tapped")
+//        
+//        if Auth.auth().currentUser == nil {
+//            // No user is signed in.
+//            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
+//            alertVC.completionHandler = {
+//                let destVC = WelcomeVC()
+//                self.present(destVC, animated: true)
+//            }
+//            present(alertVC, animated: true, completion: nil)
+//        } else {
+//            guard let displayedRecipe = self.displayedRecipe else {return}
+//            
+//            let bookmark = ["id": displayedRecipe.id,
+//                            "title": displayedRecipe.title,
+//                            "image": displayedRecipe.image] as [String : Any]
+//            
+//            var ref: DocumentReference? = nil
+//            guard let category = self.category else {return}
+//            
+//            ref = db.collection("bookmarks/\(category)").addDocument(data: bookmark) { err in
+//                if let err = err {
+//                    print("Error adding document: \(err)")
+//                } else {
+//                    print("Document added with ID: \(ref!.documentID)")
+//                }
+//            }
+//        }
+//    }
     
     
     func setBackgroundImage() {
-        bookmarkIcon.image = UIImage(systemName: "bookmark.fill")
-        bookmarkIcon.image?.withTintColor(.systemCyan)
-        bookmarkIcon.translatesAutoresizingMaskIntoConstraints = false
+//        bookmarkIcon.image = UIImage(systemName: "bookmark.fill")
+//        bookmarkIcon.image?.withTintColor(.systemCyan)
+//        bookmarkIcon.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(recipeImage)
-        recipeImage.addSubview(bookmarkIcon)
+//        recipeImage.addSubview(bookmarkIcon)
 
         
         NSLayoutConstraint.activate([
@@ -122,10 +119,10 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
             recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            bookmarkIcon.topAnchor.constraint(equalTo: recipeImage.topAnchor, constant: 50),
-            bookmarkIcon.trailingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: -40),
-            bookmarkIcon.heightAnchor.constraint(equalToConstant: 40),
-            bookmarkIcon.widthAnchor.constraint(equalToConstant: 40)
+//            bookmarkIcon.topAnchor.constraint(equalTo: recipeImage.topAnchor, constant: 50),
+//            bookmarkIcon.trailingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: -40),
+//            bookmarkIcon.heightAnchor.constraint(equalToConstant: 44),
+//            bookmarkIcon.widthAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -139,7 +136,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     func configureTableView() {
         view.addSubview(tableView)
         
-        self.navigationItem.title = category
+        self.navigationItem.title = RecipeResultsVC.category
         tableView.frame = view.bounds
         tableView.rowHeight = 100
         tableView.dataSource = self
@@ -150,7 +147,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     
     
     func updateUI() {
-        guard let category = category else {return}
+        guard let category = RecipeResultsVC.category else {return}
         
         NetworkManager.shared.getCategoriesInfo(for: category) { [weak self] result in
             guard let self = self else {return}
@@ -187,7 +184,7 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          let selectedRecipe = recipeResults[indexPath.row]
-         displayedRecipe = recipeResults[indexPath.row]
+        RecipeResultsVC.displayedRecipe = recipeResults[indexPath.row]
         
         // Download and set the full-screen background image
         recipeImage.downloadImage(fromURL: selectedRecipe.image)
