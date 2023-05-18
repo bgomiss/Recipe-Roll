@@ -96,7 +96,7 @@ class InstructionsVC: UIViewController {
             guard let category = RecipeResultsVC.category else {return}
             
             let userID = Auth.auth().currentUser!.uid // get user ID
-            
+ //
 //            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
 //            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
             let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
