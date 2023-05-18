@@ -40,7 +40,7 @@ class InstructionsVC: UIViewController {
         configureViewController()
         updateUI()
         setupBookmarkButton()
-        
+        recentlyViewed()
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -89,16 +89,56 @@ class InstructionsVC: UIViewController {
             
             let bookmark = ["id": displayedRecipe.id,
                             "title": displayedRecipe.title,
-                            "image": displayedRecipe.image] as [String : Any]
+                            "image": displayedRecipe.image,
+                            "viewedTimeStamp": FieldValue.serverTimestamp()] as [String : Any]
             
             
             guard let category = RecipeResultsVC.category else {return}
             
             let userID = Auth.auth().currentUser!.uid // get user ID
             
-            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
-                if let err = err {
+//            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
+//            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
+                    
+                    docRef.setData(bookmark) { err in
+            if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added successfully")
+                }
+            }
+        }
+    }
+    
+    func recentlyViewed() {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
+            alertVC.completionHandler = {
+                let destVC = WelcomeVC()
+                self.present(destVC, animated: true)
+            }
+            present(alertVC, animated: true, completion: nil)
+        } else {
+            guard let displayedRecipe = RecipeResultsVC.displayedRecipe else {return}
+            
+            let bookmark = ["id": displayedRecipe.id,
+                            "title": displayedRecipe.title,
+                            "image": displayedRecipe.image,
+                            "viewedTimeStamp": FieldValue.serverTimestamp()] as [String : Any]
+            
+            
+            guard let category = RecipeResultsVC.category else {return}
+            
+            let userID = Auth.auth().currentUser!.uid // get user ID
+            
+//            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
+//            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
+                    
+                    docRef.setData(bookmark) { err in
+            if let err = err {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
