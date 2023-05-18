@@ -17,6 +17,7 @@ class SPAlertVC: UIViewController {
     var alertTitle: String?
     var message: String?
     var buttonTitle: String?
+    var completionHandler: (() -> Void)?
     
     let padding: CGFloat = 20
     
@@ -94,5 +95,8 @@ class SPAlertVC: UIViewController {
     }
     
     
-    @objc func dismissVC() { dismiss(animated: true) }
+    @objc func dismissVC() { dismiss(animated: true) { [weak self] in
+        self?.completionHandler?()
+        }
+    }
 }

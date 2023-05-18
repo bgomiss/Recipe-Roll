@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 struct SimplifiedStep {
     let number: Int
@@ -20,9 +22,11 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     var recipeResults: [Recipe] = []
     var ingredientsResults: [Ent] = []
     let recipeImage    = SPImageView(frame: .zero)
+    let bookmarkIcon = UIImageView()
     var uniqueIngredientNames = Set<String>()
     var stepsResults: [SimplifiedStep] = []
-
+    let db = Firestore.firestore()
+    var displayedRecipe: Recipe?
     
     init(category: String? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -39,6 +43,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         configureTableView()
         configureViewController()
         updateUI()
+        saveRecipeToBookmarks()
     }
     
     
@@ -64,15 +69,52 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     }
     
     
+    func saveRecipeToBookmarks() {
+        
+        let tap = UIGestureRecognizer(target: self, action: #selector(bookmarkTapped))
+        bookmarkIcon.addGestureRecognizer(tap)
+        bookmarkIcon.isUserInteractionEnabled = true
+    }
+    
+    @objc func bookmarkTapped() {
+        print("bookmark tapped")
+        
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
+            alertVC.completionHandler = {
+                let destVC = WelcomeVC()
+                self.present(destVC, animated: true)
+            }
+            present(alertVC, animated: true, completion: nil)
+        } else {
+            guard let displayedRecipe = self.displayedRecipe else {return}
+            
+            let bookmark = ["id": displayedRecipe.id,
+                            "title": displayedRecipe.title,
+                            "image": displayedRecipe.image] as [String : Any]
+            
+            var ref: DocumentReference? = nil
+            guard let category = self.category else {return}
+            
+            ref = db.collection("bookmarks/\(category)").addDocument(data: bookmark) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added with ID: \(ref!.documentID)")
+                }
+            }
+        }
+    }
+    
+    
     func setBackgroundImage() {
-        let bookmarkIcon = UIImageView()
         bookmarkIcon.image = UIImage(systemName: "bookmark.fill")
         bookmarkIcon.image?.withTintColor(.systemCyan)
         bookmarkIcon.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(recipeImage)
         recipeImage.addSubview(bookmarkIcon)
-        //view.sendSubviewToBack(recipeImage)
-        //recipeImage.contentMode = .scaleAspectFill
+
         
         NSLayoutConstraint.activate([
             recipeImage.topAnchor.constraint(equalTo: view.topAnchor),
@@ -144,7 +186,8 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRecipe = recipeResults[indexPath.row]
+         let selectedRecipe = recipeResults[indexPath.row]
+         displayedRecipe = recipeResults[indexPath.row]
         
         // Download and set the full-screen background image
         recipeImage.downloadImage(fromURL: selectedRecipe.image)

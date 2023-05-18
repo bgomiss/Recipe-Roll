@@ -74,7 +74,6 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 0:
             let selectedCategory = recipes[indexPath.row]
             let destVC = RecipeResultsVC(category: selectedCategory.tag)
-            
             navigationController?.pushViewController(destVC, animated: true)
             
         default:
