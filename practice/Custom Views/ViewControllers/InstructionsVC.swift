@@ -78,10 +78,11 @@ class InstructionsVC: UIViewController {
         
         if Auth.auth().currentUser == nil {
             // No user is signed in.
-            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
+            let alertVC = SPAlertVC(title: "Please Signin", message: "To save the recipes of your like to the related categories please signin or signup and get the most use of the app", buttonTitle: "Ok")
             alertVC.completionHandler = {
-                let destVC = WelcomeVC()
-                self.present(destVC, animated: true)
+//                let destVC = WelcomeVC()
+//                self.present(destVC, animated: true)
+                
             }
             present(alertVC, animated: true, completion: nil)
         } else {
@@ -96,30 +97,56 @@ class InstructionsVC: UIViewController {
             guard let category = RecipeResultsVC.category else {return}
             
             let userID = Auth.auth().currentUser!.uid // get user ID
- //
-//            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-//            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
-            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
-                    
-                    docRef.setData(bookmark) { err in
-            if let err = err {
+            
+            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
+            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+                //            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
+                //
+                //                    docRef.setData(bookmark) { err in
+                if let err = err {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
                 }
             }
+            
+            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
+            query.getDocuments { querySnapshot, err in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        if data.count >= 30 {
+                            // Get the id of the oldest recipe
+                            let oldestRecipeId = document.documentID
+                            
+                            // Delete the oldest recipe
+                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
+                                if let err = err {
+                                    print("Error removing document: \(err)")
+                                } else {
+                                    print("Document successfully removed!")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-    
+        
     func recentlyViewed() {
         if Auth.auth().currentUser == nil {
             // No user is signed in.
-            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
+            let alertVC = SPAlertVC(title: "Please Signin!", message: "To save the recipes of your like to the related categories please signin or signup and get the most use of the app", buttonTitle: "Ok")
             alertVC.completionHandler = {
-                let destVC = WelcomeVC()
-                self.present(destVC, animated: true)
+//                let destVC = WelcomeVC()
+//                self.present(destVC, animated: true)
+                
             }
             present(alertVC, animated: true, completion: nil)
+
         } else {
             guard let displayedRecipe = RecipeResultsVC.displayedRecipe else {return}
             
@@ -128,20 +155,41 @@ class InstructionsVC: UIViewController {
                             "image": displayedRecipe.image,
                             "viewedTimeStamp": FieldValue.serverTimestamp()] as [String : Any]
             
-            
-            guard let category = RecipeResultsVC.category else {return}
-            
             let userID = Auth.auth().currentUser!.uid // get user ID
             
-//            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-//            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
-            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
-                    
-                    docRef.setData(bookmark) { err in
-            if let err = err {
+            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
+            userBookmarksCollection.document("Recently Viewed").setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+                //            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
+                //
+                //                    docRef.setData(bookmark) { err in
+                if let err = err {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
+                }
+            }
+            
+            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
+            query.getDocuments { querySnapshot, err in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        if data.count >= 30 {
+                            // Get the id of the oldest recipe
+                            let oldestRecipeId = document.documentID
+                            
+                            // Delete the oldest recipe
+                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
+                                if let err = err {
+                                    print("Error removing document: \(err)")
+                                } else {
+                                    print("Document successfully removed!")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
