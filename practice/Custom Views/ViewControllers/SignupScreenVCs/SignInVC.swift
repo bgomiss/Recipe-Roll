@@ -32,7 +32,7 @@ class SignInVC: UIViewController {
     }
     
     
-    func updateWarningLabel(with email: String?) {
+    func updateEmailLabel(with email: String?) {
         if let email = email {
             emailLabel.text = "\(email)"
         } else {

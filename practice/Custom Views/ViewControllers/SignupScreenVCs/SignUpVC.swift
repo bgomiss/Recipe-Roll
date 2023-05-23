@@ -7,12 +7,14 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class SignUpVC: UIViewController {
 
     let containerView       = SPContainerView(frame: .zero)
     let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
     let warningLabel        = SPSecondaryTitleLabel(fontSize: 20)
+    let nameField           = SPTextField(placeholder: "Name")
     let eMailField          = SPTextField(placeholder: "Email")
     let passwordField       = SPTextField(placeholder: "Password")
     let signupButton        = SPButton(backgroundColor: .systemMint, title: "Sign up")
@@ -31,15 +33,34 @@ class SignUpVC: UIViewController {
     }
     
     
-    func registerNewUser(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
+    func registerNewUser(name: String, email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 completion(.failure(error))
-            } else if let authResult = authResult {
-                completion(.success(authResult))
+                return
+            }
+            
+            let userData: [String: Any] = [
+                "name": name,
+                "email": email,
+                "bookmarks": [
+                    "categories": [String : Any]()
+                ]
+            ]
+            
+            let db = Firestore.firestore()
+            db.collection("users").document(authResult!.user.uid).setData(userData) { error in
+                if let error = error {
+                    print("Error saving user data: \(error.localizedDescription)")
+
+                } else {
+                    print("User data saved successfully")
+                }
+            }
+                completion(.success(authResult!))
             }
         }
-    }
+    
     
     
     func updateWarningLabel(with email: String?) {
@@ -54,12 +75,13 @@ class SignUpVC: UIViewController {
     @objc func signupButtonTapped() {
         // Validate and get the email and password
         guard let email = eMailField.text, !email.isEmpty,
-              let password = passwordField.text, !password.isEmpty else {
-            print("Email or password is empty")
+              let password = passwordField.text, !password.isEmpty,
+              let name = nameField.text, !name.isEmpty else {
+            print("Name, Email or password is empty")
             return
         }
         // Call the registerNewUser function with the email and password
-        registerNewUser(email: email, password: password) { result in
+        registerNewUser(name: name, email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let authResult):
@@ -79,7 +101,7 @@ class SignUpVC: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         
-        stackView.addArrangedSubviews(warningLabel, eMailField, passwordField, signupButton)
+        stackView.addArrangedSubviews(warningLabel, nameField, eMailField, passwordField, signupButton)
     }
     
     
@@ -102,6 +124,10 @@ class SignUpVC: UIViewController {
             greetingLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             
             warningLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            
+            nameField.heightAnchor.constraint(equalToConstant: 50),
+            nameField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),
+            nameField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             
             eMailField.heightAnchor.constraint(equalToConstant: 50),
             eMailField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 20),

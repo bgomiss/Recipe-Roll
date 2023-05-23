@@ -98,8 +98,8 @@ class InstructionsVC: UIViewController {
             
             let userID = Auth.auth().currentUser!.uid // get user ID
             
-            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-            userBookmarksCollection.document(category).setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+            let userBookmarksCollection = db.collection("users").document(userID).collection("bookmarks").document("categories").collection(category)
+            userBookmarksCollection.document(String(displayedRecipe.title)).setData(bookmark, merge: true) { err in
                 //            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
                 //
                 //                    docRef.setData(bookmark) { err in
@@ -110,29 +110,29 @@ class InstructionsVC: UIViewController {
                 }
             }
             
-            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
-            query.getDocuments { querySnapshot, err in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        let data = document.data()
-                        if data.count >= 30 {
-                            // Get the id of the oldest recipe
-                            let oldestRecipeId = document.documentID
-                            
-                            // Delete the oldest recipe
-                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
-                                if let err = err {
-                                    print("Error removing document: \(err)")
-                                } else {
-                                    print("Document successfully removed!")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+//            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
+//            query.getDocuments { querySnapshot, err in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        let data = document.data()
+//                        if data.count >= 30 {
+//                            // Get the id of the oldest recipe
+//                            let oldestRecipeId = document.documentID
+//
+//                            // Delete the oldest recipe
+//                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
+//                                if let err = err {
+//                                    print("Error removing document: \(err)")
+//                                } else {
+//                                    print("Document successfully removed!")
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
         
@@ -157,8 +157,8 @@ class InstructionsVC: UIViewController {
             
             let userID = Auth.auth().currentUser!.uid // get user ID
             
-            let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-            userBookmarksCollection.document("Recently Viewed").setData([String(displayedRecipe.id) : bookmark], merge: true) { err in
+            let userBookmarksCollection = db.collection("users").document(userID).collection("bookmarks").document("categories").collection("Recently Viewed")
+            userBookmarksCollection.document(String(displayedRecipe.title)).setData(bookmark, merge: true) { err in
                 //            let docRef = db.collection("bookmarks").document(userID).collection("categories").document("recentlyViewed").collection("recipes").document(String(displayedRecipe.id))
                 //
                 //                    docRef.setData(bookmark) { err in
@@ -169,29 +169,29 @@ class InstructionsVC: UIViewController {
                 }
             }
             
-            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
-            query.getDocuments { querySnapshot, err in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        let data = document.data()
-                        if data.count >= 30 {
-                            // Get the id of the oldest recipe
-                            let oldestRecipeId = document.documentID
-                            
-                            // Delete the oldest recipe
-                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
-                                if let err = err {
-                                    print("Error removing document: \(err)")
-                                } else {
-                                    print("Document successfully removed!")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+//            let query = userBookmarksCollection.order(by: "viewedTimeStamp", descending: false).limit(to: 1)
+//            query.getDocuments { querySnapshot, err in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        let data = document.data()
+//                        if data.count >= 30 {
+//                            // Get the id of the oldest recipe
+//                            let oldestRecipeId = document.documentID
+//
+//                            // Delete the oldest recipe
+//                            userBookmarksCollection.document(oldestRecipeId).delete() { err in
+//                                if let err = err {
+//                                    print("Error removing document: \(err)")
+//                                } else {
+//                                    print("Document successfully removed!")
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
     
