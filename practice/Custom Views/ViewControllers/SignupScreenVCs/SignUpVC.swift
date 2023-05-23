@@ -43,9 +43,6 @@ class SignUpVC: UIViewController {
             let userData: [String: Any] = [
                 "name": name,
                 "email": email,
-                "bookmarks": [
-                    "categories": [String : Any]()
-                ]
             ]
             
             let db = Firestore.firestore()
