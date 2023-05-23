@@ -59,10 +59,14 @@ extension ProfileVC: WelcomeVCDelegate {
                 welcomeVC.view.isHidden = true
             } else if let signUpVC = child as? SignUpVC {
                 if !emailIsRegistered {
+                    signUpVC.email = welcomeVC.eMailField.text
+                    signUpVC.updateWarningLabel(with: signUpVC.email)
                     signUpVC.view.isHidden = false
                 }
             } else if let signInVC = child as? SignInVC {
                 if emailIsRegistered {
+                    signInVC.email = welcomeVC.eMailField.text
+                    signInVC.updateWarningLabel(with: signInVC.email)
                     signInVC.view.isHidden = false
                 }
             }

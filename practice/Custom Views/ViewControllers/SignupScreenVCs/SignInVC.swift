@@ -18,6 +18,7 @@ class SignInVC: UIViewController {
     let signinButton        = SPButton(backgroundColor: .systemMint, title: "Sign in")
     let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     let stackView           = UIStackView()
+    var email: String?
     
     weak var coordinator: WelcomeCoordinator?
 
@@ -28,6 +29,15 @@ class SignInVC: UIViewController {
         configureStackView()
         layoutUI()
         
+    }
+    
+    
+    func updateWarningLabel(with email: String?) {
+        if let email = email {
+            emailLabel.text = "\(email)"
+        } else {
+            emailLabel.text = ""
+        }
     }
     
     
@@ -50,7 +60,7 @@ class SignInVC: UIViewController {
         userImage.image = UIImage(systemName: "person.circle")
         usernameLabel.text = "Sevket-i Bostan"
         usernameLabel.textColor = .white
-        emailLabel.text = "sevketibostan@gmail.com"
+        //emailLabel.text = "\(email)"
         emailLabel.textColor = .white
         
         signinButton.setTitleColor(.white, for: .normal)

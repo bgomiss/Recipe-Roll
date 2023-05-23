@@ -17,8 +17,8 @@ class SignUpVC: UIViewController {
     let passwordField       = SPTextField(placeholder: "Password")
     let signupButton        = SPButton(backgroundColor: .systemMint, title: "Sign up")
     let stackView           = UIStackView()
+    var email: String?
     
-    weak var coordinator: WelcomeCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +40,16 @@ class SignUpVC: UIViewController {
             }
         }
     }
+    
+    
+    func updateWarningLabel(with email: String?) {
+            if let email = email {
+                warningLabel.text = "Looks like you don't have an account. Let's create a new account for \(email)"
+            } else {
+                warningLabel.text = "Looks like you don't have an account. Let's create a new account."
+            }
+        }
+    
     
     @objc func signupButtonTapped() {
         // Validate and get the email and password
@@ -79,9 +89,7 @@ class SignUpVC: UIViewController {
         greetingLabel.text = "Sign up"
         
         warningLabel.textColor = .white
-        warningLabel.text = "Looks like you don't have an account. Let's create a new account for abc@gmail.com"
-        
-    
+            
         signupButton.setTitleColor(.white, for: .normal)
         
         NSLayoutConstraint.activate([
