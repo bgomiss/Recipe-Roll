@@ -41,7 +41,7 @@ class BookmarksVC: UIViewController {
         super.viewDidLoad()
         view.addSubviews(queryTextField, collectionView)
         configureCompositionalLayout()
-        getCategories(query: "soup")
+        getCategories(query: "648004")
         createDismissKeyboardTapGesture()
         layoutUI()
         configure()
