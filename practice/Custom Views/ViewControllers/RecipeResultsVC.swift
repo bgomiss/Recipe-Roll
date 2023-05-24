@@ -149,7 +149,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     func updateUI() {
         guard let category = RecipeResultsVC.category else {return}
         
-        NetworkManager.shared.getCategoriesInfo(for: category) { [weak self] result in
+        NetworkManager.shared.getRecipesInfo(for: .searchCategory(category)) { [weak self] result in
             guard let self = self else {return}
             
             switch result {

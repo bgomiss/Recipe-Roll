@@ -9,20 +9,35 @@ import UIKit
 
 class NetworkManager {
     
+    enum Endpoint {
+       case searchCategory(String)
+       case bookmarks(String)
+        var url: String {
+                switch self {
+                case .searchCategory(let category):
+                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(category)&apiKey=\(Api.apiKey)"
+                case .bookmarks(let recipeID):
+                    return "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
+                }
+            }
+    }
+    
     static let shared = NetworkManager()
-    private let baseURL = "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type="
     let cache = NSCache<NSString, UIImage>()
+    
+    
     
     private init() {}
     
-    func getCategoriesInfo(for tags: String, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
-        let endpoint = baseURL + "\(tags)\(Api.apiKey)"
+    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
+       // let endpoint = baseURL + "\(tags)\(Api.apiKey)"
         
-        guard let url = URL(string: endpoint) else {
+        guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
             return
         }
-        
+        print("Request URL: \(url)")
+
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completed(.failure(.invalidResponse))
@@ -38,11 +53,18 @@ class NetworkManager {
                 completed(.failure(.invalidData))
                 return
             }
-            
+            print("Received data: \(String(data: data, encoding: .utf8) ?? "none")")
+
             do {
                 let decoder = JSONDecoder()
-                let recipes = try decoder.decode(RecipeResults.self, from: data)
-                completed(.success(recipes.results))
+                switch endpoint {
+                case .searchCategory(_):
+                    let recipes = try decoder.decode(RecipeResults.self, from: data)
+                    completed(.success(recipes.results))
+                case .bookmarks(_):
+                    let recipes = try decoder.decode(Recipe.self, from: data)
+                    completed(.success([recipes]))
+                }
             } catch {
                 completed(.failure(.invalidData))
             }

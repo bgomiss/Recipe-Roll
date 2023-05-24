@@ -41,7 +41,7 @@ class BookmarksVC: UIViewController {
         super.viewDidLoad()
         view.addSubviews(queryTextField, collectionView)
         configureCompositionalLayout()
-        getCategories(query: "sushi")
+        getCategories(query: "soup")
         createDismissKeyboardTapGesture()
         layoutUI()
         configure()
@@ -78,7 +78,7 @@ class BookmarksVC: UIViewController {
     
     
     func getCategories(query: String) {
-        NetworkManager.shared.getCategoriesInfo(for: query) { [weak self] category in
+        NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] category in
             
             guard let self = self else { return }
             

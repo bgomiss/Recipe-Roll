@@ -58,7 +58,7 @@ class HomeVC: UIViewController {
     
     
     func getCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
-        NetworkManager.shared.getCategoriesInfo(for: tag) { [weak self] category in
+        NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { [weak self] category in
             
             guard let self = self else { return }
             
