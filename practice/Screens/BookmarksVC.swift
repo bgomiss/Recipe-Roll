@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import Firebase
 
 class BookmarksVC: UIViewController {
     
+    
+    let uid = Auth.auth().currentUser?.uid
+    let db  = Firestore.firestore()
     let queryTextField                  = SPTextField(placeholder: "Search Saved recipes")
     var recipes: [Recipe]              = []
     
@@ -41,7 +45,7 @@ class BookmarksVC: UIViewController {
         super.viewDidLoad()
         view.addSubviews(queryTextField, collectionView)
         configureCompositionalLayout()
-        getCategories(query: "648004")
+        fetchBookmarkedRecipeIDs()
         createDismissKeyboardTapGesture()
         layoutUI()
         configure()
@@ -54,6 +58,27 @@ class BookmarksVC: UIViewController {
         super.viewWillAppear(animated)
         queryTextField.text = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+   
+    func fetchBookmarkedRecipeIDs() {
+        db.collection("bookmark").document(uid ?? "").getDocument { document, error in
+            print("uid is : \(self.uid ?? "not found")")
+            if let error = error {
+                print("Error fetching document: \(error)")
+                return
+            }
+            guard let document = document, document.exists,
+                  let data = document.data(),
+                  let IDs = data["id"] as? [String] else {
+                print("Document does not exist or ID not found")
+                return
+            }
+            for recipeID in IDs {
+                print("recipeID is: \(recipeID)")
+                self.getCategories(query: recipeID)
+            }
+        }
     }
     
     
