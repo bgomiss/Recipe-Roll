@@ -62,21 +62,36 @@ class BookmarksVC: UIViewController {
     
    
     func fetchBookmarkedRecipeIDs() {
-        db.collection("bookmark").document(uid ?? "").getDocument { document, error in
-            print("uid is : \(self.uid ?? "not found")")
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let userBookmarkCollection = db.collection("bookmarks").document(userID).collection("categories")
+        userBookmarkCollection.getDocuments { querySnapshot, error in
             if let error = error {
                 print("Error fetching document: \(error)")
                 return
+                print("uid is : \(userID)")
             }
-            guard let document = document, document.exists,
-                  let data = document.data(),
-                  let IDs = data["id"] as? [String] else {
-                print("Document does not exist or ID not found")
-                return
+            guard let categories = querySnapshot?.documents else { return }
+            
+            for category in categories {
+                let categoryID = category.documentID
+                
+                let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
+                
+                recipesCollection.getDocuments { querySnapshot, error in
+                    if let error = error {
+                        print("Error fetching recipes: \(error)")
+                        return
+                    }
+                }
             }
-            for recipeID in IDs {
-                print("recipeID is: \(recipeID)")
-                self.getCategories(query: recipeID)
+            guard let recipes = querySnapshot?.documents else { return }
+            
+            for recipe in recipes {
+                let recipeData = recipe.data()
+                if let recipeID = recipeData["id"] as? String {
+                    print("recipeID is: \(recipeID)")
+                    self.getCategories(query: recipeID)
+                }
             }
         }
     }

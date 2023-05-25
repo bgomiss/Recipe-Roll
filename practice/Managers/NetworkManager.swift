@@ -30,13 +30,11 @@ class NetworkManager {
     private init() {}
     
     func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
-       // let endpoint = baseURL + "\(tags)\(Api.apiKey)"
         
         guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
             return
         }
-        print("Request URL: \(url)")
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
@@ -53,7 +51,6 @@ class NetworkManager {
                 completed(.failure(.invalidData))
                 return
             }
-            print("Received data: \(String(data: data, encoding: .utf8) ?? "none")")
 
             do {
                 let decoder = JSONDecoder()
