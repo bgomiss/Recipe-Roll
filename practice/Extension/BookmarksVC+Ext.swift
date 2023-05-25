@@ -12,13 +12,13 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return recipes.count
+            return 3
             
         case 1:
-            return recipes.count
+            return 3
        
         default:
-            return recipes.count
+            return 3
         }
     }
     

@@ -68,7 +68,6 @@ class BookmarksVC: UIViewController {
             if let error = error {
                 print("Error fetching document: \(error)")
                 return
-                print("uid is : \(userID)")
             }
             guard let categories = querySnapshot?.documents else { return }
             
@@ -88,15 +87,19 @@ class BookmarksVC: UIViewController {
             
             for recipe in recipes {
                 let recipeData = recipe.data()
-                if let recipeID = recipeData["id"] as? String {
-                    print("recipeID is: \(recipeID)")
-                    self.getCategories(query: recipeID)
+                print("recipe data: \(recipeData)")
+                for (_, recipeDetail) in recipeData {
+                    if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
+                        print("recipeID is: \(recipeID)")
+                        self.getCategories(query: String(recipeID))
+                    }
+                        
+                    }
                 }
             }
         }
-    }
     
-    
+
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
