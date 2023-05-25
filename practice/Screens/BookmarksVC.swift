@@ -73,7 +73,6 @@ class BookmarksVC: UIViewController {
             
             for category in categories {
                 let categoryID = category.documentID
-                
                 let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
                 
                 recipesCollection.getDocuments { querySnapshot, error in

@@ -105,10 +105,6 @@ class InstructionsVC: UIViewController {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
-                    let bookmarksVC = BookmarksVC()
-                    DispatchQueue.main.async {
-                        bookmarksVC.collectionView.reloadData()
-                    }
                 }
             }
             
