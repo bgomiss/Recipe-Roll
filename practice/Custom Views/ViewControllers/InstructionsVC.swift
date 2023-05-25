@@ -99,12 +99,16 @@ class InstructionsVC: UIViewController {
             let userID = Auth.auth().currentUser!.uid // get user ID
             
             let userBookmarksCollection = db.collection("bookmarks").document(userID).collection("categories")
-                        userBookmarksCollection.document(category).setData([String(displayedRecipe.title) : bookmark], merge: true) { err in
-                            
+            userBookmarksCollection.document(category).setData([String(displayedRecipe.title) : bookmark], merge: true) { err in
+                
                 if let err = err {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
+                    let bookmarksVC = BookmarksVC()
+                    DispatchQueue.main.async {
+                        bookmarksVC.collectionView.reloadData()
+                    }
                 }
             }
             

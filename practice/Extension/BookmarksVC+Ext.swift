@@ -39,9 +39,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                 cell.overlayView.isHidden = true
             }
             
-            
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
@@ -57,8 +57,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             }
             
             
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
@@ -74,8 +75,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             }
             
             
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
@@ -91,8 +93,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             }
             
             
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
@@ -108,8 +111,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             }
             
             
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
@@ -117,8 +121,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
        
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
-            if recipes.isEmpty == false {
-                let category = recipes[indexPath.row]
+            let index = recipes.count - 3 + indexPath.row
+            if index >= 0 && index < recipes.count {
+                let category = recipes[index]
                 cell.set(category: category)
             }
             
