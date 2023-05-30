@@ -49,10 +49,17 @@ class SignInVC: UIViewController {
                 return
             }
             print("User Signed In Successfully")
-            if let navController = self.navigationController {
-                let destVC = HomeVC()
-                navController.setViewControllers([destVC], animated: true)
+            if let tabBarController = self.tabBarController {
+                tabBarController.selectedIndex = 0
+                if let navController = tabBarController.viewControllers?[0] as? UINavigationController {
+                    navController.popToRootViewController(animated: true)
+                }
             }
+
+//            if let navController = self.navigationController {
+//                let destVC = HomeVC()
+//                navController.setViewControllers([destVC], animated: true)
+//            }
         }
     }
     
