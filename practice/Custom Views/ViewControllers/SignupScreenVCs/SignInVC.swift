@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SignInVC: UIViewController {
 
@@ -28,7 +29,31 @@ class SignInVC: UIViewController {
         containerView.addSubviews(userImage, stackView, usernameLabel, emailLabel)
         configureStackView()
         layoutUI()
+        signinButton.addTarget(self, action: #selector(signinButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    @objc func signinButtonTapped() {
+        guard let email = email else {
+            print("Email is empty")
+            return
+        }
         
+        let password = passwordField.text ?? ""
+        print(password)
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+                return
+            }
+            print("User Signed In Successfully")
+            if let navController = self.navigationController {
+                let destVC = HomeVC()
+                navController.setViewControllers([destVC], animated: true)
+            }
+        }
     }
     
     
