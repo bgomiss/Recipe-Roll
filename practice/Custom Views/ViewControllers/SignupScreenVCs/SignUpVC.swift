@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 
 class SignUpVC: UIViewController {
 
@@ -30,6 +31,40 @@ class SignUpVC: UIViewController {
         layoutUI()
         
         signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    func uploadProfileImage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+            print("Could not get JPEG representation of UIImage")
+            return
+        }
+        
+        let storageRef = Storage.storage().reference()
+        let currentUserID = Auth.auth().currentUser?.uid
+        let profileImagesRef = storageRef.child("profile_images/\(currentUserID).jpg")
+        
+        let uploadTask = profileImagesRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            profileImagesRef.downloadURL { url, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let url = url else {
+                    print("Could not get download URL")
+                    return
+                }
+                
+                completion(.success(url.absoluteString))
+            }
+        }
+        uploadTask.resume()
     }
     
     
