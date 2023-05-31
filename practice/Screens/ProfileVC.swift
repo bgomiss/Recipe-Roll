@@ -9,21 +9,19 @@ import UIKit
 import Firebase
 import FirebaseStorage
 import FirebaseFirestore
+import PhotosUI
 
-class ProfileVC: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
     var profileImageView = SPImageView(cornerRadius: 50)
     var nameLabel = SPTitleLabel(textAlignment: .center, fontSize: 24)
     var emailLabel = SPSecondaryTitleLabel(fontSize: 18, color: .black)
     var uploadImageButton = SPButton(backgroundColor: .systemBlue, title: "Upload Image")
     
-    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
         
         setupConstraints()
         fetchProfileData()
@@ -33,26 +31,41 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate,UINavigationC
     
     
     @objc func uploadImageButtonTapped() {
-        self.present(imagePicker, animated: true, completion: nil)
+        // Use PHPickerViewController
+               var configuration = PHPickerConfiguration()
+               configuration.selectionLimit = 1
+               configuration.filter = .images
+               let picker = PHPickerViewController(configuration: configuration)
+               picker.delegate = self
+               present(picker, animated: true, completion: nil)
     }
     
     
-    // MARK: - UIImagePickerControllerDelegate Methods
+    // MARK: - PHPickerViewControllerDelegate Methods
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            self.profileImageView.image = pickedImage
-            
-            guard let imageData = pickedImage.jpegData(compressionQuality: 0.75) else { return }
-            uploadProfileImageToFirebaseStorage(imageData)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            dismiss(animated: true, completion: nil)
+
+            guard let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else {
+                return
+            }
+
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                DispatchQueue.main.async {
+                    guard let self = self, let image = image as? UIImage else {
+                        return
+                    }
+
+                    self.profileImageView.image = image
+                    
+                    guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+                        return
+                    }
+                    
+                    self.uploadProfileImageToFirebaseStorage(imageData)
+                }
+            }
         }
-        imagePicker.dismiss(animated: true)
-    }
-    
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        imagePicker.dismiss(animated: true)
-    }
     
     
     // MARK: - Firebase Upload Image

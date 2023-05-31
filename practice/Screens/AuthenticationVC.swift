@@ -38,6 +38,7 @@ class AuthenticationVC: UIViewController {
         welcomeVC.view.isHidden = false
         signinVC.view.isHidden = true
         welcomeVC.delegate = self
+        signUpVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
         add(childVC: signinVC, to: self.view)
@@ -70,6 +71,23 @@ extension AuthenticationVC: WelcomeVCDelegate {
                     signInVC.view.isHidden = false
                 }
             }
+        }
+    }
+}
+
+extension AuthenticationVC: SignUpVCDelegate {
+    func didCompleteSignUp() {
+        // Handle the completion of the signup here
+        // You can present the profile view controller for example
+        let profileVC = ProfileVC()
+        // Check if the AuthenticationVC is wrapped in a UINavigationController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(profileVC, animated: true)
+        } else {
+            // If it is not wrapped, you can wrap it here or consider other navigation methods
+            // such as presenting the profileVC modally
+            let navigationController = UINavigationController(rootViewController: profileVC)
+            present(navigationController, animated: true, completion: nil)
         }
     }
 }
