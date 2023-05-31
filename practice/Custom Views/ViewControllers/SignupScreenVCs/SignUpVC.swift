@@ -84,6 +84,8 @@ class SignUpVC: UIViewController {
                 case .success(let authResult):
                     print("User registered successfully: \(authResult.user.uid)")
                     // Navigate to the next screen or show a success message
+                    let profileVC = ProfileVC()
+                    self.navigationController?.pushViewController(profileVC, animated: true)
                 case .failure(let error):
                     print("Error registering user: \(error.localizedDescription)")
                     // Show an error message

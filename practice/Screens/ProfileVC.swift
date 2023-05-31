@@ -39,43 +39,69 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate,UINavigationC
     
     // MARK: - UIImagePickerControllerDelegate Methods
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            self.profileImageView.image = pickedImage
+            
+            guard let imageData = pickedImage.jpegData(compressionQuality: 0.75) else { return }
+            uploadProfileImageToFirebaseStorage(imageData)
+        }
+        imagePicker.dismiss(animated: true)
+    }
     
     
-    func uploadProfileImageToFirebaseStorage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
-            print("Could not get JPEG representation of UIImage")
-            return
-        }
-        
-        let storageRef = Storage.storage().reference()
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            print("No current user ID")
-            return
-        }
-        let profileImagesRef = storageRef.child("profile_images/\(currentUserID).jpg")
-        
-        let uploadTask = profileImagesRef.putData(imageData, metadata: nil) { metadata, error in
-            if let error = error {
-                completion(.failure(error))
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePicker.dismiss(animated: true)
+    }
+    
+    
+    // MARK: - Firebase Upload Image
+    
+    func uploadProfileImageToFirebaseStorage(_ imageData: Data) {
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("No user is currently signed in")
                 return
             }
             
-            profileImagesRef.downloadURL { url, error in
+            let storageRef = Storage.storage().reference().child("profileImages/\(uid).jpg")
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            
+            storageRef.putData(imageData, metadata: metadata) { (metadata, error) in
                 if let error = error {
-                    completion(.failure(error))
+                    print("Error uploading image: \(error.localizedDescription)")
                     return
                 }
                 
-                guard let url = url else {
-                    print("Could not get download URL")
-                    return
+                storageRef.downloadURL { (url, error) in
+                    if let error = error {
+                        print("Error getting download url: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    if let downloadUrl = url {
+                        self.updateUserProfileImageInFirestore(downloadUrl.absoluteString)
+                    }
                 }
-                
-                completion(.success(url.absoluteString))
             }
         }
-        uploadTask.resume()
-    }
+        
+        func updateUserProfileImageInFirestore(_ imageUrl: String) {
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("No user is currently signed in")
+                return
+            }
+            
+            let db = Firestore.firestore()
+            db.collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { error in
+                if let error = error {
+                    print("Error updating user data: \(error.localizedDescription)")
+                    return
+                }
+                
+                print("Profile image url successfully updated in Firestore")
+            }
+        }
     
     
     func fetchProfileData() {
