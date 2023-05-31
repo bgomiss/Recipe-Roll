@@ -34,40 +34,6 @@ class SignUpVC: UIViewController {
     }
     
     
-    func uploadProfileImage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
-            print("Could not get JPEG representation of UIImage")
-            return
-        }
-        
-        let storageRef = Storage.storage().reference()
-        let currentUserID = Auth.auth().currentUser?.uid
-        let profileImagesRef = storageRef.child("profile_images/\(currentUserID).jpg")
-        
-        let uploadTask = profileImagesRef.putData(imageData, metadata: nil) { metadata, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            profileImagesRef.downloadURL { url, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let url = url else {
-                    print("Could not get download URL")
-                    return
-                }
-                
-                completion(.success(url.absoluteString))
-            }
-        }
-        uploadTask.resume()
-    }
-    
-    
     func registerNewUser(name: String, email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
@@ -75,25 +41,24 @@ class SignUpVC: UIViewController {
                 return
             }
             
-            let userData: [String: Any] = [
-                "name": name,
-                "email": email,
-            ]
-            
-            let db = Firestore.firestore()
-            db.collection("users").document(authResult!.user.uid).setData(userData) { error in
-                if let error = error {
-                    print("Error saving user data: \(error.localizedDescription)")
-
-                } else {
-                    print("User data saved successfully")
+                let userData: [String: Any] = [
+                    "name": name,
+                    "email": email,
+                ]
+                
+                let db = Firestore.firestore()
+                db.collection("users").document(authResult!.user.uid).setData(userData) { error in
+                    if let error = error {
+                        print("Error saving user data: \(error.localizedDescription)")
+                        
+                    } else {
+                        print("User data saved successfully")
+                    }
                 }
-            }
                 completion(.success(authResult!))
             }
         }
-    
-    
+        
     
     func updateWarningLabel(with email: String?) {
             if let email = email {

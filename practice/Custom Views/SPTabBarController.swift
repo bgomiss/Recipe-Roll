@@ -45,7 +45,7 @@ class SPTabBarController: UITabBarController {
     
     
     func createProfileNC() -> UINavigationController  {
-        let profileVC = ProfileVC()
+        let profileVC = AuthenticationVC()
         profileVC.title = "View Profile"
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
         
