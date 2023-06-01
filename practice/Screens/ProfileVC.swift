@@ -76,7 +76,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
                 return
             }
             
-            let storageRef = Storage.storage().reference().child("profileImages/\(uid).jpg")
+            let storageRef = Storage.storage().reference().child("profileImages/\(uid)/profile.jpg")
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
             
