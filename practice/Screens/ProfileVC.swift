@@ -16,17 +16,36 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     var profileImageView = SPImageView(cornerRadius: 50)
     var nameLabel = SPTitleLabel(textAlignment: .center, fontSize: 24)
     var emailLabel = SPSecondaryTitleLabel(fontSize: 18, color: .black)
-    var uploadImageButton = SPButton(backgroundColor: .systemBlue, title: "Upload Image")
+    lazy var uploadImageButton: SPButton = {
+            let button = SPButton()
+            button.set(withColor: .white, backgroundColor: .systemGray, title: "Upload Image")
+            return button
+        }()
     
+    lazy var logoutButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: UIImage(systemName: "power"), style: .plain, target: self, action: #selector(logoutButtonTapped))
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
+        navigationItem.rightBarButtonItem = logoutButton
         setupConstraints()
         fetchProfileData()
         
         uploadImageButton.addTarget(self, action: #selector(uploadImageButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    @objc func logoutButtonTapped() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.showMainApp()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
     
     

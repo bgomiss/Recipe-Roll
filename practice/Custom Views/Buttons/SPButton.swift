@@ -36,8 +36,9 @@ class SPButton: UIButton {
     }
     
     
-    func set(backgroundColor: UIColor, title: String = "") {
+    func set(withColor color: UIColor = .systemGreen, backgroundColor: UIColor, title: String = "") {
         self.backgroundColor = backgroundColor
+        setTitleColor(color, for: .normal)
         setTitle(title, for: .normal)
     }
     
