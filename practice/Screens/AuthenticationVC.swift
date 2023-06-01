@@ -16,7 +16,7 @@ class AuthenticationVC: UIViewController {
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
     
-    var coordinator: Coordinator?
+//    var coordinator: Coordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +27,9 @@ class AuthenticationVC: UIViewController {
      }
     
     
-    func showAuthenticationFlow() {
-        (coordinator as? AppCoordinator)?.startAuthenticationFlow(from: self)
-    }
+//    func showAuthenticationFlow() {
+//        (coordinator as? AppCoordinator)?.startAuthenticationFlow(from: self)
+//    }
 
     
    
@@ -77,17 +77,22 @@ extension AuthenticationVC: WelcomeVCDelegate {
 
 extension AuthenticationVC: SignUpVCDelegate {
     func didCompleteSignUp() {
-        // Handle the completion of the signup here
-        // You can present the profile view controller for example
-        let profileVC = ProfileVC()
-        // Check if the AuthenticationVC is wrapped in a UINavigationController
-        if let navigationController = navigationController {
-            navigationController.pushViewController(profileVC, animated: true)
-        } else {
-            // If it is not wrapped, you can wrap it here or consider other navigation methods
-            // such as presenting the profileVC modally
-            let navigationController = UINavigationController(rootViewController: profileVC)
-            present(navigationController, animated: true, completion: nil)
+        
+        // Get a reference to the AppDelegate or SceneDelegate from the current context
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
+            // Call the function to reset the window's rootViewController
+            sceneDelegate.showMainApp()
+//        // Handle the completion of the signup here
+//        // You can present the profile view controller for example
+//        let profileVC = ProfileVC()
+//        // Check if the AuthenticationVC is wrapped in a UINavigationController
+//        if let navigationController = navigationController {
+//            navigationController.pushViewController(profileVC, animated: true)
+//        } else {
+//            // If it is not wrapped, you can wrap it here or consider other navigation methods
+//            // such as presenting the profileVC modally
+//            let navigationController = UINavigationController(rootViewController: profileVC)
+//            present(navigationController, animated: true, completion: nil)
         }
     }
-}
+

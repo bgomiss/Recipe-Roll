@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SPTabBarController: UITabBarController {
+    
+    let isLoggedIn = Auth.auth().currentUser != nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +48,16 @@ class SPTabBarController: UITabBarController {
     
     
     func createProfileNC() -> UINavigationController  {
-        let profileVC = AuthenticationVC()
-        profileVC.title = "View Profile"
-        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
+        let viewController: UIViewController
+        if isLoggedIn {
+            viewController = ProfileVC()
+        } else {
+            viewController = AuthenticationVC()
+        }
         
-        return UINavigationController(rootViewController: profileVC)
+        viewController.title = "View Profile"
+        viewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
+        
+        return UINavigationController(rootViewController: viewController)
     }
 }

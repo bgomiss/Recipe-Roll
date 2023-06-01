@@ -26,6 +26,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = SPTabBarController()
         window?.makeKeyAndVisible()
     }
+    
+    func showMainApp() {
+        let tabBarVC = SPTabBarController() // Replace with your TabBar Controller class
+        window?.rootViewController = tabBarVC
+        window?.makeKeyAndVisible()
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
