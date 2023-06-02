@@ -94,5 +94,10 @@ extension AuthenticationVC: SignUpVCDelegate {
 //            let navigationController = UINavigationController(rootViewController: profileVC)
 //            present(navigationController, animated: true, completion: nil)
         }
+    
+//    func didCompleteSignOut() {
+//        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+//        sceneDelegate.showMainApp()
+//    }
     }
 

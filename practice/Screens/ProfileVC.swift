@@ -11,6 +11,10 @@ import FirebaseStorage
 import FirebaseFirestore
 import PhotosUI
 
+//protocol SignoutDelegate: AnyObject {
+//    func didCompleteSignOut()
+//}
+
 class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
     var profileImageView = SPImageView(cornerRadius: 50)
@@ -25,6 +29,8 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     lazy var logoutButton: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "power"), style: .plain, target: self, action: #selector(logoutButtonTapped))
     }()
+    
+   // weak var delegate: SignoutDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +47,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-            sceneDelegate.showMainApp()
+           //delegate?.didCompleteSignOut()
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
@@ -168,6 +173,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
     func setupConstraints() {
         view.addSubviews(profileImageView, nameLabel, emailLabel, uploadImageButton)
+        
         
             NSLayoutConstraint.activate([
                 profileImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
