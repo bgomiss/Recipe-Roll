@@ -49,9 +49,10 @@ class SignInVC: UIViewController {
                 return
             }
             print("User Signed In Successfully")
-            let profileVC = ProfileVC()
+           let profileVC = ProfileVC()
             self.navigationController?.pushViewController(profileVC, animated: true)
-            self.navigationItem.hidesBackButton = true
+            profileVC.navigationItem.hidesBackButton = true
+            
 //            profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
 //            self.navigationController?.setViewControllers([profileVC], animated: true)
         }
