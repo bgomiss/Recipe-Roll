@@ -15,7 +15,7 @@ class AuthenticationVC: UIViewController {
     let welcomeVC           = WelcomeVC()
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
-    let profileVC = ProfileVC()
+    let profileVC           = ProfileVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +27,18 @@ class AuthenticationVC: UIViewController {
      }
     
     
-    func resetToWelcomeScreen() {
-        // Logic to switch to WelcomeVC
-        for child in children {
-                if let welcomeVC = child as? WelcomeVC {
-                    welcomeVC.view.isHidden = false
-                } else if let signUpVC = child as? SignUpVC {
-                    signUpVC.view.isHidden = true
-                } else if let signInVC = child as? SignInVC {
-                    signInVC.view.isHidden = true
-                }
-            }
-    }
+//    func resetToWelcomeScreen() {
+//        // Logic to switch to WelcomeVC
+//        for child in children {
+//                if let welcomeVC = child as? WelcomeVC {
+//                    welcomeVC.view.isHidden = false
+//                } else if let signUpVC = child as? SignUpVC {
+//                    signUpVC.view.isHidden = true
+//                } else if let signInVC = child as? SignInVC {
+//                    signInVC.view.isHidden = true
+//                }
+//            }
+//    }
 
     
    
@@ -97,24 +97,14 @@ extension AuthenticationVC: SignUpVCDelegate {
 
 extension AuthenticationVC: SignoutDelegate {
     func didCompleteSignOut() {
-        // Get a reference to the AppDelegate or SceneDelegate from the current context
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
-        // Call the function to reset the window's rootViewController
-        sceneDelegate.showMainApp()
-        //    func didCompleteSignOut() {
-        //        //        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-        //        //        sceneDelegate.showMainApp()
-        //        //    }
-        //        for child in children {
-        //            if let welcomeVC = child as? WelcomeVC {
-        //                welcomeVC.view.isHidden = false
-        //            } else if let signUpVC = child as? SignUpVC {
-        //                signUpVC.view.isHidden = true
-        //            } else if let signInVC = child as? SignInVC {
-        //                signInVC.view.isHidden = true
-        //            }
-        //        }
-        //    }
-        
+        for child in children {
+                if let welcomeVC = child as? WelcomeVC {
+                    welcomeVC.view.isHidden = false
+                } else if let signUpVC = child as? SignUpVC {
+                    signUpVC.view.isHidden = true
+                } else if let signInVC = child as? SignInVC {
+                    signInVC.view.isHidden = true
+                }
+            }
     }
 }

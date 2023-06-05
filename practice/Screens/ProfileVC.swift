@@ -47,13 +47,16 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            print("User signed Out successfully")
             delegate?.didCompleteSignOut()
+
 //            if let authVC = self.navigationController?.viewControllers.first as? AuthenticationVC {
 //                authVC.resetToWelcomeScreen()
             
             } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
+        
     }
     
     

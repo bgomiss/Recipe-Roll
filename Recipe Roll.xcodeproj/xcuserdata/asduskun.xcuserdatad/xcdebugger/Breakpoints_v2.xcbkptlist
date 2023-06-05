@@ -18,6 +18,53 @@
             endingLineNumber = "99"
             landmarkName = "didCompleteSignOut()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6764D94C-5293-46AF-A853-3030590181D8 - eda608e9034cbf06"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "practice.AuthenticationVC.didCompleteSignOut() -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/AuthenticationVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "6764D94C-5293-46AF-A853-3030590181D8 - eda608e9034cbf78"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "practice.AuthenticationVC.didCompleteSignOut() -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/AuthenticationVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "6764D94C-5293-46AF-A853-3030590181D8 - eda608e9034cbf78"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "practice.AuthenticationVC.didCompleteSignOut() -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/AuthenticationVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
+                  offsetFromSymbolStart = "104">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

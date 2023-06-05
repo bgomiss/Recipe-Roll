@@ -21,8 +21,7 @@ class SignInVC: UIViewController {
     let stackView           = UIStackView()
     var email: String?
     
-    weak var coordinator: WelcomeCoordinator?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(containerView,greetingLabel)
