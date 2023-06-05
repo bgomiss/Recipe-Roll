@@ -19,6 +19,7 @@ class SignInVC: UIViewController {
     let signinButton        = SPButton(backgroundColor: .systemMint, title: "Sign in")
     let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     let stackView           = UIStackView()
+    static let profileVC    = ProfileVC()
     var email: String?
     
     
@@ -48,9 +49,9 @@ class SignInVC: UIViewController {
                 return
             }
             print("User Signed In Successfully")
-           let profileVC = ProfileVC()
-            self.navigationController?.pushViewController(profileVC, animated: true)
-            profileVC.navigationItem.hidesBackButton = true
+           
+            self.navigationController?.pushViewController(SignInVC.profileVC, animated: true)
+            SignInVC.profileVC.navigationItem.hidesBackButton = true
             
 //            profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
 //            self.navigationController?.setViewControllers([profileVC], animated: true)

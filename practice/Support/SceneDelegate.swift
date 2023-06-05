@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func showMainApp() {
-        let tabBarVC = SPTabBarController() // Replace with your TabBar Controller class
+        let tabBarVC = SPTabBarController() 
         window?.rootViewController = tabBarVC
         window?.makeKeyAndVisible()
     }

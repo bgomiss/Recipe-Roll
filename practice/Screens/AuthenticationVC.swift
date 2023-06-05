@@ -15,7 +15,7 @@ class AuthenticationVC: UIViewController {
     let welcomeVC           = WelcomeVC()
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
-    let profileVC           = ProfileVC()
+    let profileVC           = SignInVC.profileVC
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +23,8 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-
      }
+    
     
     
 //    func resetToWelcomeScreen() {
@@ -97,14 +97,9 @@ extension AuthenticationVC: SignUpVCDelegate {
 
 extension AuthenticationVC: SignoutDelegate {
     func didCompleteSignOut() {
-        for child in children {
-                if let welcomeVC = child as? WelcomeVC {
-                    welcomeVC.view.isHidden = false
-                } else if let signUpVC = child as? SignUpVC {
-                    signUpVC.view.isHidden = true
-                } else if let signInVC = child as? SignInVC {
-                    signInVC.view.isHidden = true
-                }
-            }
+        // Get a reference to the AppDelegate or SceneDelegate from the current context
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
+        // Call the function to reset the window's rootViewController
+        sceneDelegate.showMainApp()
     }
 }
