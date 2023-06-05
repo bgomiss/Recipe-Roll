@@ -57,7 +57,6 @@ class WelcomeVC: UIViewController {
     
     
     @objc func continueButtonTapped() {
-        //delegate?.didTapContinueButton()
         checkIfEmailIsRegistered(email: eMailField.text ?? "") { isRegistered in
             if isRegistered {
                 print("Email is registered")

@@ -11,9 +11,9 @@ import FirebaseStorage
 import FirebaseFirestore
 import PhotosUI
 
-//protocol SignoutDelegate: AnyObject {
-//    func didCompleteSignOut()
-//}
+protocol SignoutDelegate: AnyObject {
+    func didCompleteSignOut()
+}
 
 class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
@@ -30,7 +30,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         return UIBarButtonItem(image: UIImage(systemName: "power"), style: .plain, target: self, action: #selector(logoutButtonTapped))
     }()
     
-   // weak var delegate: SignoutDelegate?
+    weak var delegate: SignoutDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +47,11 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            let authenticationVC = WelcomeVC()
+            delegate?.didCompleteSignOut()
+//            if let authVC = self.navigationController?.viewControllers.first as? AuthenticationVC {
+//                authVC.resetToWelcomeScreen()
             
-           //delegate?.didCompleteSignOut()
-        } catch let signOutError as NSError {
+            } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }

@@ -15,8 +15,7 @@ class AuthenticationVC: UIViewController {
     let welcomeVC           = WelcomeVC()
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
-    
-//    var coordinator: Coordinator?
+    let profileVC = ProfileVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +23,22 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
+
      }
     
     
-//    func showAuthenticationFlow() {
-//        (coordinator as? AppCoordinator)?.startAuthenticationFlow(from: self)
-//    }
+    func resetToWelcomeScreen() {
+        // Logic to switch to WelcomeVC
+        for child in children {
+                if let welcomeVC = child as? WelcomeVC {
+                    welcomeVC.view.isHidden = false
+                } else if let signUpVC = child as? SignUpVC {
+                    signUpVC.view.isHidden = true
+                } else if let signInVC = child as? SignInVC {
+                    signInVC.view.isHidden = true
+                }
+            }
+    }
 
     
    
@@ -39,6 +48,7 @@ class AuthenticationVC: UIViewController {
         signinVC.view.isHidden = true
         welcomeVC.delegate = self
         signUpVC.delegate = self
+        profileVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
         add(childVC: signinVC, to: self.view)
@@ -80,24 +90,31 @@ extension AuthenticationVC: SignUpVCDelegate {
         
         // Get a reference to the AppDelegate or SceneDelegate from the current context
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
-            // Call the function to reset the window's rootViewController
-            sceneDelegate.showMainApp()
-//        // Handle the completion of the signup here
-//        // You can present the profile view controller for example
-//        let profileVC = ProfileVC()
-//        // Check if the AuthenticationVC is wrapped in a UINavigationController
-//        if let navigationController = navigationController {
-//            navigationController.pushViewController(profileVC, animated: true)
-//        } else {
-//            // If it is not wrapped, you can wrap it here or consider other navigation methods
-//            // such as presenting the profileVC modally
-//            let navigationController = UINavigationController(rootViewController: profileVC)
-//            present(navigationController, animated: true, completion: nil)
-        }
-    
-//    func didCompleteSignOut() {
-//        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-//        sceneDelegate.showMainApp()
-//    }
+        // Call the function to reset the window's rootViewController
+        sceneDelegate.showMainApp()
     }
+}
 
+extension AuthenticationVC: SignoutDelegate {
+    func didCompleteSignOut() {
+        // Get a reference to the AppDelegate or SceneDelegate from the current context
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
+        // Call the function to reset the window's rootViewController
+        sceneDelegate.showMainApp()
+        //    func didCompleteSignOut() {
+        //        //        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+        //        //        sceneDelegate.showMainApp()
+        //        //    }
+        //        for child in children {
+        //            if let welcomeVC = child as? WelcomeVC {
+        //                welcomeVC.view.isHidden = false
+        //            } else if let signUpVC = child as? SignUpVC {
+        //                signUpVC.view.isHidden = true
+        //            } else if let signInVC = child as? SignInVC {
+        //                signInVC.view.isHidden = true
+        //            }
+        //        }
+        //    }
+        
+    }
+}
