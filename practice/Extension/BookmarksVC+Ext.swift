@@ -49,6 +49,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
         
         let categoryID = getCategoryID(for: indexPath.section)
+        
         guard let recipes = recipes[categoryID] else {
             // Handle the case where the category ID is not found in the dictionary
             print("Recipes not found for category: \(categoryID)")

@@ -51,6 +51,8 @@ class BookmarksVC: UIViewController {
         configure()
         configureUIElements()
         view.backgroundColor = .systemBackground
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleBookmarkAddedNotification), name: NSNotification.Name("BookmarkAddedNotification"), object: nil)
     }
     
     
@@ -59,6 +61,11 @@ class BookmarksVC: UIViewController {
         queryTextField.text = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
+    
+    
+//    @objc func handleBookmarkAddedNotification() {
+//        self.collectionView.reloadData()
+//    }
     
    
     func fetchBookmarkedRecipeIDs() {
