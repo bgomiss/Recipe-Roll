@@ -9,6 +9,23 @@ import UIKit
 
 extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    private func getCategoryID(for section: Int) -> String {
+            switch section {
+            case 0:
+                return "Recently Viewed"
+            case 1:
+                return "MadeIt"
+            case 2:
+                return "Breakfast"
+            case 3:
+                return "Lunch"
+            case 4:
+                return "Dinner"
+            default:
+                fatalError("Invalid Section: \(section)")
+            }
+        }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -29,9 +46,17 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
+        
+        let categoryID = getCategoryID(for: indexPath.section)
+        guard let recipes = recipes[categoryID] else {
+            // Handle the case where the category ID is not found in the dictionary
+            print("Recipes not found for category: \(categoryID)")
+            return cell }
+            
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
+            
             
             if indexPath.item == 2 {
                 cell.overlayView.isHidden = false

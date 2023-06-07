@@ -14,7 +14,7 @@ class BookmarksVC: UIViewController {
     let uid = Auth.auth().currentUser?.uid
     let db  = Firestore.firestore()
     let queryTextField                  = SPTextField(placeholder: "Search Saved recipes")
-    var recipes: [Recipe]              = []
+    var recipes: [String : [Recipe]]     = [:]
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -62,6 +62,7 @@ class BookmarksVC: UIViewController {
     
    
     func fetchBookmarkedRecipeIDs() {
+        var categoryID: String = ""
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let userBookmarkCollection = db.collection("bookmarks").document(userID).collection("categories")
         userBookmarkCollection.getDocuments { querySnapshot, error in
@@ -72,7 +73,8 @@ class BookmarksVC: UIViewController {
             guard let categories = querySnapshot?.documents else { return }
             
             for category in categories {
-                let categoryID = category.documentID
+                categoryID = category.documentID
+                print("CATEGORY ID IS: \(String(describing: categoryID))")
                 let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
                 
                 recipesCollection.getDocuments { querySnapshot, error in
@@ -90,7 +92,7 @@ class BookmarksVC: UIViewController {
                 for (_, recipeDetail) in recipeData {
                     if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
                         print("recipeID is: \(recipeID)")
-                        self.getCategories(query: String(recipeID))
+                        self.getCategories(query: String(recipeID), categoryID: categoryID)
                     }
                         
                     }
@@ -119,14 +121,22 @@ class BookmarksVC: UIViewController {
     }
     
     
-    func getCategories(query: String) {
-        NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] category in
+    func getCategories(query: String, categoryID: String) {
+        NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
             
             guard let self = self else { return }
             
-            switch category {
-            case .success(let categories):
-                self.updateUI(with: categories)
+            switch result {
+            case .success(let recipes):
+                if var existingRecipes = self.recipes[categoryID] {
+                    existingRecipes.append(contentsOf: recipes)
+                    self.recipes[categoryID] = existingRecipes
+                } else {
+                    self.recipes[categoryID] = recipes
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 return
             }
@@ -134,14 +144,14 @@ class BookmarksVC: UIViewController {
     }
     
     
-    func updateUI(with categories: [Recipe]) {
-        recipes.append(contentsOf: categories)
-        
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-            //self.view.bringSubviewToFront(self.tableView)
-        }
-    }
+//    func updateUI(with categories: [Recipe]) {
+//        recipes.append(contentsOf: categories)
+//        
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//            //self.view.bringSubviewToFront(self.tableView)
+//        }
+//    }
     
     
     func layoutUI() {
