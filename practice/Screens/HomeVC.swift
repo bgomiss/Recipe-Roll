@@ -47,6 +47,12 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
+        let profileVC                       = ProfileVC()
+        profileVC.updateProfileImageClosure = { [weak self] image in
+            DispatchQueue.main.async {
+                self?.userImage.image = image
+            }
+        }
     }
     
     

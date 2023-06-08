@@ -17,6 +17,7 @@ protocol SignoutDelegate: AnyObject {
 
 class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
+    var updateProfileImageClosure: ((UIImage) -> Void)?
     var profileImageView = SPImageView(cornerRadius: 50)
     var nameLabel = SPTitleLabel(textAlignment: .center, fontSize: 24)
     var emailLabel = SPSecondaryTitleLabel(fontSize: 18, color: .black)
@@ -85,8 +86,18 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
                     guard let self = self, let image = image as? UIImage else {
                         return
                     }
+                    
+                    itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                        DispatchQueue.main.async {
+                            guard let self = self, let image = image as? UIImage else {
+                                return
+                            }
 
-                    self.profileImageView.image = image
+                            self.profileImageView.image = image
+                            self.updateProfileImageClosure?(self.profileImageView.image!)
+                        }
+                    }
+
                     
                     guard let imageData = image.jpegData(compressionQuality: 0.75) else {
                         return
