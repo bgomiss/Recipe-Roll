@@ -47,8 +47,18 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
+        PersistenceManager.retrieveUserProfile { [weak self] result in
+                switch result {
+                case .success(let user):
+                    if let profileImageUrl = user?.profileImageUrl {
+                        self?.userImage.downloadImage(fromURL: profileImageUrl)
+                    }
+                    
+                case .failure(let error):
+                    print("Error retrieving user profile: \(error.localizedDescription)")
+                }
+            }
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

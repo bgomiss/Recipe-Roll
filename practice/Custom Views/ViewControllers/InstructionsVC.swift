@@ -105,6 +105,10 @@ class InstructionsVC: UIViewController {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
+//                    DispatchQueue.main.async {
+//                        NotificationCenter.default.post(name: NSNotification.Name("BookmarkAddedNotification"), object: nil)
+//
+//                    }
                 }
             }
             
@@ -162,6 +166,10 @@ class InstructionsVC: UIViewController {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added successfully")
+//                    DispatchQueue.main.async {
+//                        NotificationCenter.default.post(name: NSNotification.Name("BookmarkAddedNotification"), object: nil)
+//
+//                    }
                 }
             }
             

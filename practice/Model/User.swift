@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct User {
+struct User: Codable {
     let uid: String
     let name: String
-    let profileImageUrl: String
+    var profileImageUrl: String?
     var bookmarkedRecipes: [String]  // This could be an array of recipe IDs.
 }
 

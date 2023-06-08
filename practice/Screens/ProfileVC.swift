@@ -17,6 +17,7 @@ protocol SignoutDelegate: AnyObject {
 
 class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
+    var updateProfileImageClosure: ((UIImage) -> Void)?
     var profileImageView = SPImageView(cornerRadius: 50)
     var nameLabel = SPTitleLabel(textAlignment: .center, fontSize: 24)
     var emailLabel = SPSecondaryTitleLabel(fontSize: 18, color: .black)
@@ -30,6 +31,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         return UIBarButtonItem(image: UIImage(systemName: "power"), style: .plain, target: self, action: #selector(logoutButtonTapped))
     }()
     
+    var user: User?
     weak var delegate: SignoutDelegate?
     
     override func viewDidLoad() {
@@ -38,7 +40,6 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
         navigationItem.rightBarButtonItem = logoutButton
         setupConstraints()
         fetchProfileData()
-        
         uploadImageButton.addTarget(self, action: #selector(uploadImageButtonTapped), for: .touchUpInside)
     }
     
@@ -85,8 +86,18 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
                     guard let self = self, let image = image as? UIImage else {
                         return
                     }
+                    
+                    itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                        DispatchQueue.main.async {
+                            guard let self = self, let image = image as? UIImage else {
+                                return
+                            }
 
-                    self.profileImageView.image = image
+                            self.profileImageView.image = image
+                            self.updateProfileImageClosure?(image)
+                        }
+                    }
+
                     
                     guard let imageData = image.jpegData(compressionQuality: 0.75) else {
                         return
@@ -136,13 +147,21 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
             }
             
             let db = Firestore.firestore()
-            db.collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { error in
+            db.collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { [weak self] error in
                 if let error = error {
                     print("Error updating user data: \(error.localizedDescription)")
                     return
                 }
                 
                 print("Profile image url successfully updated in Firestore")
+                self?.user?.profileImageUrl = imageUrl
+                
+                //Save the updated User instance in Persistence Manager
+                PersistenceManager.saveUserProfile(user: self?.user ?? User(uid: "", name: "", bookmarkedRecipes: [])) { error in
+                    if let error = error {
+                        print("Error saving user profile: \(error.localizedDescription)")
+                    }
+                }
             }
         }
     
