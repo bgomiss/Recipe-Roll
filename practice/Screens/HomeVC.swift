@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 
 class HomeVC: UIViewController {
-    
+    var user: User?
     let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
     let userImage                       = SPImageView(cornerRadius: 40)
     let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
@@ -47,17 +50,41 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
-        PersistenceManager.retrieveUserProfile { [weak self] result in
-                switch result {
-                case .success(let user):
-                    if let profileImageUrl = user?.profileImageUrl {
-                        self?.userImage.downloadImage(fromURL: profileImageUrl)
+        // Retrieve the User instance
+            if let uid = Auth.auth().currentUser?.uid {
+                let db = Firestore.firestore()
+                db.collection("users").document(uid).getDocument { [weak self] document, error in
+                    if let error = error {
+                        print("Error fetching user data: \(error.localizedDescription)")
+                        return
                     }
                     
-                case .failure(let error):
-                    print("Error retrieving user profile: \(error.localizedDescription)")
+                    guard let document = document, document.exists, let data = document.data() else {
+                        print("No document found for this user")
+                        return
+                    }
+                    
+                    // Create a User instance with the retrieved data
+                    let user = User(uid: uid, name: data["name"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", bookmarkedRecipes: [])
+                    
+                    // Assign the user instance to the property in HomeVC
+                    self?.user = user
+                    
+                    // Update the UI with the user's profile image
+                    self?.userImage.downloadImage(fromURL: user.profileImageUrl!)
                 }
             }
+//        PersistenceManager.retrieveUserProfile { [weak self] result in
+//                switch result {
+//                case .success(let user):
+//                    if let profileImageUrl = user?.profileImageUrl {
+//                        self?.userImage.downloadImage(fromURL: profileImageUrl)
+//                    }
+//
+//                case .failure(let error):
+//                    print("Error retrieving user profile: \(error.localizedDescription)")
+//                }
+//            }
     }
     
     override func viewWillAppear(_ animated: Bool) {

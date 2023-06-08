@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class SPImageView: UIImageView {
     
     let cache = NetworkManager.shared.cache
