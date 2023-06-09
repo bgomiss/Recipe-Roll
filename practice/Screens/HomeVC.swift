@@ -50,30 +50,7 @@ class HomeVC: UIViewController {
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
-        // Retrieve the User instance
-            if let uid = Auth.auth().currentUser?.uid {
-                let db = Firestore.firestore()
-                db.collection("users").document(uid).getDocument { [weak self] document, error in
-                    if let error = error {
-                        print("Error fetching user data: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    guard let document = document, document.exists, let data = document.data() else {
-                        print("No document found for this user")
-                        return
-                    }
-                    
-                    // Create a User instance with the retrieved data
-                    let user = User(uid: uid, name: data["name"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", bookmarkedRecipes: [])
-                    
-                    // Assign the user instance to the property in HomeVC
-                    self?.user = user
-                    
-                    // Update the UI with the user's profile image
-                    self?.userImage.downloadImage(fromURL: user.profileImageUrl!)
-                }
-            }
+        retrieveUserInfo()
 //        PersistenceManager.retrieveUserProfile { [weak self] result in
 //                switch result {
 //                case .success(let user):
@@ -91,6 +68,33 @@ class HomeVC: UIViewController {
         super.viewWillAppear(animated)
         queryTextField.text = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    
+    func retrieveUserInfo() {
+        if let uid = Auth.auth().currentUser?.uid {
+            let db = Firestore.firestore()
+            db.collection("users").document(uid).getDocument { [weak self] document, error in
+                if let error = error {
+                    print("Error fetching user data: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = document, document.exists, let data = document.data() else {
+                    print("No document found for this user")
+                    return
+                }
+                
+                // Create a User instance with the retrieved data
+                let user = User(uid: uid, name: data["name"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", bookmarkedRecipes: [])
+                
+                // Assign the user instance to the property in HomeVC
+                self?.user = user
+                
+                // Update the UI with the user's profile image
+                self?.userImage.downloadImage(fromURL: user.profileImageUrl!)
+            }
+        }
     }
     
     

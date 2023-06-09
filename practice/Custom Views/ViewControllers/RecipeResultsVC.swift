@@ -66,45 +66,6 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     }
     
     
-//    func saveRecipeToBookmarks() {
-//
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(bookmarkTapped))
-//        bookmarkIcon.addGestureRecognizer(tap)
-//        bookmarkIcon.isUserInteractionEnabled = true
-//    }
-    
-//    @objc func bookmarkTapped() {
-//        print("bookmark tapped")
-//        
-//        if Auth.auth().currentUser == nil {
-//            // No user is signed in.
-//            let alertVC = SPAlertVC(title: "please signin", message: "please sign in", buttonTitle: "ok")
-//            alertVC.completionHandler = {
-//                let destVC = WelcomeVC()
-//                self.present(destVC, animated: true)
-//            }
-//            present(alertVC, animated: true, completion: nil)
-//        } else {
-//            guard let displayedRecipe = self.displayedRecipe else {return}
-//            
-//            let bookmark = ["id": displayedRecipe.id,
-//                            "title": displayedRecipe.title,
-//                            "image": displayedRecipe.image] as [String : Any]
-//            
-//            var ref: DocumentReference? = nil
-//            guard let category = self.category else {return}
-//            
-//            ref = db.collection("bookmarks/\(category)").addDocument(data: bookmark) { err in
-//                if let err = err {
-//                    print("Error adding document: \(err)")
-//                } else {
-//                    print("Document added with ID: \(ref!.documentID)")
-//                }
-//            }
-//        }
-//    }
-    
-    
     func setBackgroundImage() {
 //        bookmarkIcon.image = UIImage(systemName: "bookmark.fill")
 //        bookmarkIcon.image?.withTintColor(.systemCyan)
@@ -118,11 +79,6 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
             recipeImage.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 440),
             recipeImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             recipeImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-//            bookmarkIcon.topAnchor.constraint(equalTo: recipeImage.topAnchor, constant: 50),
-//            bookmarkIcon.trailingAnchor.constraint(equalTo: recipeImage.trailingAnchor, constant: -40),
-//            bookmarkIcon.heightAnchor.constraint(equalToConstant: 44),
-//            bookmarkIcon.widthAnchor.constraint(equalToConstant: 44)
         ])
     }
     
