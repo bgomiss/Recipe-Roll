@@ -13,7 +13,7 @@ import FirebaseFirestore
 
 class HomeVC: UIViewController {
     var user: User?
-    let titleLabel                      = SPTitleLabel(text: "What would you like to cook today?", textAlignment: .left, fontSize: 20)
+    let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let userImage                       = SPImageView(cornerRadius: 40)
     let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
@@ -93,6 +93,7 @@ class HomeVC: UIViewController {
                 
                 // Update the UI with the user's profile image
                 self?.userImage.downloadImage(fromURL: user.profileImageUrl!)
+                self?.titleLabel.text = "What would you like to cook today, \(user.name)?"
             }
         }
     }

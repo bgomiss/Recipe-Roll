@@ -191,7 +191,7 @@ extension RecipeResultsVC: UITableViewDataSource, UITableViewDelegate, UIAdaptiv
     
     func presentationControllerDidDismiss(_ presantationController: UIPresentationController) {
         UIView.animate(withDuration: 0.7, animations: {
-                self.recipeImage.transform = CGAffineTransform(translationX: 0, y: -self.view.bounds.height)
+                self.recipeImage.transform = CGAffineTransform(translationX: 0, y: self.view.bounds.height)
             }, completion: { _ in
                 self.recipeImage.removeFromSuperview()
             })
