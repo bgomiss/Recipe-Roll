@@ -11,11 +11,17 @@ class NetworkManager {
     
     enum Endpoint {
        case searchCategory(String)
+       case searhRecipes(String)
        case bookmarks(String)
-        var url: String {
+       var url: String {
                 switch self {
                 case .searchCategory(let category):
                     return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(category)&apiKey=\(Api.apiKey)"
+                    
+                case .searhRecipes(let query):
+                    return
+                    "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(query)&apiKey=\(Api.apiKey)"
+                    
                 case .bookmarks(let recipeID):
                     return "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
                 }
@@ -58,6 +64,11 @@ class NetworkManager {
                 case .searchCategory(_):
                     let recipes = try decoder.decode(RecipeResults.self, from: data)
                     completed(.success(recipes.results))
+                    
+                case .searhRecipes(_):
+                    let recipes = try decoder.decode(RecipeResults.self, from: data)
+                    completed(.success(recipes.results))
+                    
                 case .bookmarks(_):
                     let recipes = try decoder.decode(Recipe.self, from: data)
                     completed(.success([recipes]))

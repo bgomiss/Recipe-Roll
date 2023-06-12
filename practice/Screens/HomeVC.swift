@@ -16,6 +16,7 @@ class HomeVC: UIViewController {
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let userImage                       = SPImageView(cornerRadius: 40)
     let querySearchBar                  = SPSearchBar()
+    var queryRecipesVC: QueryRecipesVC!
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
@@ -45,12 +46,14 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureCompositionalLayout()
+        setupQueryRecipesVC()
         layoutUI()
         fetchRecipeData()
         configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
+        
 //        PersistenceManager.retrieveUserProfile { [weak self] result in
 //                switch result {
 //                case .success(let user):
@@ -67,6 +70,17 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    
+    private func setupQueryRecipesVC() {
+        queryRecipesVC = QueryRecipesVC()
+        addChild(queryRecipesVC)
+        view.addSubview(queryRecipesVC.view)
+        queryRecipesVC.didMove(toParent: self)
+        queryRecipesVC.view.isHidden = true
+        queryRecipesVC.view.translatesAutoresizingMaskIntoConstraints = false
+        querySearchBar.delegate = self
     }
     
     
@@ -169,7 +183,6 @@ class HomeVC: UIViewController {
     
     func layoutUI() {
         view.addSubviews(querySearchBar, titleLabel, userImage, collectionView)
-        querySearchBar.delegate = self
         
         NSLayoutConstraint.activate([
             querySearchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
@@ -185,7 +198,12 @@ class HomeVC: UIViewController {
             userImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             userImage.topAnchor.constraint(equalTo: titleLabel.topAnchor),
             userImage.heightAnchor.constraint(equalToConstant: 60),
-            userImage.widthAnchor.constraint(equalToConstant: 60)
+            userImage.widthAnchor.constraint(equalToConstant: 60),
+            
+            queryRecipesVC.view.topAnchor.constraint(equalTo: querySearchBar.bottomAnchor),
+            queryRecipesVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            queryRecipesVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            queryRecipesVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -194,6 +212,20 @@ class HomeVC: UIViewController {
 extension HomeVC: UISearchBarDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         querySearchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        queryRecipesVC.view.isHidden = false
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        queryRecipesVC.view.isHidden = true
+        searchBar.text = ""
     }
 }
 
