@@ -23,6 +23,7 @@ class QueryRecipesVC: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 80
         tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
     }
     
@@ -37,6 +38,10 @@ class QueryRecipesVC: UIViewController {
                 tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
+        }
+    
+    func reloadTableView() {
+            tableView.reloadData()
         }
     }
 

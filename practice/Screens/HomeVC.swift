@@ -17,6 +17,7 @@ class HomeVC: UIViewController {
     let userImage                       = SPImageView(cornerRadius: 40)
     let querySearchBar                  = SPSearchBar()
     var queryRecipesVC: QueryRecipesVC!
+    let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
@@ -49,10 +50,10 @@ class HomeVC: UIViewController {
         setupQueryRecipesVC()
         layoutUI()
         fetchRecipeData()
-        configureUIElements()
         configure()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
 //        PersistenceManager.retrieveUserProfile { [weak self] result in
 //                switch result {
@@ -81,6 +82,21 @@ class HomeVC: UIViewController {
         queryRecipesVC.view.isHidden = true
         queryRecipesVC.view.translatesAutoresizingMaskIntoConstraints = false
         querySearchBar.delegate = self
+    }
+    
+    
+    @objc func cancelButtonTapped() {
+        queryRecipesVC.removeFromParent()
+        queryRecipesVC.view.removeFromSuperview()
+        collectionView.isHidden = false
+        cancelButton.isHidden = true
+        
+//        addChild(queryRecipesVC)
+//           view.addSubview(queryRecipesVC.view)
+//           queryRecipesVC.didMove(toParent: self)
+//           queryRecipesVC.view.translatesAutoresizingMaskIntoConstraints = false
+//           queryRecipesVC.view.isHidden = true
+        
     }
     
     
@@ -154,6 +170,7 @@ class HomeVC: UIViewController {
     
     func configure() {
         collectionView.setUp(to: view, and: querySearchBar)
+        cancelButton.isHidden = true
     }
     
     
@@ -172,23 +189,19 @@ class HomeVC: UIViewController {
     }
     
     
-    func configureUIElements() {
-        let searchIcon = UIImage(systemName: "magnifyingglass")
-        let imageView = UIImageView(image: searchIcon)
-        imageView.contentMode = .scaleAspectFit
-//        queryTextField.leftViewMode = .always
-//        queryTextField.leftView = imageView
-    }
-    
-    
     func layoutUI() {
-        view.addSubviews(querySearchBar, titleLabel, userImage, collectionView)
+        view.addSubviews(querySearchBar, titleLabel, userImage, collectionView, cancelButton)
         
         NSLayoutConstraint.activate([
             querySearchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             querySearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             querySearchBar.heightAnchor.constraint(equalToConstant: 40),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: querySearchBar.trailingAnchor, constant: 5),
+            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            cancelButton.centerYAnchor.constraint(equalTo: querySearchBar.centerYAnchor),
+            cancelButton.heightAnchor.constraint(equalToConstant: 40),
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -216,7 +229,8 @@ extension HomeVC: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         queryRecipesVC.view.isHidden = false
-        self.view.bringSubviewToFront(queryRecipesVC.view)
+        collectionView.isHidden      = true
+        cancelButton.isHidden        = false
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -225,9 +239,8 @@ extension HomeVC: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        queryRecipesVC.view.isHidden = true
-        self.view.sendSubviewToBack(queryRecipesVC.view)
         searchBar.text = ""
+       
     }
 }
 
