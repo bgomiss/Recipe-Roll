@@ -17,6 +17,7 @@ class QueryRecipesVC: UIViewController {
         super.viewDidLoad()
         setupTableView()
         configureUI()
+        view.backgroundColor = .systemPink
     }
     
     private func setupTableView() {
@@ -42,7 +43,7 @@ class QueryRecipesVC: UIViewController {
 
 extension QueryRecipesVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

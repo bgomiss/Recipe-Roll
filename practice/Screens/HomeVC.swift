@@ -216,6 +216,7 @@ extension HomeVC: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         queryRecipesVC.view.isHidden = false
+        self.view.bringSubviewToFront(queryRecipesVC.view)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -225,6 +226,7 @@ extension HomeVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         queryRecipesVC.view.isHidden = true
+        self.view.sendSubviewToBack(queryRecipesVC.view)
         searchBar.text = ""
     }
 }
