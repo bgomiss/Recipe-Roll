@@ -13,7 +13,7 @@ class BookmarksVC: UIViewController {
     
     let uid = Auth.auth().currentUser?.uid
     let db  = Firestore.firestore()
-    let queryTextField                  = SPTextField(placeholder: "Search Saved recipes")
+    let querySearchBar                  = SPSearchBar()
     var recipes: [String : [Recipe]]     = [:]
     
     lazy var collectionView: UICollectionView = {
@@ -43,7 +43,7 @@ class BookmarksVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubviews(queryTextField, collectionView)
+        view.addSubviews(querySearchBar, collectionView)
         configureCompositionalLayout()
         fetchBookmarkedRecipeIDs()
         createDismissKeyboardTapGesture()
@@ -58,7 +58,6 @@ class BookmarksVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        queryTextField.text = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -115,7 +114,7 @@ class BookmarksVC: UIViewController {
     
     
     func configure() {
-        collectionView.setUp(to: view, and: queryTextField)
+        collectionView.setUp(to: view, and: querySearchBar)
     }
     
     
@@ -123,8 +122,8 @@ class BookmarksVC: UIViewController {
         let searchIcon = UIImage(systemName: "magnifyingglass")
         let imageView = UIImageView(image: searchIcon)
         imageView.contentMode = .scaleAspectFit
-        queryTextField.leftViewMode = .always
-        queryTextField.leftView = imageView
+//        queryTextField.leftViewMode = .always
+//        queryTextField.leftView = imageView
     }
     
     
@@ -162,20 +161,20 @@ class BookmarksVC: UIViewController {
     
     
     func layoutUI() {
-        queryTextField.delegate = self
+        querySearchBar.delegate = self
     
         NSLayoutConstraint.activate([
-            queryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            queryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            queryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            queryTextField.heightAnchor.constraint(equalToConstant: 40),
+            querySearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            querySearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            querySearchBar.heightAnchor.constraint(equalToConstant: 40),
        ])
     }
 }
 
-extension BookmarksVC: UITextFieldDelegate {
+extension BookmarksVC: UISearchBarDelegate {
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            queryTextField.resignFirstResponder()
+            querySearchBar.resignFirstResponder()
         }
     }
 

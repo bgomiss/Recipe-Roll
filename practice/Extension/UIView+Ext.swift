@@ -13,7 +13,7 @@ extension UIView {
         for view in views { addSubview(view) }
     }
     
-    func setUp(to superView: UIView, and to: UITextField) {
+    func setUp(to superView: UIView, and to: UISearchBar) {
         translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: to.bottomAnchor, constant: 20).isActive = true
         leadingAnchor.constraint(equalTo: superView.leadingAnchor).isActive = true

@@ -15,7 +15,7 @@ class HomeVC: UIViewController {
     var user: User?
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let userImage                       = SPImageView(cornerRadius: 40)
-    let queryTextField                  = SPTextField(placeholder: "Search for a Delicious Food")
+    let querySearchBar                  = SPSearchBar()
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
@@ -66,7 +66,6 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        queryTextField.text = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -140,7 +139,7 @@ class HomeVC: UIViewController {
 //    }
     
     func configure() {
-        collectionView.setUp(to: view, and: queryTextField)
+        collectionView.setUp(to: view, and: querySearchBar)
     }
     
     
@@ -163,20 +162,20 @@ class HomeVC: UIViewController {
         let searchIcon = UIImage(systemName: "magnifyingglass")
         let imageView = UIImageView(image: searchIcon)
         imageView.contentMode = .scaleAspectFit
-        queryTextField.leftViewMode = .always
-        queryTextField.leftView = imageView
+//        queryTextField.leftViewMode = .always
+//        queryTextField.leftView = imageView
     }
     
     
     func layoutUI() {
-        view.addSubviews(queryTextField, titleLabel, userImage, collectionView)
-        queryTextField.delegate = self
+        view.addSubviews(querySearchBar, titleLabel, userImage, collectionView)
+        querySearchBar.delegate = self
         
         NSLayoutConstraint.activate([
-            queryTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            queryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            queryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            queryTextField.heightAnchor.constraint(equalToConstant: 40),
+            querySearchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            querySearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            querySearchBar.heightAnchor.constraint(equalToConstant: 40),
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -192,9 +191,9 @@ class HomeVC: UIViewController {
 }
 
 
-extension HomeVC: UITextFieldDelegate {
+extension HomeVC: UISearchBarDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        queryTextField.resignFirstResponder()
+        querySearchBar.resignFirstResponder()
     }
 }
 
