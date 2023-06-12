@@ -86,17 +86,9 @@ class HomeVC: UIViewController {
     
     
     @objc func cancelButtonTapped() {
-        queryRecipesVC.removeFromParent()
-        queryRecipesVC.view.removeFromSuperview()
+        queryRecipesVC.view.isHidden = true
         collectionView.isHidden = false
         cancelButton.isHidden = true
-        
-//        addChild(queryRecipesVC)
-//           view.addSubview(queryRecipesVC.view)
-//           queryRecipesVC.didMove(toParent: self)
-//           queryRecipesVC.view.translatesAutoresizingMaskIntoConstraints = false
-//           queryRecipesVC.view.isHidden = true
-        
     }
     
     
@@ -228,6 +220,7 @@ extension HomeVC: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        queryRecipesVC.reloadTableView()
         queryRecipesVC.view.isHidden = false
         collectionView.isHidden      = true
         cancelButton.isHidden        = false
