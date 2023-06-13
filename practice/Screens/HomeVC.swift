@@ -220,14 +220,15 @@ extension HomeVC: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        queryRecipesVC.reloadTableView()
+        //queryRecipesVC.reloadTableView()
         queryRecipesVC.view.isHidden = false
         collectionView.isHidden      = true
         cancelButton.isHidden        = false
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        queryRecipesVC.searchText = searchText
+        queryRecipesVC.updateUI()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
