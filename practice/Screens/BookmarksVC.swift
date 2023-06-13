@@ -11,10 +11,10 @@ import Firebase
 class BookmarksVC: UIViewController {
     
     
-    let uid = Auth.auth().currentUser?.uid
-    let db  = Firestore.firestore()
-    let querySearchBar                  = SPSearchBar()
-    var recipes: [String : [Recipe]]     = [:]
+    let uid                          = Auth.auth().currentUser?.uid
+    let db                           = Firestore.firestore()
+    let querySearchBar               = SPSearchBar()
+    var recipes: [String : [Recipe]] = [:]
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())

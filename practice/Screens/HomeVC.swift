@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 
 class HomeVC: UIViewController {
+    
     var user: User?
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
     let userImage                       = SPImageView(cornerRadius: 40)
@@ -25,6 +26,8 @@ class HomeVC: UIViewController {
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.soup, Tags.dessert]
     let group = DispatchGroup()
+    
+    private var searchDebounceTimer: Timer?
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -228,8 +231,14 @@ extension HomeVC: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        queryRecipesVC.searchText = searchText
-        queryRecipesVC.updateUI()
+        // Invalidate the previous debounce timer
+        searchDebounceTimer?.invalidate()
+        
+        // Start a new debounce timer
+        searchDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+            self?.queryRecipesVC.searchText = searchText
+            self?.queryRecipesVC.updateUI()
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
