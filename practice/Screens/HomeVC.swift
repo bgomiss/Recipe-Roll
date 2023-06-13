@@ -89,6 +89,7 @@ class HomeVC: UIViewController {
         queryRecipesVC.view.isHidden = true
         collectionView.isHidden = false
         cancelButton.isHidden = true
+        querySearchBar.text = ""
     }
     
     
@@ -234,7 +235,6 @@ extension HomeVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
-       
     }
 }
 

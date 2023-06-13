@@ -11,7 +11,7 @@ class QueryRecipesVC: UIViewController {
     
     var searchText: String?
     private let tableView = UITableView()
-    private var searchResults: [Recipe] = []
+    var searchResults: [Recipe] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class QueryRecipesVC: UIViewController {
                 DispatchQueue.main.async {
                     self.searchResults = recipes
                     self.tableView.reloadData()
-                    self.view.bringSubviewToFront(self.tableView)
+                    //self.view.bringSubviewToFront(self.tableView)
                 }
             case .failure(let error):
                 print(error.localizedDescription)

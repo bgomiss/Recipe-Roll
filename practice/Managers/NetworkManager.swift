@@ -19,8 +19,7 @@ class NetworkManager {
                     return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(category)&apiKey=\(Api.apiKey)"
                     
                 case .searhRecipes(let query):
-                    return
-                    "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(query)&apiKey=\(Api.apiKey)"
+                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&query=\(query)&apiKey=\(Api.apiKey)"
                     
                 case .bookmarks(let recipeID):
                     return "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
