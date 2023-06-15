@@ -97,31 +97,25 @@ class HomeVC: UIViewController {
     
     
     func retrieveUserInfo() {
-        if let uid = Auth.auth().currentUser?.uid {
-            let db = Firestore.firestore()
-            db.collection("users").document(uid).getDocument { [weak self] document, error in
-                if let error = error {
-                    print("Error fetching user data: \(error.localizedDescription)")
-                    return
+        PersistenceManager.retrieveUserProfile { [weak self] result in
+                        switch result {
+                        case .success(let user):
+                            print("USER IS: \(user)")
+                            if let profileImageUrl = user?.profileImageUrl,
+                               let name = user?.name {
+                                DispatchQueue.main.async {
+                                    self?.userImage.downloadImage(fromURL: profileImageUrl)
+                                    self?.titleLabel.text = "What would you like to cook today, \(name)?"
+                                        print("PROFILE IMAGE URL IS: \(profileImageUrl)")
+                                }
+                                
+                            }
+        
+                        case .failure(let error):
+                            print("Error retrieving user profile: \(error.localizedDescription)")
+                        }
+                    }
                 }
-                
-                guard let document = document, document.exists, let data = document.data() else {
-                    print("No document found for this user")
-                    return
-                }
-                
-                // Create a User instance with the retrieved data
-                let user = User(uid: uid, name: data["name"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", bookmarkedRecipes: [])
-                
-                // Assign the user instance to the property in HomeVC
-                self?.user = user
-                
-                // Update the UI with the user's profile image
-                self?.userImage.downloadImage(fromURL: user.profileImageUrl!)
-                self?.titleLabel.text = "What would you like to cook today, \(user.name)?"
-            }
-        }
-    }
     
     
     func getCategories(tag: String, atIndex index: Int, group: DispatchGroup) {

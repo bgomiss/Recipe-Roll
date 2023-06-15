@@ -157,7 +157,7 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
                 self?.user?.profileImageUrl = imageUrl
                 
                 //Save the updated User instance in Persistence Manager
-                PersistenceManager.saveUserProfile(user: self?.user ?? User(uid: "", name: "", bookmarkedRecipes: [])) { error in
+                PersistenceManager.saveUserProfile(user: self?.user ?? User(uid: "", name: "", profileImageUrl: "", bookmarkedRecipes: [])) { error in
                     if let error = error {
                         print("Error saving user profile: \(error.localizedDescription)")
                     }
@@ -185,15 +185,20 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
                 return
             }
             
-            let data = document.data()
-            self.nameLabel.text = "Name: \(data?["name"] as? String ?? "")"
-            self.emailLabel.text = "Email: \(data?["email"] as? String ?? "")"
-            
-            if let profileImageUrl = data?["profileImageUrl"] as? String {
+            if let data = document.data(),
+               let name = data["name"] as? String,
+               let email = data["email"] as? String,
+               let profileImageUrl = data["profileImageUrl"] as? String {
+               //let bookmarkedRecipes = data["bookmarkedRecipes"] as? [String] {
+                self.user = User(uid: uid, name: name, profileImageUrl: profileImageUrl)
+                self.nameLabel.text = "Name: \(name)"
+                
+                self.emailLabel.text = "Email: \(email)"
                 self.profileImageView.downloadImage(fromURL: profileImageUrl)
             }
         }
     }
+
     
     
     func setupConstraints() {

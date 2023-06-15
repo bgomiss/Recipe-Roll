@@ -20,7 +20,7 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     private lazy var userImageView: SPImageView = {
         let imageView = SPImageView(cornerRadius: 20)
-        imageView.downloadImage(fromURL: HomeVC.user?.profileImageUrl ?? "https://cdn.dribbble.com/userupload/4968424/file/original-d073fb8764a78a20bafb71c762702fea.png?compress=1&resize=1600x1200" )
+        imageView.downloadImage(fromURL: self.user?.profileImageUrl ?? "https://cdn.dribbble.com/userupload/4968424/file/original-d073fb8764a78a20bafb71c762702fea.png?compress=1&resize=1600x1200" )
         return imageView
     }()
     
