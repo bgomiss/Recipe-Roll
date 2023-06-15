@@ -30,9 +30,9 @@ class SPTabBarController: UITabBarController {
     
  
     func createRecipesNC() -> UINavigationController  {
-        let recipesVC = RecipesVC()
-        recipesVC.title = "View Recipe"
-        recipesVC.tabBarItem = UITabBarItem(title: "Recipes", image: UIImage(systemName: "fork.knife"), tag: 1)
+        let recipesVC = FridgeVC()
+        recipesVC.title = "MY FRIDGE"
+        recipesVC.tabBarItem = UITabBarItem(title: "Fridge", image: UIImage(systemName: "refrigerator"), tag: 1)
         
         return UINavigationController(rootViewController: recipesVC)
     }
