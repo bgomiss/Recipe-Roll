@@ -71,7 +71,9 @@ class BookmarksVC: UIViewController {
         var categoryID: String = ""
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let userBookmarkCollection = db.collection("bookmarks").document(userID).collection("categories")
-        userBookmarkCollection.getDocuments { querySnapshot, error in
+        
+        userBookmarkCollection.getDocuments { [weak self] querySnapshot, error in
+            guard let self = self else { return }
             if let error = error {
                 print("Error fetching document: \(error)")
                 return
@@ -81,26 +83,31 @@ class BookmarksVC: UIViewController {
             for category in categories {
                 categoryID = category.documentID
                 print("CATEGORY ID IS: \(String(describing: categoryID))")
+                
                 let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
                 
-                recipesCollection.getDocuments { querySnapshot, error in
+                recipesCollection.getDocuments { [weak self] querySnapshot, error in
+                    guard let self = self else { return }
+                    
                     if let error = error {
                         print("Error fetching recipes: \(error)")
                         return
                     }
                 }
-            }
-            guard let recipes = querySnapshot?.documents else { return }
-            
-            for recipe in recipes {
-                let recipeData = recipe.data()
-                print("recipe data: \(recipeData)")
-                for (_, recipeDetail) in recipeData {
-                    if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                        print("recipeID is: \(recipeID)")
-                        self.getCategories(query: String(recipeID), categoryID: categoryID)
-                    }
+                    
+                    guard let recipes = querySnapshot?.documents else { return }
+                    
+                    for recipe in recipes {
+                        let recipeData = recipe.data()
+                        print("recipe data: \(recipeData)")
                         
+                        for (_, recipeDetail) in recipeData {
+                            if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
+                                print("recipeID is: \(recipeID)")
+                                self.getCategories(query: String(recipeID), categoryID: categoryID)
+                            }
+                            
+                        }
                     }
                 }
             }
@@ -134,9 +141,11 @@ class BookmarksVC: UIViewController {
             
             switch result {
             case .success(let recipes):
+                
                 if var existingRecipes = self.recipes[categoryID] {
                     existingRecipes.append(contentsOf: recipes)
                     self.recipes[categoryID] = existingRecipes
+                    print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
                 } else {
                     self.recipes[categoryID] = recipes
                 }
