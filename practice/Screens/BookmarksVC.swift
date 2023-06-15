@@ -145,7 +145,7 @@ class BookmarksVC: UIViewController {
                 if var existingRecipes = self.recipes[categoryID] {
                     existingRecipes.append(contentsOf: recipes)
                     self.recipes[categoryID] = existingRecipes
-                    print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
+                    //print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
                 } else {
                     self.recipes[categoryID] = recipes
                 }
