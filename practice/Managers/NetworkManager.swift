@@ -81,7 +81,11 @@ class NetworkManager {
                 case .bookmarks(_):
                     let recipes = try decoder.decode(Recipe.self, from: data)
                     completed(.success([recipes]))
+                    
                 case .myRefrigerator(_):
+                    break
+                    
+                case .ingredientsAutoSearch(_):
                     break
                 }
             } catch {

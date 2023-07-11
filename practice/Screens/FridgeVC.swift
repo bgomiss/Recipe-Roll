@@ -9,6 +9,7 @@ import UIKit
 
 class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
     private let tableView = UITableView()
@@ -31,18 +32,22 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         return label
     }()
     
+    private let selectedIngredientsLabel: UILabel = {
+        let label = SPTitleLabel(text: "Selected Ingredients", textAlignment: .left, fontSize: 15)
+        label.textColor = .white
+        return label
+    }()
+    
     private let resetButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Reset", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        let button = SPButton()
+        button.set(withColor: .white, backgroundColor: .systemGray, title: "Reset")
         button.addTarget(self, action: #selector(handleResetButtonTap), for: .touchUpInside)
         return button
     }()
     
     private let findRecipesButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Find Recipes", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        let button = SPButton()
+        button.set(withColor: .systemMint, backgroundColor: .white, title: "Find Recipes")
         button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
         return button
     }()
@@ -50,13 +55,34 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        
         setupUserImageView()
         setupTitleLabel()
-        setupSearchBar()
-        setupResetButton()
+        setupSelectedIngredientsLabel()
         setupFindRecipesButton()
+        setupResetButton()
+        setupSearchBar()
         setupTableView()
+        configure()
+        
+      }
+    
+    
+    func configure() {
+        self.view.addSubview(ingredientsVC.view) // Add the child's view to the parent's view
+        self.addChild(ingredientsVC) // Add the child view controller to the parent
+        ingredientsVC.didMove(toParent: self) // Notify the child view controller
+        
+        NSLayoutConstraint.activate([
+           ingredientsVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
+           ingredientsVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant:  -30),
+           ingredientsVC.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant:  -100),
+           ingredientsVC.view.heightAnchor.constraint(equalToConstant: 120)
+        ])
+
+
     }
+    
     
     private func setupUserImageView() {
         self.view.addSubview(userImageView)
@@ -80,7 +106,7 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     private func setupSearchBar() {
         self.view.addSubview(ingredientSearchBar)
-        ingredientSearchBar.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             ingredientSearchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             ingredientSearchBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
@@ -91,22 +117,35 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     private func setupResetButton() {
-        self.view.addSubview(resetButton)
-        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        ingredientsVC.view.addSubview(resetButton)
+        
         NSLayoutConstraint.activate([
-            resetButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            resetButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            resetButton.widthAnchor.constraint(equalToConstant: 100)
+            resetButton.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
+            resetButton.trailingAnchor.constraint(equalTo: ingredientsVC.view.trailingAnchor, constant: -10),
+            resetButton.heightAnchor.constraint(equalToConstant: 20),
+            resetButton.widthAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    private func setupSelectedIngredientsLabel() {
+        ingredientsVC.view.addSubview(selectedIngredientsLabel)
+        
+        NSLayoutConstraint.activate([
+            selectedIngredientsLabel.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
+            selectedIngredientsLabel.leadingAnchor.constraint(equalTo: ingredientsVC.view.leadingAnchor, constant: 10),
+            selectedIngredientsLabel.heightAnchor.constraint(equalToConstant: 20),
+            selectedIngredientsLabel.widthAnchor.constraint(equalToConstant: 160)
         ])
     }
     
     private func setupFindRecipesButton() {
-        self.view.addSubview(findRecipesButton)
-        findRecipesButton.translatesAutoresizingMaskIntoConstraints = false
+        ingredientsVC.view.addSubview(findRecipesButton)
+
         NSLayoutConstraint.activate([
-            findRecipesButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            findRecipesButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            findRecipesButton.widthAnchor.constraint(equalToConstant: 120)
+            findRecipesButton.bottomAnchor.constraint(equalTo: ingredientsVC.view.bottomAnchor, constant: -20),
+            findRecipesButton.trailingAnchor.constraint(equalTo: ingredientsVC.view.trailingAnchor, constant: -60),
+            findRecipesButton.leadingAnchor.constraint(equalTo: ingredientsVC.view.leadingAnchor, constant: 60),
+            findRecipesButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -115,11 +154,15 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
+        tableView.scrollIndicatorInsets = tableView.contentInset
+
+
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: ingredientSearchBar.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: resetButton.topAnchor, constant: -20)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
         ])
     }
 

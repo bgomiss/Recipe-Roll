@@ -9,18 +9,23 @@ import UIKit
 
 class IngredientsVC: UIViewController {
     
-    let stackView = UIStackView()
+    let stackView           = UIStackView()
+    let containerView       = SPContainerView(frame: .zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        setupStackView()
         setupConstraints()
+        
     }
     
 
     func setupStackView() {
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.spacing = 13
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
