@@ -14,6 +14,7 @@ class NetworkManager {
        case searhRecipes(String)
        case bookmarks(String)
        case myRefrigerator(String)
+       case ingredientsAutoSearch(String)
        var url: String {
                 switch self {
                 case .searchCategory(let category):
@@ -24,9 +25,14 @@ class NetworkManager {
                     
                 case .bookmarks(let recipeID):
                     return "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
+                    
                 case .myRefrigerator(let ingredients):
                     return
                 "https://api.spoonacular.com/recipes/findByIngredients?ingredients=\(ingredients)&number=10&apiKey=\(Api.apiKey)"
+                    
+                case .ingredientsAutoSearch(let searchItem):
+                    return
+                "https://api.spoonacular.com/food/ingredients/autocomplete?query=\(searchItem)&number=5&apiKey=\(Api.apiKey)"
                 }
             }
     }
@@ -75,6 +81,8 @@ class NetworkManager {
                 case .bookmarks(_):
                     let recipes = try decoder.decode(Recipe.self, from: data)
                     completed(.success([recipes]))
+                case .myRefrigerator(_):
+                    break
                 }
             } catch {
                 completed(.failure(.invalidData))

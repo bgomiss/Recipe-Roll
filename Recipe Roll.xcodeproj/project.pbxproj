@@ -32,6 +32,7 @@
 		1C46974529BD3FFA00918782 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C46974329BD3FFA00918782 /* LaunchScreen.storyboard */; };
 		1C486AF02A3708A100E58CFC /* SPSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C486AEF2A3708A100E58CFC /* SPSearchBar.swift */; };
 		1C486AF22A373BE400E58CFC /* QueryRecipesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C486AF12A373BE400E58CFC /* QueryRecipesVC.swift */; };
+		1C4AC8222A5DC44900F2DA18 /* IngredientsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4AC8212A5DC44900F2DA18 /* IngredientsVC.swift */; };
 		1C4BF8FB29D7299F009286D4 /* MadeItHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */; };
 		1C4BF8FD29D72AED009286D4 /* MadeItCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF8FC29D72AED009286D4 /* MadeItCollectionViewCell.swift */; };
 		1C4BF8FF29D72E67009286D4 /* BreakfastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4BF8FE29D72E67009286D4 /* BreakfastHeaderView.swift */; };
@@ -111,6 +112,7 @@
 		1C46974629BD3FFA00918782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C486AEF2A3708A100E58CFC /* SPSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSearchBar.swift; sourceTree = "<group>"; };
 		1C486AF12A373BE400E58CFC /* QueryRecipesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryRecipesVC.swift; sourceTree = "<group>"; };
+		1C4AC8212A5DC44900F2DA18 /* IngredientsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsVC.swift; sourceTree = "<group>"; };
 		1C4BF8FA29D7299F009286D4 /* MadeItHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeItHeaderView.swift; sourceTree = "<group>"; };
 		1C4BF8FC29D72AED009286D4 /* MadeItCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeItCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C4BF8FE29D72E67009286D4 /* BreakfastHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastHeaderView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		1C2EE92629C1C20B00B3D24A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1C4AC8202A5DC40D00F2DA18 /* FridgeVC */,
 				1CF8D4E629DEF68E002DD589 /* SignupScreenVCs */,
 				1C2EE92729C1C23100B3D24A /* SPAlertVC.swift */,
 				1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */,
@@ -270,6 +273,14 @@
 				1C486AEF2A3708A100E58CFC /* SPSearchBar.swift */,
 			);
 			path = SearchBars;
+			sourceTree = "<group>";
+		};
+		1C4AC8202A5DC40D00F2DA18 /* FridgeVC */ = {
+			isa = PBXGroup;
+			children = (
+				1C4AC8212A5DC44900F2DA18 /* IngredientsVC.swift */,
+			);
+			path = FridgeVC;
 			sourceTree = "<group>";
 		};
 		1C51B09C29BF2BA600A04FAD /* Support */ = {
@@ -509,6 +520,7 @@
 				1C2EE92529C1C0AB00B3D24A /* SPSecondaryTitleLabel.swift in Sources */,
 				1C2EB4FC2A1364C800514031 /* User.swift in Sources */,
 				1C5944E12A0CCBA000C172B0 /* AppCoordinator.swift in Sources */,
+				1C4AC8222A5DC44900F2DA18 /* IngredientsVC.swift in Sources */,
 				1C322F1C29C76FED000BA900 /* PersistenceManager.swift in Sources */,
 				1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */,
 				1C4D728429D9C233009F911E /* OverlayView.swift in Sources */,
