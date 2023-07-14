@@ -128,13 +128,17 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     private func setupSelectedIngredientsLabel() {
-        ingredientsVC.view.addSubview(selectedIngredientsLabel)
+        ingredientsVC.view.addSubviews(selectedIngredientsLabel, ingredientsVC.stackView)
         
         NSLayoutConstraint.activate([
             selectedIngredientsLabel.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
             selectedIngredientsLabel.leadingAnchor.constraint(equalTo: ingredientsVC.view.leadingAnchor, constant: 10),
             selectedIngredientsLabel.heightAnchor.constraint(equalToConstant: 20),
-            selectedIngredientsLabel.widthAnchor.constraint(equalToConstant: 160)
+            selectedIngredientsLabel.widthAnchor.constraint(equalToConstant: 160),
+            
+            ingredientsVC.stackView.leadingAnchor.constraint(equalTo: selectedIngredientsLabel.trailingAnchor, constant: 10),
+            ingredientsVC.stackView.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
+            ingredientsVC.stackView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -188,6 +192,7 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             ingredients.append(ingredient)
             searchBar.text = ""
             tableView.reloadData()
+            ingredientsVC.addIngredient(ingredient)
         }
         searchBar.resignFirstResponder()
     }
