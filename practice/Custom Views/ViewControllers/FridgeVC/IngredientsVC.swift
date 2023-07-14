@@ -23,7 +23,7 @@ class IngredientsVC: UIViewController {
     
     
     func addIngredient(_ ingredient: String) {
-        ingredientThumbs.image = UIImage(named: "signup")
+        ingredientThumbs.image = UIImage(systemName: "bookmark")
         ingredientThumbs.contentMode = .scaleAspectFill
         ingredientThumbs.clipsToBounds = true
         
@@ -53,12 +53,12 @@ class IngredientsVC: UIViewController {
 
     func setupStackView() {
         stackView.axis = .horizontal
-        stackView.spacing = -20
+        stackView.spacing = 10
         stackView.alignment = .leading
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0) 
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) 
         stackView.addArrangedSubview(ingredientThumbs)
     }
     
