@@ -7,17 +7,29 @@
 
 import UIKit
 
-class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class FridgeVC: UIViewController, UISearchBarDelegate {
     
     let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
-    private let tableView = UITableView()
+   // private let tableView = UITableView()
     
     private let ingredientSearchBar: SPSearchBar = {
         let searchBar = SPSearchBar(placeholder: "Enter an ingredient")
         return searchBar
     }()
+    
+    
+    private lazy var collectionView: UICollectionView = {
+            let layout = UIHelper.createThreeColumnFlowLayout(in: view)
+            let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            cv.backgroundColor = .systemBackground
+            cv.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
+            cv.delegate = self
+            cv.dataSource = self
+            return cv
+        }()
+    
     
     private lazy var userImageView: SPImageView = {
         let imageView = SPImageView(cornerRadius: 20)
@@ -62,7 +74,8 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         setupFindRecipesButton()
         setupResetButton()
         setupSearchBar()
-        setupTableView()
+        configureCollectionView()
+        //setupTableView()
         configure()
         
       }
@@ -153,45 +166,45 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         ])
     }
     
-    private func setupTableView() {
-        self.view.addSubview(tableView)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
-        tableView.scrollIndicatorInsets = tableView.contentInset
+//    private func setupTableView() {
+//        self.view.addSubview(tableView)
+//        tableView.dataSource = self
+//        tableView.delegate = self
+//        tableView.translatesAutoresizingMaskIntoConstraints = false
+//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
+//        tableView.scrollIndicatorInsets = tableView.contentInset
+//
+//
+//        NSLayoutConstraint.activate([
+//            tableView.topAnchor.constraint(equalTo: ingredientSearchBar.bottomAnchor, constant: 20),
+//            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+//        ])
+//    }
 
-
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: ingredientSearchBar.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
-        ])
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ingredients.count
-    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return ingredients.count
+//    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        cell.textLabel?.text = ingredients[indexPath.row]
-        return cell
-    }
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+//        cell.textLabel?.text = ingredients[indexPath.row]
+//        return cell
+//    }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            ingredients.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            ingredients.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let ingredient = searchBar.text, !ingredient.isEmpty {
             ingredients.append(ingredient)
             searchBar.text = ""
-            tableView.reloadData()
+            collectionView.reloadData()
             ingredientsVC.addIngredient(ingredient)
         }
         searchBar.resignFirstResponder()
@@ -199,7 +212,7 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     @objc func handleResetButtonTap() {
         ingredients.removeAll()
-        tableView.reloadData()
+        collectionView.reloadData()
     }
     
     @objc func handleFindRecipesButtonTap() {
@@ -207,14 +220,35 @@ class FridgeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
 }
 
-extension FridgeVC {
+extension FridgeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func configureCollectionView() {
-            let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
             view.addSubview(collectionView)
-            collectionView.delegate = self
-            collectionView.backgroundColor = .systemBackground
-            collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
+            collectionView.scrollIndicatorInsets = collectionView.contentInset
+            
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: ingredientSearchBar.bottomAnchor, constant: 20),
+                collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+            ])
         }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return ingredients.count
     }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    }
+}
+    
 
