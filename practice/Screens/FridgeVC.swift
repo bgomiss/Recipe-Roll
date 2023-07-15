@@ -24,7 +24,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             let layout = UIHelper.createThreeColumnFlowLayout(in: view)
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
             cv.backgroundColor = .systemBackground
-            cv.register(RecommendationCollectionViewCell.self, forCellWithReuseIdentifier: RecommendationCollectionViewCell.reuseID)
+            cv.register(FridgeVcCell.self, forCellWithReuseIdentifier: FridgeVcCell.reuseID)
             cv.delegate = self
             cv.dataSource = self
             return cv
@@ -242,7 +242,7 @@ extension FridgeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as? FridgeVcCell else {fatalError("unable to dequeue")}
         
         return cell
     }

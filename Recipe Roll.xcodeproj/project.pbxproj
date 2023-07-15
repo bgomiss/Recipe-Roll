@@ -66,6 +66,7 @@
 		1C6F615429F7B53A004BA86F /* RecipesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F615329F7B53A004BA86F /* RecipesTVCell.swift */; };
 		1C6F615629F7F3B6004BA86F /* RecipeResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */; };
 		1C70FD4D29D1CE5F0025120B /* RecommendationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C70FD4C29D1CE5F0025120B /* RecommendationCollectionViewCell.swift */; };
+		1C71938F2A63318B002BC992 /* FridgeVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C71938E2A63318B002BC992 /* FridgeVcCell.swift */; };
 		1C7474DB2A0278E20003AE75 /* IngredientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */; };
 		1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7918A72A04FF67009951EA /* StepsCell.swift */; };
 		1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7FF06629C6D01C0063B280 /* UIHelper.swift */; };
@@ -139,6 +140,7 @@
 		1C6F615329F7B53A004BA86F /* RecipesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesTVCell.swift; sourceTree = "<group>"; };
 		1C6F615529F7F3B6004BA86F /* RecipeResultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeResultsVC.swift; sourceTree = "<group>"; };
 		1C70FD4C29D1CE5F0025120B /* RecommendationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationCollectionViewCell.swift; sourceTree = "<group>"; };
+		1C71938E2A63318B002BC992 /* FridgeVcCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeVcCell.swift; sourceTree = "<group>"; };
 		1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsCell.swift; sourceTree = "<group>"; };
 		1C7918A72A04FF67009951EA /* StepsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsCell.swift; sourceTree = "<group>"; };
 		1C7FF06629C6D01C0063B280 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */,
 				1C7918A72A04FF67009951EA /* StepsCell.swift */,
 				1CC9814D2A0A1DFD0048919B /* CommentTableViewCell.swift */,
+				1C71938E2A63318B002BC992 /* FridgeVcCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				1C46121829BF795700B3C891 /* BookmarksVC.swift in Sources */,
 				1C46973D29BD3FF900918782 /* HomeVC.swift in Sources */,
 				1C46973929BD3FF900918782 /* AppDelegate.swift in Sources */,
+				1C71938F2A63318B002BC992 /* FridgeVcCell.swift in Sources */,
 				1C5351E429F9236F00EF1F35 /* InstructionsVC.swift in Sources */,
 				1C2E8EDD29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift in Sources */,
 				1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */,
