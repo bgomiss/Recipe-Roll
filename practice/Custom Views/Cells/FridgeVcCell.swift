@@ -25,10 +25,13 @@ class FridgeVcCell: UICollectionViewCell {
     }
     
     
-    func set(follower: Follower) {
-        ingredientView.downloadImage(fromURL: follower.avatarUrl)
-        ingredientName.text = follower.login
+    func set(ingredients: [Ent]) {
+        
+        for ingredient in ingredients {
+            ingredientView.downloadImage(fromURL: ingredient.image)
+            ingredientName.text = ingredient.name.uppercased()
         }
+       }
     
     
     private func configure() {
