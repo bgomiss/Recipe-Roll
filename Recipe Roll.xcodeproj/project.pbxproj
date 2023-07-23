@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C08A49C2A6D64540053D7BC /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C08A49B2A6D64540053D7BC /* Ingredient.swift */; };
 		1C2E8ED829C1E14C00DB0822 /* VC+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2E8ED729C1E14C00DB0822 /* VC+Ext.swift */; };
 		1C2E8EDA29C1E21B00DB0822 /* Tableview+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2E8ED929C1E21B00DB0822 /* Tableview+Ext.swift */; };
 		1C2E8EDD29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2E8EDC29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C08A49B2A6D64540053D7BC /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		1C2E8ED729C1E14C00DB0822 /* VC+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VC+Ext.swift"; sourceTree = "<group>"; };
 		1C2E8ED929C1E21B00DB0822 /* Tableview+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tableview+Ext.swift"; sourceTree = "<group>"; };
 		1C2E8EDC29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				1C982B8E29C06B3D00CA7471 /* Recipe.swift */,
 				1CC9814F2A0A23080048919B /* Comment.swift */,
 				1C2EB4FB2A1364C800514031 /* User.swift */,
+				1C08A49B2A6D64540053D7BC /* Ingredient.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				1C46973929BD3FF900918782 /* AppDelegate.swift in Sources */,
 				1C71938F2A63318B002BC992 /* FridgeVcCell.swift in Sources */,
 				1C5351E429F9236F00EF1F35 /* InstructionsVC.swift in Sources */,
+				1C08A49C2A6D64540053D7BC /* Ingredient.swift in Sources */,
 				1C2E8EDD29C1E6F400DB0822 /* CategoriesCollectionViewCell.swift in Sources */,
 				1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */,
 				1C517FE629D5A17A00922940 /* BookmarksVC+Ext.swift in Sources */,

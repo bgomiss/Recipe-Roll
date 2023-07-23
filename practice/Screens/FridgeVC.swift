@@ -12,7 +12,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
-   // private let tableView = UITableView()
+    var ingredientsArray: [Ent] = []
     
     private let ingredientSearchBar: SPSearchBar = {
         let searchBar = SPSearchBar(placeholder: "Enter an ingredient")
