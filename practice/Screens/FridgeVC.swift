@@ -9,10 +9,16 @@ import UIKit
 
 class FridgeVC: UIViewController, UISearchBarDelegate {
     
+    enum Section { case main }
+    
     let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
-    var ingredientsArray: [Ent] = []
+    var ingredientsArray: [Ingredient] = []
+    var hasMoreIngredients = true
+    var page = 1
+    var isLoadingMoreIngredients = false
+    var dataSource: UICollectionViewDiffableDataSource<Section, Ingredient>!
     
     private let ingredientSearchBar: SPSearchBar = {
         let searchBar = SPSearchBar(placeholder: "Enter an ingredient")
@@ -79,6 +85,29 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         configure()
         
       }
+    
+    
+    func getIngredients(ingredient: String) {
+        isLoadingMoreIngredients = true
+        
+        NetworkManager.shared.getRecipesInfo(for: .ingredientsAutoSearch(ingredient)) { [weak self] result in
+            guard let self = self else {return}
+            
+            switch result {
+            case .success(let ingredients):
+                DispatchQueue.main.async {
+                    self.ingredientsArray = ingredients
+                    for recipe in ingredients {
+                        self.extractIngredients(from: recipe.analyzedInstructions)
+                    }
+                    self.collectionView.reloadData()
+                    //self.view.bringSubviewToFront(self.tableView)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     
     func configure() {
