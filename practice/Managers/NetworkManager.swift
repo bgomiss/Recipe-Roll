@@ -86,7 +86,8 @@ class NetworkManager {
                     break
                     
                 case .ingredientsAutoSearch(_):
-                    break
+                    let ingredients = try decoder.decode(Ingredient.self, from: data)
+                    completed(.success([ingredients]))
                 }
             } catch {
                 completed(.failure(.invalidData))
