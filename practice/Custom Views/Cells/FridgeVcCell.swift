@@ -25,12 +25,11 @@ class FridgeVcCell: UICollectionViewCell {
     }
     
     
-    func set(ingredients: [Ent]) {
+    func set(ingredients: Ingredient) {
+    
+        ingredientView.downloadImage(fromURL: ingredients.imageURL ?? "")
+            ingredientName.text = ingredients.name.uppercased()
         
-        for ingredient in ingredients {
-            ingredientView.downloadImage(fromURL: ingredient.image)
-            ingredientName.text = ingredient.name.uppercased()
-        }
        }
     
     

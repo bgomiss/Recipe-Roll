@@ -44,7 +44,10 @@ class NetworkManager {
     
     private init() {}
     
-    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void) {
+    typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
+
+    
+    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil) {
         
         guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
@@ -86,8 +89,9 @@ class NetworkManager {
                     break
                     
                 case .ingredientsAutoSearch(_):
-                    let ingredients = try decoder.decode(Ingredient.self, from: data)
-                    completed(.success([ingredients]))
+                    guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
+                    let ingredients = try decoder.decode([Ingredient].self, from: data)
+                    ingredientsCompleted(.success(ingredients))
                 }
             } catch {
                 completed(.failure(.invalidData))
