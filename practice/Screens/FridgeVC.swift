@@ -274,7 +274,7 @@ extension FridgeVC: UICollectionViewDelegate {
             collectionView.delegate = self
             //collectionView.dataSource = self
             collectionView.translatesAutoresizingMaskIntoConstraints = false
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
+            //collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
             collectionView.scrollIndicatorInsets = collectionView.contentInset
             
             NSLayoutConstraint.activate([
