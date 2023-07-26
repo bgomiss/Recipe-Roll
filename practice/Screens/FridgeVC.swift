@@ -72,6 +72,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        configureDataSource()
         setupUserImageView()
         setupTitleLabel()
         setupSelectedIngredientsLabel()
@@ -80,7 +81,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         setupSearchBar()
         configureCollectionView()
         configure()
-        configureDataSource()
+        
         
     }
     
@@ -268,12 +269,12 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
 }
     
-    extension FridgeVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension FridgeVC: UICollectionViewDelegate {
         
         func configureCollectionView() {
             view.addSubview(collectionView)
             collectionView.delegate = self
-            collectionView.dataSource = self
+            //collectionView.dataSource = self
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
             collectionView.scrollIndicatorInsets = collectionView.contentInset
@@ -287,19 +288,19 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         }
         
         
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return ingredientsArray.count
-        }
+//        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//            return ingredientsArray.count
+//        }
         
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as? FridgeVcCell else {fatalError("unable to dequeue")}
-            
-            let ingredient = ingredientsArray[indexPath.item]
-            cell.set(ingredients: ingredient)
-            print("Setting cell with ingredient: \(ingredient)")
-            return cell
-        }
+//        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as? FridgeVcCell else {fatalError("unable to dequeue")}
+//
+//            let ingredient = ingredientsArray[indexPath.item]
+//            cell.set(ingredients: ingredient)
+//            print("Setting cell with ingredient: \(ingredient)")
+//            return cell
+//        }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         }
