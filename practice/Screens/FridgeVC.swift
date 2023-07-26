@@ -31,8 +31,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemBackground
         cv.register(FridgeVcCell.self, forCellWithReuseIdentifier: FridgeVcCell.reuseID)
-        cv.delegate = self
-        cv.dataSource = self
         return cv
     }()
     
@@ -81,7 +79,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         setupResetButton()
         setupSearchBar()
         configureCollectionView()
-        //setupTableView()
         configure()
         configureDataSource()
         
@@ -97,8 +94,10 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             switch result {
             case .success(let ingredients):
                     DispatchQueue.main.async {
-                        self.ingredientsArray.append(contentsOf: ingredients)
+                        self.ingredientsArray = ingredients
                         self.updateData(on: self.ingredientsArray) // Call updateData instead of reloading the collectionView
+                        self.collectionView.reloadData()
+
                     }
                 
             case .failure(let error):
@@ -255,6 +254,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         searchBar.resignFirstResponder()
         
         getIngredients(ingredient: ingredient)
+        
     }
     
     
@@ -272,6 +272,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         
         func configureCollectionView() {
             view.addSubview(collectionView)
+            collectionView.delegate = self
+            collectionView.dataSource = self
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
             collectionView.scrollIndicatorInsets = collectionView.contentInset
@@ -283,6 +285,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                 collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
             ])
         }
+        
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return ingredientsArray.count
