@@ -212,32 +212,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         ])
     }
     
-    //    private func setupTableView() {
-    //        self.view.addSubview(tableView)
-    //        tableView.dataSource = self
-    //        tableView.delegate = self
-    //        tableView.translatesAutoresizingMaskIntoConstraints = false
-    //        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ingredientsVC.view.frame.height, right: 0)
-    //        tableView.scrollIndicatorInsets = tableView.contentInset
-    //
-    //
-    //        NSLayoutConstraint.activate([
-    //            tableView.topAnchor.constraint(equalTo: ingredientSearchBar.bottomAnchor, constant: 20),
-    //            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-    //            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-    //            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
-    //        ])
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //        return ingredients.count
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    //        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-    //        cell.textLabel?.text = ingredients[indexPath.row]
-    //        return cell
-    //    }
     
     //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     //        if editingStyle == .delete {
@@ -248,7 +222,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let ingredient = searchBar.text, !ingredient.isEmpty else { return }
-        
+        ingredientsArray.removeAll()
         searchBar.text = ""
         searchBar.resignFirstResponder()
         
