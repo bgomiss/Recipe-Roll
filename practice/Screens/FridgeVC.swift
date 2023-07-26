@@ -82,7 +82,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         configureCollectionView()
         configure()
         
-        
     }
     
     
@@ -97,8 +96,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                     DispatchQueue.main.async {
                         self.ingredientsArray = ingredients
                         self.updateData(on: self.ingredientsArray) // Call updateData instead of reloading the collectionView
-                        self.collectionView.reloadData()
-
                     }
                 
             case .failure(let error):
@@ -118,6 +115,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             cell.set(ingredients: ingredient)
             return cell
         })
+        collectionView.dataSource = dataSource
     }
     
     
