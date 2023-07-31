@@ -72,7 +72,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
+        ingredientsVC.fridgeVC = self
         configureDataSource()
         setupUserImageView()
         setupTitleLabel()
@@ -108,6 +108,9 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
     
     
+    func getSelectedIngredientsCount() -> Int {
+            return selectedIngredients.count
+        }
     
     
     func configureDataSource() {
@@ -282,6 +285,7 @@ extension FridgeVC: UICollectionViewDelegate {
             currentSnapshot.appendItems([selectedIngredient])
             DispatchQueue.main.async {
                 self.dataSource.apply(currentSnapshot, animatingDifferences: true)
+                self.ingredientsVC.addIngredient(selectedIngredient)
                 print(self.selectedIngredients)
             }
         }

@@ -11,6 +11,7 @@ class IngredientsVC: UIViewController {
     
     let stackView           = UIStackView()
     let ingredientThumbs    = SPImageView(frame: .zero)
+    var fridgeVC: FridgeVC?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +23,13 @@ class IngredientsVC: UIViewController {
     }
     
     
-    func addIngredient(_ ingredient: String) {
-        ingredientThumbs.image = UIImage(systemName: "bookmark")
-        ingredientThumbs.contentMode = .scaleAspectFill
+    func addIngredient(_ ingredient: Ingredient) {
+        ingredientThumbs.downloadImage(fromURL: ingredient.imageURL ?? "")
+        ingredientThumbs.contentMode = .scaleToFill
         ingredientThumbs.clipsToBounds = true
+        ingredientThumbs.layer.cornerRadius = 15
         
-        if stackView.arrangedSubviews.count < 3 {
+        if stackView.arrangedSubviews.count < 4 {
             stackView.addArrangedSubview(ingredientThumbs)
         } else {
             updateCountLabel()
@@ -45,15 +47,25 @@ class IngredientsVC: UIViewController {
             countLabel.backgroundColor = .white
             stackView.addArrangedSubview(countLabel)
         }
-        let count = stackView.arrangedSubviews.count - 2
-        countLabel.text = "+\(count)"
-        countLabel.layoutIfNeeded()
-    }
+        
+        let count = fridgeVC!.getSelectedIngredientsCount() - 3
+            print("TOTAL INGREDIENTS ARE: \(count)")
+            countLabel.text = "+\(count)"
+            countLabel.layoutIfNeeded()
+            
+            
+            
+            //Adjust the width constraint of ingredientThumbs view
+            if let lastIngredientThumb = stackView.arrangedSubviews[stackView.arrangedSubviews.count - 4] as? SPImageView {
+                let thumbWidth: CGFloat = (count < 3) ? (120 - CGFloat(count) * 40) : 20
+                lastIngredientThumb.widthAnchor.constraint(equalToConstant: thumbWidth).isActive = true
+            }
+        }
     
 
     func setupStackView() {
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = -10
         stackView.alignment = .leading
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
