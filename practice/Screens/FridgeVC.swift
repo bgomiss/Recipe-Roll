@@ -15,6 +15,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     var user: User?
     private var ingredients = [String]()
     var ingredientsArray: [Ingredient] = []
+    var selectedIngredients: [Ingredient] = []
     var hasMoreIngredients = true
     var page = 1
     var isLoadingMoreIngredients = false
@@ -232,8 +233,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     
     @objc func handleResetButtonTap() {
-        ingredients.removeAll()
-        collectionView.reloadData()
+        selectedIngredients.removeAll()
     }
     
     @objc func handleFindRecipesButtonTap() {
@@ -275,6 +275,15 @@ extension FridgeVC: UICollectionViewDelegate {
 //        }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            
+            guard let selectedIngredient = dataSource.itemIdentifier(for: indexPath), !selectedIngredients.contains(selectedIngredient) else { return }
+            selectedIngredients.append(selectedIngredient)
+            var currentSnapshot = dataSource.snapshot()
+            currentSnapshot.appendItems([selectedIngredient])
+            DispatchQueue.main.async {
+                self.dataSource.apply(currentSnapshot, animatingDifferences: true)
+                print(self.selectedIngredients)
+            }
         }
     }
 
