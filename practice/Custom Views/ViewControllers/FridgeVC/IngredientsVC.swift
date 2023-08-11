@@ -66,7 +66,7 @@ class IngredientsVC: UIViewController {
 
     func setupStackView() {
         stackView.axis = .horizontal
-        stackView.spacing = -10
+        stackView.spacing = -20
         stackView.alignment = .leading
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
