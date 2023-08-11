@@ -11,7 +11,7 @@ import UIKit
 class SPImageView: UIImageView {
     
     let cache = NetworkManager.shared.cache
-    let placeholderImage = UIImage(systemName: "photo")
+    //let placeholderImage = UIImage(systemName: "photo")
     
     
     override init(frame: CGRect) {
@@ -34,7 +34,7 @@ class SPImageView: UIImageView {
     private func configure() {
         layer.cornerRadius = 10
         clipsToBounds = true
-        image = placeholderImage
+        //image = placeholderImage
         translatesAutoresizingMaskIntoConstraints = false
     }
     
