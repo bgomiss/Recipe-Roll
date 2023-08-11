@@ -192,14 +192,14 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     private func setupSelectedIngredientsLabel() {
         ingredientsVC.view.addSubviews(selectedIngredientsLabel, ingredientsVC.stackView)
-        
+        ingredientsVC.stackView.backgroundColor = .cyan
         NSLayoutConstraint.activate([
             selectedIngredientsLabel.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
             selectedIngredientsLabel.leadingAnchor.constraint(equalTo: ingredientsVC.view.leadingAnchor, constant: 10),
             selectedIngredientsLabel.heightAnchor.constraint(equalToConstant: 20),
             selectedIngredientsLabel.widthAnchor.constraint(equalToConstant: 160),
             
-            ingredientsVC.stackView.leadingAnchor.constraint(equalTo: selectedIngredientsLabel.trailingAnchor, constant: 10),
+            ingredientsVC.stackView.leadingAnchor.constraint(equalTo: selectedIngredientsLabel.trailingAnchor),
             ingredientsVC.stackView.trailingAnchor.constraint(equalTo: ingredientsVC.view.trailingAnchor, constant: -70),
             ingredientsVC.stackView.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
             ingredientsVC.stackView.heightAnchor.constraint(equalToConstant: 30)
