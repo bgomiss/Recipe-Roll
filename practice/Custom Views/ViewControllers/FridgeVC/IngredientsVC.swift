@@ -24,6 +24,7 @@ class IngredientsVC: UIViewController {
     
     
     func addIngredient(_ ingredient: Ingredient) {
+        let ingredientThumbs = SPImageView(frame: .zero)
         ingredientThumbs.downloadImage(fromURL: ingredient.imageURL ?? "")
         ingredientThumbs.contentMode = .scaleToFill
         ingredientThumbs.clipsToBounds = true
