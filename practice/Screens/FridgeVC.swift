@@ -200,6 +200,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             selectedIngredientsLabel.widthAnchor.constraint(equalToConstant: 160),
             
             ingredientsVC.stackView.leadingAnchor.constraint(equalTo: selectedIngredientsLabel.trailingAnchor, constant: 10),
+            ingredientsVC.stackView.trailingAnchor.constraint(equalTo: ingredientsVC.view.trailingAnchor, constant: -70),
             ingredientsVC.stackView.topAnchor.constraint(equalTo: ingredientsVC.view.topAnchor, constant: 10),
             ingredientsVC.stackView.heightAnchor.constraint(equalToConstant: 30)
         ])
