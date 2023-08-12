@@ -45,7 +45,7 @@ class IngredientsVC: UIViewController {
             countLabel = lastView
         } else {
             countLabel = UILabel()
-            countLabel.backgroundColor = .white
+            //countLabel.backgroundColor = .white
             stackView.addArrangedSubview(countLabel)
         }
         

@@ -238,6 +238,15 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     @objc func handleResetButtonTap() {
         selectedIngredients.removeAll()
+        
+        // remove all arranged subviews from the stackview
+        for arrangedSubview in ingredientsVC.stackView.arrangedSubviews {
+            ingredientsVC.stackView.removeArrangedSubview(arrangedSubview)
+            arrangedSubview.removeFromSuperview()
+        }
+        
+        // clear the StackView's layout constraints
+        ingredientsVC.stackView.subviews.forEach{ $0.removeFromSuperview() }
     }
     
     @objc func handleFindRecipesButtonTap() {
