@@ -45,9 +45,10 @@ class NetworkManager {
     private init() {}
     
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
+    typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
 
     
-    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil) {
+    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil) {
         
         guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
@@ -86,7 +87,10 @@ class NetworkManager {
                     completed(.success([recipes]))
                     
                 case .myRefrigerator(_):
-                    break
+                    guard let findByIngCompleted = findByIngCompleted else { fatalError("findByIngCompleted closure must be provided for .myRefrigerator case") }
+                    let recipes = try decoder.decode([FindByIngredients].self, from: data)
+                    findByIngCompleted(.success(recipes))
+        
                     
                 case .ingredientsAutoSearch(_):
                     guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
@@ -99,6 +103,7 @@ class NetworkManager {
         }
         task.resume()
     }
+
     
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {

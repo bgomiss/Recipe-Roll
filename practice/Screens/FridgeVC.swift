@@ -15,6 +15,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     var user: User?
     private var ingredients = [String]()
     var ingredientsArray: [Ingredient] = []
+    var recipesArray: [FindByIngredients] = []
     var selectedIngredients: [Ingredient] = []
     var hasMoreIngredients = true
     var page = 1
@@ -104,6 +105,26 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                 //self.view.bringSubviewToFront(self.tableView)
             }
             self.isLoadingMoreIngredients = false
+        }
+    }
+    
+    
+    func getRecipes(recipe: String) {
+        
+        NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipes), completed: { _ in }) { [weak self] result in
+            guard let self = self else {return}
+            
+            switch result {
+            case .success(let recipes):
+                DispatchQueue.main.async {
+                    self.recipesArray = recipes
+                    self.updateData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                //self.view.bringSubviewToFront(self.tableView)
+            }
         }
     }
     
@@ -251,6 +272,9 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     @objc func handleFindRecipesButtonTap() {
         // Fetch recipes with ingredients and present new view controller
+        guard let ingredients = selectedIngredients, !ingredients.isEmpty else { return }
+        recipesArray.removeAll()
+        getRecipes(recipe: ingredients)
     }
 }
     

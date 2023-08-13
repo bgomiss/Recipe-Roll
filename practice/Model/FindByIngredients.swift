@@ -15,8 +15,12 @@ struct FindByIngredients: Codable {
     let imageType: String
     let usedIngredientCount, missedIngredientCount: Int
     let missedIngredients, usedIngredients: [SedIngredient]
-    let unusedIngredients: [JSONAny]
+    //let unusedIngredients: [JSONAny]
     let likes: Int
+    
+    enum CodingKeys: String, CodingKey {
+            case id, title, image, imageType, usedIngredientCount, missedIngredientCount, missedIngredients, usedIngredients, likes
+        }
 }
 
 // MARK: - SedIngredient
