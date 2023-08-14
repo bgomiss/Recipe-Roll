@@ -35,7 +35,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UIHelper.createThreeColumnFlowLayout(in: view)
+        let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemBackground
         cv.register(FridgeVcCell.self, forCellWithReuseIdentifier: FridgeVcCell.reuseID)
@@ -272,7 +272,10 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         searchBar.resignFirstResponder()
         
         getIngredients(ingredient: ingredient)
+        // Directly set layout for ingredients
         
+        let newLayout = UIHelper.createThreeColumnFlowLayout(in: view)
+        collectionView.setCollectionViewLayout(newLayout, animated: true)
     }
     
     
@@ -302,9 +305,10 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         //if !ingredients.isEmpty {
             recipesArray.removeAll()
             getRecipes(recipe: ingredientsString)
-
-        //}
-
+        
+            let newLayout = UIHelper.createTwoColumnFlowLayout(in: view)
+            collectionView.setCollectionViewLayout(newLayout, animated: true)
+            //}
     }
 }
     
