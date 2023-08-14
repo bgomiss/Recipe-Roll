@@ -7,20 +7,26 @@
 
 import UIKit
 
+enum DisplayableItem: Hashable {
+    case ingredient(Ingredient)
+    case recipe(FindByIngredients)
+}
+
 class FridgeVC: UIViewController, UISearchBarDelegate {
     
     enum Section { case main }
     
+    
     let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
-    var ingredientsArray: [Ingredient] = []
-    var recipesArray: [FindByIngredients] = []
-    var selectedIngredients: [Ingredient] = []
+    var ingredientsArray: [DisplayableItem] = []
+    var recipesArray: [DisplayableItem] = []
+    var selectedIngredients: [DisplayableItem] = []
     var hasMoreIngredients = true
     var page = 1
     var isLoadingMoreIngredients = false
-    var dataSource: UICollectionViewDiffableDataSource<Section, Ingredient>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, DisplayableItem>!
     
     private let ingredientSearchBar: SPSearchBar = {
         let searchBar = SPSearchBar(placeholder: "Enter an ingredient")
@@ -66,7 +72,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     private let findRecipesButton: UIButton = {
         let button = SPButton()
         button.set(withColor: .systemMint, backgroundColor: .white, title: "Find Recipes")
-        button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
         return button
     }()
     
@@ -96,8 +102,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             switch result {
             case .success(let ingredients):
                     DispatchQueue.main.async {
-                        self.ingredientsArray = ingredients
-                        self.updateData(on: self.ingredientsArray) // Call updateData instead of reloading the collectionView
+                        self.ingredientsArray = ingredients.map {DisplayableItem.ingredient($0)}
+                        self.updateIngredientsData(on: self.ingredientsArray) // Call updateData instead of reloading the collectionView
                     }
                 
             case .failure(let error):
@@ -109,24 +115,24 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
     
     
-    func getRecipes(recipe: String) {
-        
-        NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipes), completed: { _ in }) { [weak self] result in
-            guard let self = self else {return}
-            
-            switch result {
-            case .success(let recipes):
-                DispatchQueue.main.async {
-                    self.recipesArray = recipes
-                    self.updateData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
-                }
-                
-            case .failure(let error):
-                print(error.localizedDescription)
-                //self.view.bringSubviewToFront(self.tableView)
-            }
-        }
-    }
+//    func getRecipes(recipe: String) {
+//
+//        NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipe), completed: { _ in }) { [weak self] result in
+//            guard let self = self else {return}
+//
+//            switch result {
+//            case .success(let recipes):
+//                DispatchQueue.main.async {
+//                    self.recipesArray = recipes
+//                    self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
+//                }
+//
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                //self.view.bringSubviewToFront(self.tableView)
+//            }
+//        }
+//    }
     
     
     func getSelectedIngredientsCount() -> Int {
@@ -134,24 +140,43 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         }
     
     
-    func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Ingredient>(collectionView: collectionView, cellProvider: { collectionView, indexPath, ingredient in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as! FridgeVcCell
-            cell.set(ingredients: ingredient)
-            return cell
-        })
-        collectionView.dataSource = dataSource
-    }
+   
+       func configureDataSource() {
+           dataSource = UICollectionViewDiffableDataSource<Section, DisplayableItem>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+               
+               switch item {
+               case .ingredient(let ingredient):
+                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as! FridgeVcCell
+                   cell.setFor(ingredients: ingredient)
+                   return cell
+               case .recipe(let recipe):
+                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FridgeVcCell.reuseID, for: indexPath) as! FridgeVcCell
+                   cell.setFor(recipes: recipe)
+                   return cell
+               }
+                       
+            })
+              collectionView.dataSource = dataSource
+       }
     
     
-    func updateData(on ingredients: [Ingredient]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Ingredient>()
+    func updateIngredientsData(on ingredients: [DisplayableItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DisplayableItem>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(ingredients)
+        snapshot.appendItems(ingredients, toSection: .main)
         DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)
         }
         
     }
+    
+    
+//    func updateRecipesData(on recipes: [FindByIngredients]) {
+//        var snapshot = NSDiffableDataSourceSnapshot<Section, DisplayableItem>()
+//        snapshot.appendSections([.main])
+//        snapshot.appendItems(recipes, toSection: .main)
+//        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true)
+//        }
+//    }
     
     
     func configure() {
@@ -239,13 +264,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
     
     
-    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //        if editingStyle == .delete {
-    //            ingredients.remove(at: indexPath.row)
-    //            tableView.deleteRows(at: [indexPath], with: .fade)
-    //        }
-    //    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let ingredient = searchBar.text, !ingredient.isEmpty else { return }
         ingredientsArray.removeAll()
@@ -270,12 +288,16 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         ingredientsVC.stackView.subviews.forEach{ $0.removeFromSuperview() }
     }
     
-    @objc func handleFindRecipesButtonTap() {
-        // Fetch recipes with ingredients and present new view controller
-        guard let ingredients = selectedIngredients, !ingredients.isEmpty else { return }
-        recipesArray.removeAll()
-        getRecipes(recipe: ingredients)
-    }
+//    @objc func handleFindRecipesButtonTap() {
+//        // Fetch recipes with ingredients and present new view controller
+//        let ingredientNames = selectedIngredients.map { $0.name }
+//        let ingredientsString = ingredientNames.joined(separator: ",")
+//        if !ingredients.isEmpty {
+//            recipesArray.removeAll()
+//            //getRecipes(recipe: ingredientsString)
+//        }
+//
+//    }
 }
     
 extension FridgeVC: UICollectionViewDelegate {
@@ -314,14 +336,21 @@ extension FridgeVC: UICollectionViewDelegate {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             
             guard let selectedIngredient = dataSource.itemIdentifier(for: indexPath), !selectedIngredients.contains(selectedIngredient) else { return }
-            selectedIngredients.append(selectedIngredient)
-            var currentSnapshot = dataSource.snapshot()
-            currentSnapshot.appendItems([selectedIngredient])
-            DispatchQueue.main.async {
+            
+            switch selectedIngredient {
+            case .ingredient(let ingredient):
+                selectedIngredients.append(selectedIngredient)
+                var currentSnapshot = dataSource.snapshot()
+                currentSnapshot.appendItems([selectedIngredient])
+                DispatchQueue.main.async {
                 self.dataSource.apply(currentSnapshot, animatingDifferences: true)
-                self.ingredientsVC.addIngredient(selectedIngredient)
+                self.ingredientsVC.addIngredient(ingredient)
                 print(self.selectedIngredients)
             }
+            case .recipe:
+                break
+            }
+        
         }
     }
 

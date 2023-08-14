@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - RecipeSearchElement
-struct FindByIngredients: Codable {
+struct FindByIngredients: Codable, Hashable {
     let id: Int
     let title: String
     let image: String
@@ -24,7 +24,7 @@ struct FindByIngredients: Codable {
 }
 
 // MARK: - SedIngredient
-struct SedIngredient: Codable {
+struct SedIngredient: Codable, Hashable {
     let id: Int
     let amount: Double
     let unit, unitLong, unitShort, aisle: String
