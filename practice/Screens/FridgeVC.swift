@@ -65,14 +65,14 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     private let resetButton: UIButton = {
         let button = SPButton()
         button.set(withColor: .white, backgroundColor: .systemGray, title: "Reset")
-        button.addTarget(self, action: #selector(handleResetButtonTap), for: .touchUpInside)
+        button.addTarget(IngredientsVC().self, action: #selector(handleResetButtonTap), for: .touchUpInside)
         return button
     }()
     
     private let findRecipesButton: UIButton = {
         let button = SPButton()
         button.set(withColor: .systemMint, backgroundColor: .white, title: "Find Recipes")
-        button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
+        button.addTarget(IngredientsVC().self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
         return button
     }()
     
@@ -124,6 +124,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
             case .success(let recipes):
                 DispatchQueue.main.async {
                     self.recipesArray = recipes.map {DisplayableItem.recipe($0)}
+                    print("recipesArray IS: \(self.recipesArray)")
                     self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
                 }
                 
@@ -174,7 +175,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DisplayableItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(recipes, toSection: .main)
-        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
     
@@ -298,10 +299,11 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         }
         let ingredientsString = ingredientNames.joined(separator: ",")
         print("IngredientsARE: \(ingredientsString)")
-        if !ingredients.isEmpty {
+        //if !ingredients.isEmpty {
             recipesArray.removeAll()
             getRecipes(recipe: ingredientsString)
-        }
+
+        //}
 
     }
 }

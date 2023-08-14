@@ -35,7 +35,7 @@ class FridgeVcCell: UICollectionViewCell {
     
     func setFor(recipes: FindByIngredients) {
     
-        ingredientView.downloadImage(fromURL: recipes.image ?? "")
+        ingredientView.downloadImage(fromURL: recipes.image)
         ingredientName.text = recipes.title.uppercased()
         
        }
