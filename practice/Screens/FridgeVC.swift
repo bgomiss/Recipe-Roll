@@ -72,7 +72,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     private let findRecipesButton: UIButton = {
         let button = SPButton()
         button.set(withColor: .systemMint, backgroundColor: .white, title: "Find Recipes")
-        //button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleFindRecipesButtonTap), for: .touchUpInside)
         return button
     }()
     
@@ -115,24 +115,24 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
     
     
-//    func getRecipes(recipe: String) {
-//
-//        NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipe), completed: { _ in }) { [weak self] result in
-//            guard let self = self else {return}
-//
-//            switch result {
-//            case .success(let recipes):
-//                DispatchQueue.main.async {
-//                    self.recipesArray = recipes
-//                    self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
-//                }
-//
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                //self.view.bringSubviewToFront(self.tableView)
-//            }
-//        }
-//    }
+    func getRecipes(recipe: String) {
+
+        NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipe), completed: { _ in }, findByIngCompleted:  { [weak self] result in
+            guard let self = self else {return}
+            
+            switch result {
+            case .success(let recipes):
+                DispatchQueue.main.async {
+                    self.recipesArray = recipes.map {DisplayableItem.recipe($0)}
+                    self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                //self.view.bringSubviewToFront(self.tableView)
+            }
+        })
+    }
     
     
     func getSelectedIngredientsCount() -> Int {
@@ -170,13 +170,13 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }
     
     
-//    func updateRecipesData(on recipes: [FindByIngredients]) {
-//        var snapshot = NSDiffableDataSourceSnapshot<Section, DisplayableItem>()
-//        snapshot.appendSections([.main])
-//        snapshot.appendItems(recipes, toSection: .main)
-//        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true)
-//        }
-//    }
+    func updateRecipesData(on recipes: [DisplayableItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DisplayableItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(recipes, toSection: .main)
+        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
     
     
     func configure() {
@@ -288,16 +288,22 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         ingredientsVC.stackView.subviews.forEach{ $0.removeFromSuperview() }
     }
     
-//    @objc func handleFindRecipesButtonTap() {
-//        // Fetch recipes with ingredients and present new view controller
-//        let ingredientNames = selectedIngredients.map { $0.name }
-//        let ingredientsString = ingredientNames.joined(separator: ",")
-//        if !ingredients.isEmpty {
-//            recipesArray.removeAll()
-//            //getRecipes(recipe: ingredientsString)
-//        }
-//
-//    }
+    @objc func handleFindRecipesButtonTap() {
+        // Fetch recipes with ingredients and present new view controller
+        let ingredientNames = selectedIngredients.compactMap { item -> String? in
+            if case let .ingredient(ingredient) = item {
+                return ingredient.name
+            }
+            return nil
+        }
+        let ingredientsString = ingredientNames.joined(separator: ",")
+        print("IngredientsARE: \(ingredientsString)")
+        if !ingredients.isEmpty {
+            recipesArray.removeAll()
+            getRecipes(recipe: ingredientsString)
+        }
+
+    }
 }
     
 extension FridgeVC: UICollectionViewDelegate {
