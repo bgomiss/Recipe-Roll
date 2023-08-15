@@ -38,6 +38,14 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     }()
     
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
+
+        
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -89,6 +97,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         setupTitleLabel()
         setupSelectedIngredientsLabel()
         setupFindRecipesButton()
+        setupActivityIndicator()
         setupResetButton()
         setupSearchBar()
         configureCollectionView()
@@ -99,6 +108,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
     
     func getIngredients(ingredient: String) {
         isLoadingMoreIngredients = true
+        activityIndicator.startAnimating()
+        collectionView.isHidden = true
         
         NetworkManager.shared.getRecipesInfo(for: .ingredientsAutoSearch(ingredient), completed: { _ in }) { [weak self] result in
             guard let self = self else {return}
@@ -115,12 +126,16 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                 //self.view.bringSubviewToFront(self.tableView)
             }
             self.isLoadingMoreIngredients = false
+            self.activityIndicator.stopAnimating()
+            collectionView.isHidden = false
         }
     }
     
     
     func getRecipes(recipe: String) {
-
+        activityIndicator.startAnimating()
+        collectionView.isHidden = true
+        
         NetworkManager.shared.getRecipesInfo(for: .myRefrigerator(recipe), completed: { _ in }, findByIngCompleted:  { [weak self] result in
             guard let self = self else {return}
             
@@ -137,6 +152,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                 print(error.localizedDescription)
                 //self.view.bringSubviewToFront(self.tableView)
             }
+            activityIndicator.stopAnimating()
+            collectionView.isHidden = false
         })
     }
     
@@ -182,6 +199,16 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         snapshot.appendItems(recipes, toSection: .main)
         DispatchQueue.main.async {self.dataSource.apply(snapshot, animatingDifferences: true)
         }
+    }
+    
+    
+    private func setupActivityIndicator() {
+        self.view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
     }
     
     
