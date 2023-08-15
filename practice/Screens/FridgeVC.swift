@@ -15,8 +15,12 @@ enum DisplayableItem: Hashable {
 class FridgeVC: UIViewController, UISearchBarDelegate {
     
     enum Section { case main }
+    enum CurrentState {
+            case recipe, ingredient
+        }
+        
     
-    
+    var currentState: CurrentState = .ingredient
     let ingredientsVC = IngredientsVC()
     var user: User?
     private var ingredients = [String]()
@@ -126,6 +130,7 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                     self.recipesArray = recipes.map {DisplayableItem.recipe($0)}
                     print("recipesArray IS: \(self.recipesArray)")
                     self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
+                    self.updateLayout(for: .recipe)
                 }
                 
             case .failure(let error):
@@ -273,9 +278,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         
         getIngredients(ingredient: ingredient)
         // Directly set layout for ingredients
-        
-        let newLayout = UIHelper.createThreeColumnFlowLayout(in: view)
-        collectionView.setCollectionViewLayout(newLayout, animated: true)
+        currentState = .ingredient
+        updateLayout(for: currentState)
     }
     
     
@@ -292,8 +296,24 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         ingredientsVC.stackView.subviews.forEach{ $0.removeFromSuperview() }
     }
     
+    
+    func updateLayout(for state: CurrentState) {
+        switch state {
+        case .ingredient:
+            print("Setting three column layout.")
+            let newLayout = UIHelper.createThreeColumnFlowLayout(in: view)
+            collectionView.setCollectionViewLayout(newLayout, animated: true)
+        case .recipe:
+            print("Setting two column layout.")
+            let newLayout = UIHelper.createTwoColumnFlowLayout(in: view)
+            collectionView.setCollectionViewLayout(newLayout, animated: true)
+        }
+    }
+    
+    
     @objc func handleFindRecipesButtonTap() {
         // Fetch recipes with ingredients and present new view controller
+        print("Find recipes tapped.")
         let ingredientNames = selectedIngredients.compactMap { item -> String? in
             if case let .ingredient(ingredient) = item {
                 return ingredient.name
@@ -305,9 +325,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
         //if !ingredients.isEmpty {
             recipesArray.removeAll()
             getRecipes(recipe: ingredientsString)
-        
-            let newLayout = UIHelper.createTwoColumnFlowLayout(in: view)
-            collectionView.setCollectionViewLayout(newLayout, animated: true)
+        currentState = .recipe
+        updateLayout(for: currentState)
             //}
     }
 }
