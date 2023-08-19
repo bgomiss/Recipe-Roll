@@ -15,6 +15,7 @@ class NetworkManager {
        case bookmarks(String)
        case myRefrigerator(String)
        case ingredientsAutoSearch(String)
+       case getSimilarRecipes(String)
        var url: String {
                 switch self {
                 case .searchCategory(let category):
@@ -33,6 +34,10 @@ class NetworkManager {
                 case .ingredientsAutoSearch(let searchItem):
                     return
                 "https://api.spoonacular.com/food/ingredients/autocomplete?query=\(searchItem)&number=5&apiKey=\(Api.apiKey)"
+                    
+                case .getSimilarRecipes(let similar):
+                    return
+                "https://api.spoonacular.com/recipes/\(similar)/similar?apiKey=\(Api.apiKey)"
                 }
             }
     }
