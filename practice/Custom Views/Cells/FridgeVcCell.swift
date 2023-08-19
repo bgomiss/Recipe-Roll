@@ -55,7 +55,7 @@ class FridgeVcCell: UICollectionViewCell {
             ingredientName.topAnchor.constraint(equalTo: ingredientView.bottomAnchor, constant: 12),
             ingredientName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             ingredientName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            ingredientName.heightAnchor.constraint(equalToConstant: 20)
+            ingredientName.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

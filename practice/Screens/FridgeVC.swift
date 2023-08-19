@@ -146,15 +146,15 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                     print("recipesArray IS: \(self.recipesArray)")
                     self.updateRecipesData(on: self.recipesArray) // Call updateData instead of reloading the collectionView
                     self.updateLayout(for: .recipe)
+                    self.activityIndicator.stopAnimating()
+                    self.collectionView.isHidden = false
                 }
                 
             case .failure(let error):
                 print(error.localizedDescription)
                 //self.view.bringSubviewToFront(self.tableView)
             }
-            activityIndicator.stopAnimating()
-            collectionView.isHidden = false
-        })
+         })
     }
     
     
