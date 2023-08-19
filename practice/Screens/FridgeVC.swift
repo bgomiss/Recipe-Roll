@@ -119,6 +119,8 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                     DispatchQueue.main.async {
                         self.ingredientsArray = ingredients.map {DisplayableItem.ingredient($0)}
                         self.updateIngredientsData(on: self.ingredientsArray) // Call updateData instead of reloading the collectionView
+                        self.activityIndicator.stopAnimating()
+                        self.collectionView.isHidden = false
                     }
                 
             case .failure(let error):
@@ -126,8 +128,6 @@ class FridgeVC: UIViewController, UISearchBarDelegate {
                 //self.view.bringSubviewToFront(self.tableView)
             }
             self.isLoadingMoreIngredients = false
-            self.activityIndicator.stopAnimating()
-            collectionView.isHidden = false
         }
     }
     
