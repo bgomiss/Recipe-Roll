@@ -20,6 +20,7 @@ class HomeVC: UIViewController {
     var queryRecipesVC: QueryRecipesVC!
     let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
+    var similarRecipes: [GetSimilarRecipes] = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
@@ -168,6 +169,24 @@ class HomeVC: UIViewController {
 
         DispatchQueue.main.async {
             self.recipes[index].recipe = categories
+        }
+    }
+    
+    
+    func similarRecipes(recipeID: String) {
+        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }) { [weak self] result in
+            guard let self = self else {return}
+            
+            switch result {
+            case .success(let similarRecipes):
+                    DispatchQueue.main.async {
+                        self.similarRecipes = similarRecipes
+                    }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                //self.view.bringSubviewToFront(self.tableView)
+            }
         }
     }
     

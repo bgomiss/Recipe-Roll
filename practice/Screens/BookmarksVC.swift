@@ -15,6 +15,7 @@ class BookmarksVC: UIViewController {
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
     var recipes: [String : [Recipe]] = [:]
+    let homeVC                       = HomeVC()
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -104,12 +105,22 @@ class BookmarksVC: UIViewController {
                         
                         for (_, recipeDetail) in recipeData {
                             if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                                print("recipeID is: \(recipeID)")
+                                print("RECIPEDETAIL is: \(recipeDetail)")
                                 self.getCategories(query: String(recipeID), categoryID: categoryID)
                             }
                             
                         }
                     }
+                if categoryID == "Recently Viewed" {
+                    if let firstRecipe = recipes.first,
+                        let recipeData = firstRecipe.data() as? [String: Any],
+                       let nestedDict  = recipeData.values.first as? [String: Any],
+                        let recipeID = nestedDict["id"] as? Int64 {
+                        print("TarifID is: \(recipeID)")
+                        homeVC.similarRecipes(recipeID: String(recipeID))
+                    }
+                    
+                }
                 }
             }
         }
@@ -142,22 +153,23 @@ class BookmarksVC: UIViewController {
             
             switch result {
             case .success(let recipes):
-                
-                if var existingRecipes = self.recipes[categoryID] {
-                    existingRecipes.append(contentsOf: recipes)
-                    self.recipes[categoryID] = existingRecipes
-                    //print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
-                } else {
-                    self.recipes[categoryID] = recipes
-                }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+                    if var existingRecipes = self.recipes[categoryID] {
+                        existingRecipes.append(contentsOf: recipes)
+                        self.recipes[categoryID] = existingRecipes
+                        self.collectionView.reloadData()
+                        //print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
+                    } else {
+                        self.recipes[categoryID] = recipes
+                        self.collectionView.reloadData()
+                    }
+                    
+                    }
             case .failure(let error):
                 return
+                }
             }
         }
-    }
     
     
 //    func updateUI(with categories: [Recipe]) {

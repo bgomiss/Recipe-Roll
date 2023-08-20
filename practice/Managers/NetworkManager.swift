@@ -51,7 +51,7 @@ class NetworkManager {
     
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
     typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
-    typealias GetSimilarRecipesCompletion = (Result)<[GetSimilarRecipes], SPError>) -> Void
+    typealias GetSimilarRecipesCompletion = (Result<[GetSimilarRecipes], SPError>) -> Void
 
     
     func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil, getSimilarCompleted: GetSimilarRecipesCompletion? = nil) {

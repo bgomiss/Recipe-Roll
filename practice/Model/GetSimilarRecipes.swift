@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FindByIngredients: Codable, Hashable {
+ struct GetSimilarRecipes: Codable, Hashable {
     let id: Int
     let imageType: String
     let title: String
