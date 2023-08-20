@@ -35,9 +35,9 @@ class NetworkManager {
                     return
                 "https://api.spoonacular.com/food/ingredients/autocomplete?query=\(searchItem)&number=5&apiKey=\(Api.apiKey)"
                     
-                case .getSimilarRecipes(let similar):
+                case .getSimilarRecipes(let recipeID):
                     return
-                "https://api.spoonacular.com/recipes/\(similar)/similar?apiKey=\(Api.apiKey)"
+                "https://api.spoonacular.com/recipes/\(recipeID)/similar?apiKey=\(Api.apiKey)"
                 }
             }
     }
@@ -51,9 +51,10 @@ class NetworkManager {
     
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
     typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
+    typealias GetSimilarRecipesCompletion = (Result)<[GetSimilarRecipes], SPError>) -> Void
 
     
-    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil) {
+    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil, getSimilarCompleted: GetSimilarRecipesCompletion? = nil) {
         
         guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
@@ -101,6 +102,10 @@ class NetworkManager {
                     guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
                     let ingredients = try decoder.decode([Ingredient].self, from: data)
                     ingredientsCompleted(.success(ingredients))
+                case .getSimilarRecipes(_):
+                    guard let getSimilarCompleted = getSimilarCompleted else { fatalError("getSimilarCompleted closure must be provided for .getSimilarRecipes case")}
+                    let similarRecipes = try decoder.decode([GetSimilarRecipes].self, from: data)
+                    getSimilarCompleted(.success(similarRecipes))
                 }
             } catch {
                 completed(.failure(.invalidData))
