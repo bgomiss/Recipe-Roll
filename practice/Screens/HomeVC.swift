@@ -72,6 +72,7 @@ class HomeVC: UIViewController {
 //            }
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -95,7 +96,7 @@ class HomeVC: UIViewController {
         cancelButton.isHidden = true
         querySearchBar.text = ""
     }
-    
+
     
     func retrieveUserInfo() {
         PersistenceManager.retrieveUserProfile { [weak self] result in
@@ -181,6 +182,7 @@ class HomeVC: UIViewController {
             case .success(let similarRecipes):
                     DispatchQueue.main.async {
                         self.similarRecipes = similarRecipes
+                        print("SIMILAR RECIPES ARE: \(self.similarRecipes)")
                     }
                 
             case .failure(let error):

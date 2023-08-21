@@ -17,6 +17,12 @@ class SPTabBarController: UITabBarController {
         UITabBar.appearance().tintColor = .systemMint
         UITabBar.appearance().backgroundColor = .systemBackground
         viewControllers = [createHomeNC(), createRecipesNC(), createBookmarksNC(), createProfileNC()]
+        
+        // Trigger the function in BookmarksVC when the app starts
+        if let bookmarksNavVC = viewControllers?[2] as? UINavigationController,
+           let bookmarksVC = bookmarksNavVC.viewControllers.first as? BookmarksVC {
+            bookmarksVC.fetchBookmarkedRecipeIDs()
+        }
     }
     
     

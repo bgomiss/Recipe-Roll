@@ -53,8 +53,7 @@ class BookmarksVC: UIViewController {
         configure()
         configureUIElements()
         view.backgroundColor = .systemBackground
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleBookmarkAddedNotification), name: NSNotification.Name("BookmarkAddedNotification"), object: nil)
+
     }
     
     
