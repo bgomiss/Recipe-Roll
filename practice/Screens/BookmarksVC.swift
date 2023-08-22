@@ -15,7 +15,7 @@ class BookmarksVC: UIViewController {
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
     var recipes: [String : [Recipe]] = [:]
-    let homeVC                       = HomeVC()
+    var fetchSimilarRecipesClosure: ((Int64) -> Void)?
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -104,9 +104,14 @@ class BookmarksVC: UIViewController {
                        let nestedDict  = recipeData.values.first as? [String: Any],
                        let recipeID = nestedDict["id"] as? Int64 {
                         print("TarifID is: \(recipeID)")
-                        homeVC.similarRecipes(recipeID: String(recipeID))
+                        if let homeNavVC =
+                            SPTabBarController().viewControllers?[0] as? UINavigationController,
+                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
+                            homeVC.fetchSimilarRecipes(recipeID: String(recipeID))
+                            //fetchSimilarRecipesClosure?(recipeID)
+                        }
+                        
                     }
-                    
                 }
 
                     for recipe in recipes {

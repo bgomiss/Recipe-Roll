@@ -20,7 +20,7 @@ class HomeVC: UIViewController {
     var queryRecipesVC: QueryRecipesVC!
     let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
-    var similarRecipes: [GetSimilarRecipes] = []
+    var similarRecipesArray: [GetSimilarRecipes] = []
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
     
@@ -54,6 +54,7 @@ class HomeVC: UIViewController {
         setupQueryRecipesVC()
         layoutUI()
         fetchRecipeData()
+        showBookmarksVC()
         configure()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
@@ -174,15 +175,23 @@ class HomeVC: UIViewController {
     }
     
     
-    func similarRecipes(recipeID: String) {
+    func showBookmarksVC() {
+            let bookmarksVC = BookmarksVC()
+            bookmarksVC.fetchSimilarRecipesClosure = { [weak self] recipeID in
+                self?.fetchSimilarRecipes(recipeID: String(recipeID))
+            }
+        }
+    
+    
+    func fetchSimilarRecipes(recipeID: String) {
         NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }, getSimilarCompleted:  { [weak self] result in
             guard let self = self else {return}
             
             switch result {
             case .success(let similarRecipes):
                 DispatchQueue.main.async {
-                    self.similarRecipes = similarRecipes
-                    print("SIMILAR RECIPES ARE: \(self.similarRecipes)")
+                    self.similarRecipesArray = similarRecipes
+                    print("SIMILAR RECIPES ARE: \(self.similarRecipesArray)")
                 }
                 
             case .failure(let error):

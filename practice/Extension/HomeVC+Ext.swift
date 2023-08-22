@@ -17,8 +17,8 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         
             
         case 1:
-            print("similarRECIPEScount is: \(similarRecipes.count)")
-            return similarRecipes.count
+            print("similarRECIPEScount is: \(similarRecipesArray.count)")
+            return similarRecipesArray.count
             
         default:
             return recipes.count
@@ -52,7 +52,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
             
-            let recipe = similarRecipes[indexPath.row]
+            let recipe = similarRecipesArray[indexPath.row]
             cell.set(category: recipe)
             
             
