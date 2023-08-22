@@ -184,21 +184,23 @@ class HomeVC: UIViewController {
     
     
     func fetchSimilarRecipes(recipeID: String) {
-        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }, getSimilarCompleted:  { [weak self] result in
+        print("Fetching similar recipes for recipeID: \(recipeID)")
+        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }) { [weak self] result in
             guard let self = self else {return}
             
             switch result {
             case .success(let similarRecipes):
+                print("Fetched similar recipes: \(similarRecipes)")
                 DispatchQueue.main.async {
                     self.similarRecipesArray = similarRecipes
                     print("SIMILAR RECIPES ARE: \(self.similarRecipesArray)")
                 }
                 
             case .failure(let error):
-                print(error.localizedDescription)
+                print("Error fetching similar recipes: \(error.localizedDescription)")
                 //self.view.bringSubviewToFront(self.tableView)
             }
-        })
+        }
     }
     
     

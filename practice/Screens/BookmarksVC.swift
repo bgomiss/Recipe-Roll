@@ -116,11 +116,11 @@ class BookmarksVC: UIViewController {
 
                     for recipe in recipes {
                         let recipeData = recipe.data()
-                        print("recipe data: \(recipeData)")
+                        //print("recipe data: \(recipeData)")
                         
                         for (_, recipeDetail) in recipeData {
                             if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                            print("RECIPEDETAIL is: \(recipeDetail)")
+                            //print("RECIPEDETAIL is: \(recipeDetail)")
                             self.getCategories(query: String(recipeID), categoryID: categoryID)
                             }
                             

@@ -7,17 +7,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "16E70448-9F4B-47E6-80CB-72C529F97D1C"
+            uuid = "C77D701A-E3CC-4B76-913F-D12DEAB16522"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "practice/Managers/NetworkManager.swift"
+            filePath = "practice/Screens/HomeVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "getRecipesInfo(for:completed:ingredientsCompleted:findByIngCompleted:getSimilarCompleted:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "fetchSimilarRecipes(recipeID:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C77D701A-E3CC-4B76-913F-D12DEAB16522 - 9d7862d061cefc0f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "practice.HomeVC.fetchSimilarRecipes(recipeID: Swift.String) -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/HomeVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "188"
+                  endingLineNumber = "188"
+                  offsetFromSymbolStart = "468">
+               </Location>
+               <Location
+                  uuid = "C77D701A-E3CC-4B76-913F-D12DEAB16522 - e7db4439096d581d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;practice.Recipe&gt;, practice.SPError&gt;) -&gt; () in practice.HomeVC.fetchSimilarRecipes(recipeID: Swift.String) -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/HomeVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "188"
+                  endingLineNumber = "188"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "C77D701A-E3CC-4B76-913F-D12DEAB16522 - 516a27477db59fbe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Result&lt;Swift.Array&lt;practice.GetSimilarRecipes&gt;, practice.SPError&gt;) -&gt; () in practice.HomeVC.fetchSimilarRecipes(recipeID: Swift.String) -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/HomeVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "188"
+                  endingLineNumber = "188"
+                  offsetFromSymbolStart = "284">
+               </Location>
+               <Location
+                  uuid = "C77D701A-E3CC-4B76-913F-D12DEAB16522 - 9d7862d061cefc0f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "practice.HomeVC.fetchSimilarRecipes(recipeID: Swift.String) -&gt; ()"
+                  moduleName = "practice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asduskun/Desktop/development/Recipe-Roll/practice/Screens/HomeVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "188"
+                  endingLineNumber = "188"
+                  offsetFromSymbolStart = "472">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
