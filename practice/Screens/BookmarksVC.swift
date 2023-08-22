@@ -96,30 +96,32 @@ class BookmarksVC: UIViewController {
                     }
                 }
                     
-                    guard let recipes = querySnapshot?.documents else { return }
+                guard let recipes = querySnapshot?.documents else { return }
+               
+                if categoryID == "Recently Viewed" {
+                    if let firstRecipe = recipes.first,
+                       let recipeData = firstRecipe.data() as? [String: Any],
+                       let nestedDict  = recipeData.values.first as? [String: Any],
+                       let recipeID = nestedDict["id"] as? Int64 {
+                        print("TarifID is: \(recipeID)")
+                        homeVC.similarRecipes(recipeID: String(recipeID))
+                    }
                     
+                }
+
                     for recipe in recipes {
                         let recipeData = recipe.data()
                         print("recipe data: \(recipeData)")
                         
                         for (_, recipeDetail) in recipeData {
                             if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                                print("RECIPEDETAIL is: \(recipeDetail)")
-                                self.getCategories(query: String(recipeID), categoryID: categoryID)
+                            print("RECIPEDETAIL is: \(recipeDetail)")
+                            self.getCategories(query: String(recipeID), categoryID: categoryID)
                             }
                             
                         }
                     }
-                if categoryID == "Recently Viewed" {
-                    if let firstRecipe = recipes.first,
-                        let recipeData = firstRecipe.data() as? [String: Any],
-                       let nestedDict  = recipeData.values.first as? [String: Any],
-                        let recipeID = nestedDict["id"] as? Int64 {
-                        print("TarifID is: \(recipeID)")
-                        homeVC.similarRecipes(recipeID: String(recipeID))
-                    }
-                    
-                }
+                
                 }
             }
         }

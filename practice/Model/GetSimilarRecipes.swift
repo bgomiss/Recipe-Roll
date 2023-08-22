@@ -14,4 +14,8 @@ import Foundation
     let readyInMinutes: Int
     let servings: Int
     let sourceUrl: String
+     
+    var imageURL: String? {
+             return "https://spoonacular.com/recipeImages/\(id)-312x231.\(imageType)"
+         }
 }

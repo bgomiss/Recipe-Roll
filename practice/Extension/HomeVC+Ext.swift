@@ -12,10 +12,13 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
+            print("RECIPEScount is: \(recipes.count)")
             return recipes.count
+        
             
         case 1:
-            return 5
+            print("similarRECIPEScount is: \(similarRecipes.count)")
+            return similarRecipes.count
             
         default:
             return recipes.count
@@ -49,24 +52,23 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
             
-            //            if recipes.isEmpty == false {
-            //                let categoryTuple = recipes[indexPath.row]
-            //                cell.set(category: categoryTuple.recipes.first!)
+            let recipe = similarRecipes[indexPath.row]
+            cell.set(category: recipe)
             
             
             return cell
             
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
-            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
+
             if recipes.isEmpty == false {
                 let categoryTuple = recipes[indexPath.row]
                 cell.set(category: categoryTuple.recipe.first!)
-            }
-            
+                
+                }
             return cell
         }
-    }
+}
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -146,7 +146,7 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             return cell
        
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationCollectionViewCell.reuseID, for: indexPath) as? RecommendationCollectionViewCell else {fatalError("unable to dequeue")}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LunchCollectionViewCell.reuseID, for: indexPath) as? LunchCollectionViewCell else {fatalError("unable to dequeue")}
             let index = recipes.count - 3 + indexPath.row
             if index >= 0 && index < recipes.count {
                 let category = recipes[index]

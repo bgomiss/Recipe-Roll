@@ -175,21 +175,21 @@ class HomeVC: UIViewController {
     
     
     func similarRecipes(recipeID: String) {
-        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }) { [weak self] result in
+        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }, getSimilarCompleted:  { [weak self] result in
             guard let self = self else {return}
             
             switch result {
             case .success(let similarRecipes):
-                    DispatchQueue.main.async {
-                        self.similarRecipes = similarRecipes
-                        print("SIMILAR RECIPES ARE: \(self.similarRecipes)")
-                    }
+                DispatchQueue.main.async {
+                    self.similarRecipes = similarRecipes
+                    print("SIMILAR RECIPES ARE: \(self.similarRecipes)")
+                }
                 
             case .failure(let error):
                 print(error.localizedDescription)
                 //self.view.bringSubviewToFront(self.tableView)
             }
-        }
+        })
     }
     
     

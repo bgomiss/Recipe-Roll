@@ -26,8 +26,8 @@ class RecommendationCollectionViewCell: UICollectionViewCell {
         }
         
         
-        func set(category: Recipe) {
-            recommendationImageView.downloadImage(fromURL: category.image)
+        func set(category: GetSimilarRecipes) {
+            recommendationImageView.downloadImage(fromURL: category.imageURL ?? "")
             recommendationLabel.text = category.title
         }
         
