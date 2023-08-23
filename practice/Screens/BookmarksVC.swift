@@ -104,10 +104,21 @@ class BookmarksVC: UIViewController {
                        let nestedDict  = recipeData.values.first as? [String: Any],
                        let recipeID = nestedDict["id"] as? Int64 {
                         print("TarifID is: \(recipeID)")
+                        
+                        // Create a completion handler closure
+                            let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
+                                switch result {
+                                case .success(let similarRecipes):
+                                    print("Fetched similar recipes: \(similarRecipes)")
+                                case .failure(let error):
+                                    print("Error fetching similar recipes: \(error.localizedDescription)")
+                                }
+                            }
+                        
                         if let homeNavVC =
                             SPTabBarController().viewControllers?[0] as? UINavigationController,
                            let homeVC = homeNavVC.viewControllers.first as? HomeVC {
-                            homeVC.fetchSimilarRecipes(recipeID: String(recipeID))
+                            homeVC.fetchSimilarRecipes(recipeID: String(recipeID), completion: completion)
                             //fetchSimilarRecipesClosure?(recipeID)
                         }
                         

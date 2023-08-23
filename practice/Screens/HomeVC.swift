@@ -51,10 +51,10 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureCompositionalLayout()
+        getCategoriesFromCache()
         setupQueryRecipesVC()
         layoutUI()
         fetchRecipeData()
-        showBookmarksVC()
         configure()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
@@ -121,13 +121,22 @@ class HomeVC: UIViewController {
                 }
     
     
-    func getCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
+    func makeAPICallForCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
         NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { [weak self] category in
             
             guard let self = self else { return }
+           
             
             switch category {
             case .success(let categories):
+                
+                for category in categories {
+                    PersistenceManager.updateWith(category: category, actionType: .add) { error in
+                        if let error = error {
+                            print("Error saving category: \(error)")
+                        }
+                    }
+                }
                 self.updateUI(with: categories, atIndex: index)
             case .failure(let error):
                 break
@@ -141,25 +150,41 @@ class HomeVC: UIViewController {
         
         for (index, tag) in tags.enumerated() {
             group.enter()
-            getCategories(tag: tag, atIndex: index, group: group)
+            makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
         }
         group.notify(queue: .main) {
             self.collectionView.reloadData()
         }
     }
-//    func getCategories() {
-//        PersistenceManager.retrievedCategories { [weak self] result in
-//            guard let self = self else { return }
-//
-//            switch result {
-//            case .success(let categories):
-//                self.updateUI(with: categories)
-//
-//            case .failure(let error):
-//                return
-//            }
-//        }
-//    }
+    
+    
+    func getCategoriesFromCache() {
+        // First, try to retrieve categories from cache
+        for (index, tag) in tags.enumerated() {
+            PersistenceManager.retrievedCategories { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let cachedCategories):
+                    if !cachedCategories.isEmpty {
+                        // If cached categories are available, update UI
+                        print("Data is coming from cache: \(cachedCategories)")
+                        self.updateUI(with: cachedCategories, atIndex: index)
+                    } else {
+                        // If not available in cache, make API call
+                        print("Data is not available in cache, making API call...")
+                        self.makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
+                    }
+                    // If there's an error retrieving from cache, make API call
+                case .failure(let error):
+                    print("Error retrieving categories from cache: \(error)")
+                    }
+        
+                }
+            }
+        }
+    
+    
     
     func configure() {
         collectionView.setUp(to: view, and: querySearchBar)
@@ -175,29 +200,27 @@ class HomeVC: UIViewController {
     }
     
     
-    func showBookmarksVC() {
-            let bookmarksVC = BookmarksVC()
-            bookmarksVC.fetchSimilarRecipesClosure = { [weak self] recipeID in
-                self?.fetchSimilarRecipes(recipeID: String(recipeID))
-            }
-        }
-    
-    
-    func fetchSimilarRecipes(recipeID: String) {
+    func fetchSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
         print("Fetching similar recipes for recipeID: \(recipeID)")
-        NetworkManager.shared.getRecipesInfo(for: .getSimilarRecipes(recipeID), completed: { _ in }) { [weak self] result in
-            guard let self = self else {return}
+        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { result in
+            
+            //guard let self = self else {return}
             
             switch result {
             case .success(let similarRecipes):
                 print("Fetched similar recipes: \(similarRecipes)")
                 DispatchQueue.main.async {
-                    self.similarRecipesArray = similarRecipes
+                    completion(.success(similarRecipes))
+                    self.similarRecipesArray.append(contentsOf: similarRecipes)
                     print("SIMILAR RECIPES ARE: \(self.similarRecipesArray)")
+                    self.collectionView.reloadData()
                 }
                 
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 //self.view.bringSubviewToFront(self.tableView)
             }
         }

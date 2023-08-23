@@ -15,7 +15,6 @@ class NetworkManager {
        case bookmarks(String)
        case myRefrigerator(String)
        case ingredientsAutoSearch(String)
-       case getSimilarRecipes(String)
        var url: String {
                 switch self {
                 case .searchCategory(let category):
@@ -34,10 +33,6 @@ class NetworkManager {
                 case .ingredientsAutoSearch(let searchItem):
                     return
                 "https://api.spoonacular.com/food/ingredients/autocomplete?query=\(searchItem)&number=5&apiKey=\(Api.apiKey)"
-                    
-                case .getSimilarRecipes(let recipeID):
-                    return
-                "https://api.spoonacular.com/recipes/\(recipeID)/similar?apiKey=\(Api.apiKey)"
                 }
             }
     }
@@ -51,10 +46,9 @@ class NetworkManager {
     
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
     typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
-    typealias GetSimilarRecipesCompletion = (Result<[GetSimilarRecipes], SPError>) -> Void
 
     
-    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil, getSimilarCompleted: GetSimilarRecipesCompletion? = nil) {
+    func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil) {
         
         guard let url = URL(string: endpoint.url) else {
             completed(.failure(.invalidQuery))
@@ -79,6 +73,7 @@ class NetworkManager {
 
             do {
                 let decoder = JSONDecoder()
+                
                 switch endpoint {
                 case .searchCategory(_):
                     let recipes = try decoder.decode(RecipeResults.self, from: data)
@@ -102,13 +97,46 @@ class NetworkManager {
                     guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
                     let ingredients = try decoder.decode([Ingredient].self, from: data)
                     ingredientsCompleted(.success(ingredients))
-                case .getSimilarRecipes(_):
-                    guard let getSimilarCompleted = getSimilarCompleted else { fatalError("getSimilarCompleted closure must be provided for .getSimilarRecipes case")}
-                    let similarRecipes = try decoder.decode([GetSimilarRecipes].self, from: data)
-                    getSimilarCompleted(.success(similarRecipes))
                 }
             } catch {
                 completed(.failure(.invalidData))
+            }
+        }
+        task.resume()
+    }
+
+    
+    func getSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
+        
+        let urlString = "https://api.spoonacular.com/recipes/\(recipeID)/similar?apiKey=\(Api.apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.invalidQuery))
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let _ = error {
+                completion(.failure(.invalidResponse))
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completion(.failure(.invalidResponse))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let similarRecipes = try decoder.decode([GetSimilarRecipes].self, from: data)
+                completion(.success(similarRecipes))
+            } catch {
+                completion(.failure(.invalidData))
             }
         }
         task.resume()
