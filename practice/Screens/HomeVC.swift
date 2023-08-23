@@ -54,7 +54,7 @@ class HomeVC: UIViewController {
         getCategoriesFromCache()
         setupQueryRecipesVC()
         layoutUI()
-        fetchRecipeData()
+        //fetchRecipeData()
         configure()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
@@ -138,29 +138,29 @@ class HomeVC: UIViewController {
                     }
                 }
                 self.updateUI(with: categories, atIndex: index)
-            case .failure(let error):
-                break
+            case .failure(_): break
+                
             }
-            group.leave()
         }
     }
     
-    func fetchRecipeData() {
-        recipes = tags.map { (tag: $0, recipe: []) }
-        
-        for (index, tag) in tags.enumerated() {
-            group.enter()
-            makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
-        }
-        group.notify(queue: .main) {
-            self.collectionView.reloadData()
-        }
-    }
+//    func fetchRecipeData() {
+//        recipes = tags.map { (tag: $0, recipe: []) }
+//
+//        for (index, tag) in tags.enumerated() {
+//            //group.enter()
+//            makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
+//        }
+//        group.notify(queue: .main) {
+//            self.collectionView.reloadData()
+//        }
+//    }
     
     
     func getCategoriesFromCache() {
         // First, try to retrieve categories from cache
         for (index, tag) in tags.enumerated() {
+            group.enter()
             PersistenceManager.retrievedCategories { [weak self] result in
                 guard let self = self else { return }
                 
@@ -173,14 +173,17 @@ class HomeVC: UIViewController {
                     } else {
                         // If not available in cache, make API call
                         print("Data is not available in cache, making API call...")
-                        self.makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
+                        self.makeAPICallForCategories(tag: tag, atIndex: index, group: group)
                     }
                     // If there's an error retrieving from cache, make API call
                 case .failure(let error):
                     print("Error retrieving categories from cache: \(error)")
                     }
-        
+                group.leave()
                 }
+            }
+        self.group.notify(queue: .main) {
+            self.collectionView.reloadData()
             }
         }
     
@@ -193,7 +196,7 @@ class HomeVC: UIViewController {
     
     
     func updateUI(with categories: [Recipe], atIndex index: Int) {
-
+        
         DispatchQueue.main.async {
             self.recipes[index].recipe = categories
         }
