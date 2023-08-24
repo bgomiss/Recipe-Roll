@@ -152,19 +152,6 @@ class HomeVC: UIViewController {
        }
     
     
-//    func fetchRecipeData() {
-//        recipes = tags.map { (tag: $0, recipe: []) }
-//
-//        for (index, tag) in tags.enumerated() {
-//            //group.enter()
-//            makeAPICallForCategories(tag: tag, atIndex: index, group: self.group)
-//        }
-//        group.notify(queue: .main) {
-//            self.collectionView.reloadData()
-//        }
-//    }
-    
-    
     func getCategoriesFromCache() {
         // First, try to retrieve categories from cache
         recipes = tags.map { (tag: $0, recipe: [])}
@@ -209,22 +196,25 @@ class HomeVC: UIViewController {
             
             switch result {
             case .success(let similarRecipes):
-                print("Fetched similar recipes: \(similarRecipes)")
+                print("Fetched similar recipes")
                 DispatchQueue.main.async {
+                    print("Reloading collection view...")
                     completion(.success(similarRecipes))
                     self.similarRecipesArray.append(contentsOf: similarRecipes)
                     self.collectionView.reloadData()
+                    print("Collection view reloaded.")
                 }
                 
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
-                    completion(.failure(error))
+                completion(.failure(error))
                 }
                 //self.view.bringSubviewToFront(self.tableView)
+              }
             }
         }
-    }
+    
     
     
     func createDismissKeyboardTapGesture() {
