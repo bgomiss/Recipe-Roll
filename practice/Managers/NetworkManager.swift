@@ -114,34 +114,34 @@ class NetworkManager {
             completion(.failure(.invalidQuery))
             return
         }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let _ = error {
-                completion(.failure(.invalidResponse))
-                return
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let _ = error {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(.invalidData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let similarRecipes = try decoder.decode([GetSimilarRecipes].self, from: data)
+                    completion(.success(similarRecipes))
+                } catch {
+                    completion(.failure(.invalidData))
+                }
             }
-
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                completion(.failure(.invalidResponse))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(.invalidData))
-                return
-            }
-
-            do {
-                let decoder = JSONDecoder()
-                let similarRecipes = try decoder.decode([GetSimilarRecipes].self, from: data)
-                completion(.success(similarRecipes))
-            } catch {
-                completion(.failure(.invalidData))
-            }
+            task.resume()
         }
-        task.resume()
     }
-
     
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {

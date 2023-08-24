@@ -213,7 +213,6 @@ class HomeVC: UIViewController {
                 DispatchQueue.main.async {
                     completion(.success(similarRecipes))
                     self.similarRecipesArray.append(contentsOf: similarRecipes)
-                    print("SIMILAR RECIPES ARE: \(self.similarRecipesArray)")
                     self.collectionView.reloadData()
                 }
                 
