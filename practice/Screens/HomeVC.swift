@@ -51,11 +51,10 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureCompositionalLayout()
-        getCategoriesFromCache()
         setupQueryRecipesVC()
         layoutUI()
-        //fetchRecipeData()
         configure()
+        getCategoriesFromCache()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -137,12 +136,21 @@ class HomeVC: UIViewController {
                         }
                     }
                 }
-                self.updateUI(with: categories, atIndex: index)
+            self.updateUI(with: categories, atIndex: index)
             case .failure(_): break
                 
             }
+            group.leave()
         }
     }
+    
+    func updateUI(with categories: [Recipe], atIndex index: Int) {
+           
+           DispatchQueue.main.async {
+               self.recipes[index].recipe = categories
+           }
+       }
+    
     
 //    func fetchRecipeData() {
 //        recipes = tags.map { (tag: $0, recipe: []) }
@@ -159,8 +167,10 @@ class HomeVC: UIViewController {
     
     func getCategoriesFromCache() {
         // First, try to retrieve categories from cache
+        recipes = tags.map { (tag: $0, recipe: [])}
         for (index, tag) in tags.enumerated() {
             group.enter()
+            
             PersistenceManager.retrievedCategories { [weak self] result in
                 guard let self = self else { return }
                 
@@ -178,29 +188,17 @@ class HomeVC: UIViewController {
                     // If there's an error retrieving from cache, make API call
                 case .failure(let error):
                     print("Error retrieving categories from cache: \(error)")
+                    
                     }
-                group.leave()
+                
                 }
-            }
-        self.group.notify(queue: .main) {
+            self.group.notify(queue: .main) {
             self.collectionView.reloadData()
             }
-        }
-    
-    
-    
-    func configure() {
-        collectionView.setUp(to: view, and: querySearchBar)
-        cancelButton.isHidden = true
-    }
-    
-    
-    func updateUI(with categories: [Recipe], atIndex index: Int) {
-        
-        DispatchQueue.main.async {
-            self.recipes[index].recipe = categories
+            
         }
     }
+    
     
     
     func fetchSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
@@ -235,6 +233,12 @@ class HomeVC: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
+    
+    
+    func configure() {
+            collectionView.setUp(to: view, and: querySearchBar)
+            cancelButton.isHidden = true
+        }
     
     
     func layoutUI() {

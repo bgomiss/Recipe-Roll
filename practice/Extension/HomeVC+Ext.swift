@@ -18,6 +18,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
         case 1:
             print("similarRECIPEScount is: \(similarRecipesArray.count)")
+            print("SIMILAR RECIPES ARE: \(similarRecipesArray)")
             return similarRecipesArray.count
             
         default:
