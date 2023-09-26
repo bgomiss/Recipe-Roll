@@ -16,6 +16,7 @@ class AuthenticationVC: UIViewController, AuthPresenterDelegate {
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
     let profileVC           = SignInVC.profileVC
+    
     private let presenter = AuthPresenter()
     
     override func viewDidLoad() {
@@ -24,8 +25,8 @@ class AuthenticationVC: UIViewController, AuthPresenterDelegate {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        
         presenter.setViewDelegate(delegate: self)
+        
      }
     
     
