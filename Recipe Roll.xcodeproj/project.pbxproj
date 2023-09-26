@@ -47,6 +47,7 @@
 		1C517FE829D5A45200922940 /* RVCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */; };
 		1C517FEA29D5AA9100922940 /* RVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C517FE929D5AA9100922940 /* RVHeaderView.swift */; };
 		1C51B0A029BF2CDB00A04FAD /* SPTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */; };
+		1C520E6F2AC2F7AA00299C62 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C520E6E2AC2F7AA00299C62 /* Presenter.swift */; };
 		1C5351E429F9236F00EF1F35 /* InstructionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5351E329F9236F00EF1F35 /* InstructionsVC.swift */; };
 		1C5351E629F9264300EF1F35 /* InstructionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5351E529F9264300EF1F35 /* InstructionsCell.swift */; };
 		1C5684F629D46F0F00A12137 /* RecommendationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */; };
@@ -131,6 +132,7 @@
 		1C517FE729D5A45200922940 /* RVCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVCollectionViewCell.swift; sourceTree = "<group>"; };
 		1C517FE929D5AA9100922940 /* RVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RVHeaderView.swift; sourceTree = "<group>"; };
 		1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTabBarController.swift; sourceTree = "<group>"; };
+		1C520E6E2AC2F7AA00299C62 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		1C5351E329F9236F00EF1F35 /* InstructionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsVC.swift; sourceTree = "<group>"; };
 		1C5351E529F9264300EF1F35 /* InstructionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsCell.swift; sourceTree = "<group>"; };
 		1C5684F529D46F0F00A12137 /* RecommendationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationHeaderView.swift; sourceTree = "<group>"; };
@@ -262,13 +264,14 @@
 		1C46973729BD3FF900918782 /* practice */ = {
 			isa = PBXGroup;
 			children = (
+				1C982B8C29C0694F00CA7471 /* Model */,
+				1C520E6C2AC2F76700299C62 /* View */,
+				1C520E6D2AC2F77900299C62 /* Presenter */,
 				1C5944DD2A0CC9FB00C172B0 /* Navigation */,
 				1C982B9829C0A62A00CA7471 /* Extension */,
 				1C982B9429C0705D00CA7471 /* Utilities */,
 				1C982B8D29C0695800CA7471 /* Managers */,
-				1C982B8C29C0694F00CA7471 /* Model */,
 				1C51B09E29BF2C3D00A04FAD /* Custom Views */,
-				1C51B09D29BF2BE000A04FAD /* Screens */,
 				1C51B09C29BF2BA600A04FAD /* Support */,
 				1C46974629BD3FFA00918782 /* Info.plist */,
 				1C5B031929E6C678003C6AD8 /* GoogleService-Info.plist */,
@@ -328,6 +331,22 @@
 				1C51B09F29BF2CDB00A04FAD /* SPTabBarController.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		1C520E6C2AC2F76700299C62 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C51B09D29BF2BE000A04FAD /* Screens */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C520E6D2AC2F77900299C62 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				1C520E6E2AC2F7AA00299C62 /* Presenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		1C5944DD2A0CC9FB00C172B0 /* Navigation */ = {
@@ -586,6 +605,7 @@
 				1C46121A29BF798400B3C891 /* FridgeVC.swift in Sources */,
 				1C359A0D2A27664600FA03E2 /* ProfileVC.swift in Sources */,
 				1CC9814E2A0A1DFD0048919B /* CommentTableViewCell.swift in Sources */,
+				1C520E6F2AC2F7AA00299C62 /* Presenter.swift in Sources */,
 				1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */,
 				1C2E8EE029C1E93200DB0822 /* SPImageView.swift in Sources */,
 				1C5EA47829D3800800FDCEE0 /* CategoriesHeaderView.swift in Sources */,
