@@ -190,9 +190,9 @@ class HomeVC: UIViewController {
     
     func fetchSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
         print("Fetching similar recipes for recipeID: \(recipeID)")
-        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { result in
+        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { [weak self] result in
             
-            //guard let self = self else {return}
+            guard let self = self else {return}
             
             switch result {
             case .success(let similarRecipes):
@@ -206,7 +206,7 @@ class HomeVC: UIViewController {
                 }
                 
             case .failure(let error):
-                print("Error fetching similar recipes: \(error.localizedDescription)")
+                print("Error fetching similar recipes: \(error)")
                 DispatchQueue.main.async {
                 completion(.failure(error))
                 }

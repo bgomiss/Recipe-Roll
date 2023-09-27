@@ -38,6 +38,10 @@ struct Recipe: Codable, Hashable, Equatable {
         case sourceURL = "sourceUrl"
         case image, imageType, summary, dishTypes, diets, analyzedInstructions
     }
+    
+    init() {
+        
+    }
 }
 
 // MARK: - AnalyzedInstruction

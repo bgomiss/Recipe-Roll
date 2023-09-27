@@ -9,9 +9,9 @@ import UIKit
 
 class RecommendationCollectionViewCell: UICollectionViewCell {
 
-        static let reuseID = "RecommendationCell"
+        static let reuseID          = "RecommendationCell"
         let recommendationImageView = SPImageView(frame: .zero)
-        let recommendationLabel = SPTitleLabel(textAlignment: .center, fontSize: 10)
+        let recommendationLabel     = SPTitleLabel(textAlignment: .center, fontSize: 15)
         
         
         
@@ -28,6 +28,7 @@ class RecommendationCollectionViewCell: UICollectionViewCell {
         
         func set(category: GetSimilarRecipes) {
             recommendationImageView.downloadImage(fromURL: category.imageURL ?? "")
+            recommendationLabel.lineBreakMode = .byTruncatingTail
             recommendationLabel.text = category.title
         }
         
@@ -42,9 +43,10 @@ class RecommendationCollectionViewCell: UICollectionViewCell {
                recommendationImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
                recommendationImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
                 
-                recommendationLabel.centerXAnchor.constraint(equalTo: recommendationImageView.centerXAnchor),
-                recommendationLabel.topAnchor.constraint(equalTo: recommendationImageView.bottomAnchor),
-                recommendationLabel.heightAnchor.constraint(equalToConstant: 15)
+               recommendationLabel.leadingAnchor.constraint(equalTo:  leadingAnchor, constant: 8),
+               recommendationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+               recommendationLabel.topAnchor.constraint(equalTo: recommendationImageView.bottomAnchor),
+               recommendationLabel.heightAnchor.constraint(equalToConstant: 35)
             ])
         }
     }
