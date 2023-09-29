@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AuthenticationVC: UIViewController {
+class AuthenticationVC: UIViewController, AuthPresenterDelegate {
 
     let signUpImage         = SignUpImageView(frame: .zero)
     let signUpField         = SPTextField(placeholder: "Email")
@@ -16,6 +16,7 @@ class AuthenticationVC: UIViewController {
     let signUpVC            = SignUpVC()
     let signinVC            = SignInVC()
     let profileVC           = SignInVC.profileVC
+    private let presenter = AuthPresenter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,8 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
+        
+        presenter.setViewDelegate(delegate: self)
      }
     
     
@@ -88,8 +91,8 @@ extension AuthenticationVC: WelcomeVCDelegate {
 extension AuthenticationVC: SignUpVCDelegate {
     func didCompleteSignUp() {
         
-        // Get a reference to the AppDelegate or SceneDelegate from the current context
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
+        // Get a reference to the SceneDelegate from the current context
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         // Call the function to reset the window's rootViewController
         sceneDelegate.showMainApp()
     }
@@ -97,8 +100,8 @@ extension AuthenticationVC: SignUpVCDelegate {
 
 extension AuthenticationVC: SignoutDelegate {
     func didCompleteSignOut() {
-        // Get a reference to the AppDelegate or SceneDelegate from the current context
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }// or SceneDelegate
+        // Get a reference to the SceneDelegate from the current context
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         // Call the function to reset the window's rootViewController
         sceneDelegate.showMainApp()
     }
