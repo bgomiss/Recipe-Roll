@@ -7,17 +7,26 @@
 
 import UIKit
 
-class AuthenticationVC: UIViewController, AuthPresenterDelegate {
+class AuthenticationVC: UIViewController {
 
     let signUpImage         = SignUpImageView(frame: .zero)
     let signUpField         = SPTextField(placeholder: "Email")
     let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
-    let welcomeVC           = WelcomeVC()
-    let signUpVC            = SignUpVC()
-    let signinVC            = SignInVC()
-    let profileVC           = SignInVC.profileVC
     
-    private let presenter = AuthPresenter()
+    private lazy var welcomeVC: WelcomeVC = {
+        return WelcomeVC()
+    }()
+    private lazy var signUpVC: SignUpVC = {
+        return SignUpVC()
+    }()
+    private lazy var signinVC: SignInVC = {
+        return SignInVC()
+    }()
+    private lazy var profileVC: ProfileVC = {
+        return SignInVC.profileVC
+    }()
+    
+    private var presenter: AuthPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +34,8 @@ class AuthenticationVC: UIViewController, AuthPresenterDelegate {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        presenter.setViewDelegate(delegate: self)
+        
+        presenter = AuthPresenter(view: self)
         
      }
     

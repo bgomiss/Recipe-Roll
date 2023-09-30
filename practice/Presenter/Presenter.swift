@@ -7,17 +7,21 @@
 
 import UIKit
 
-protocol AuthPresenterDelegate: AnyObject {
-    
-}
+//protocol AuthPresenterDelegate: AnyObject {
+//    
+//}
 
-typealias PresenterDelegate = AuthPresenterDelegate & UIViewController
+//typealias PresenterDelegate = AuthPresenterDelegate & UIViewController
 
 class AuthPresenter {
     
-    weak var delegate: AuthPresenterDelegate?
+    private var view: AuthenticationVC
+//    weak var delegate: AuthPresenterDelegate?
     
-    public func setViewDelegate(delegate: PresenterDelegate) {
-        self.delegate = delegate
+    init(view: AuthenticationVC) {
+        self.view = view
     }
+//    public func setViewDelegate(delegate: PresenterDelegate) {
+//        self.delegate = delegate
+//    }
 }
