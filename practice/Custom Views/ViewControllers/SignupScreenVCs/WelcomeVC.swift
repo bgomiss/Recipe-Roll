@@ -8,9 +8,9 @@
 import UIKit
 import FirebaseAuth
 
-protocol WelcomeVCDelegate: AnyObject {
-    func didTapContinueButton(emailIsRegistered: Bool)
-}
+//protocol WelcomeVCDelegate: AnyObject {
+//    func didTapContinueButton(emailIsRegistered: Bool)
+//}
 
 class WelcomeVC: UIViewController {
 
@@ -24,7 +24,9 @@ class WelcomeVC: UIViewController {
     let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
     let stackView           = UIStackView()
     
-    weak var delegate: WelcomeVCDelegate?
+//    weak var delegate: WelcomeVCDelegate?
+    private var presenter: AuthPresenter?
+    weak var authenticationVC: AuthenticationVC?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,38 +34,38 @@ class WelcomeVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
-        
+        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: self)
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
     }
     
     
-    func checkIfEmailIsRegistered(email: String, completion: @escaping (Bool) -> Void) {
-        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
-            if let error = error {
-                print("Error checking email: \(error.localizedDescription)")
-                completion(false)
-                return
-            }
-            
-            if let signInMethods = signInMethods, !signInMethods.isEmpty {
-                completion(true)
-            } else {
-                completion(false)
-            }
-        }
-    }
+//    func checkIfEmailIsRegistered(email: String, completion: @escaping (Bool) -> Void) {
+//        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
+//            if let error = error {
+//                print("Error checking email: \(error.localizedDescription)")
+//                completion(false)
+//                return
+//            }
+//            
+//            if let signInMethods = signInMethods, !signInMethods.isEmpty {
+//                completion(true)
+//            } else {
+//                completion(false)
+//            }
+//        }
+//    }
     
     
     @objc func continueButtonTapped() {
-        checkIfEmailIsRegistered(email: eMailField.text ?? "") { isRegistered in
+        presenter?.checkIfEmailIsRegistered(email: eMailField.text ?? "") { isRegistered in
             if isRegistered {
                 print("Email is registered")
             } else {
                 print("Email is not registered")
             }
-            
-            self.delegate?.didTapContinueButton(emailIsRegistered: isRegistered)
+            self.authenticationVC?.didTapContinueButton(emailIsRegistered: isRegistered)
+            //self.delegate?.didTapContinueButton(emailIsRegistered: isRegistered)
         }
     }
     

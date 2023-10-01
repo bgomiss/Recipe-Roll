@@ -115,7 +115,7 @@ class BookmarksVC: UIViewController {
                                 }
                             }
                         
-                        if let homeNavVC =
+                        if let homeNavVC = 
                             SPTabBarController().viewControllers?[0] as? UINavigationController,
                            let homeVC = homeNavVC.viewControllers.first as? HomeVC {
                             homeVC.fetchSimilarRecipes(recipeID: String(recipeID), completion: completion)

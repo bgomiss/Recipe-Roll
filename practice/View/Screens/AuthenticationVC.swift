@@ -14,7 +14,9 @@ class AuthenticationVC: UIViewController {
     let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
     
     private lazy var welcomeVC: WelcomeVC = {
-        return WelcomeVC()
+        let welcomeVC = WelcomeVC()
+        welcomeVC.authenticationVC = self
+        return welcomeVC
     }()
     private lazy var signUpVC: SignUpVC = {
         return SignUpVC()
@@ -35,7 +37,7 @@ class AuthenticationVC: UIViewController {
         signUpImage.frame = view.bounds
         configureUIElements()
         
-        presenter = AuthPresenter(view: self)
+        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil)
         
      }
     
@@ -60,7 +62,7 @@ class AuthenticationVC: UIViewController {
         signUpVC.view.isHidden = true
         welcomeVC.view.isHidden = false
         signinVC.view.isHidden = true
-        welcomeVC.delegate = self
+        //welcomeVC.delegate = self
         signUpVC.delegate = self
         profileVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
@@ -77,7 +79,7 @@ class AuthenticationVC: UIViewController {
     }
  }
 
-extension AuthenticationVC: WelcomeVCDelegate {
+extension AuthenticationVC {
     func didTapContinueButton(emailIsRegistered: Bool) {
         for child in children {
             if let welcomeVC = child as? WelcomeVC {
