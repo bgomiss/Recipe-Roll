@@ -29,19 +29,27 @@ class AuthPresenter {
 //    public func setViewDelegate(delegate: PresenterDelegate) {
 //        self.delegate = delegate
 //    }
-    func checkIfEmailIsRegistered(email: String, completion: @escaping (Bool) -> Void) {
+    func checkIfEmailIsRegistered(email: String) {
+                                  //completion: ((Bool) -> Void)? = nil) {
         Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
             if let error = error {
                 print("Error checking email: \(error.localizedDescription)")
-                completion(false)
+                //completion!(false)
                 return
             }
-            
-            if let signInMethods = signInMethods, !signInMethods.isEmpty {
-                completion(true)
-            } else {
-                completion(false)
+            guard let signInMethods else {
+                self.authenticationVC?.didTapContinueButton(emailIsRegistered: false)
+                return
             }
+            self.authenticationVC?.didTapContinueButton(emailIsRegistered: !signInMethods.isEmpty)
+//            if let signInMethods = signInMethods, !signInMethods.isEmpty {
+//                //completion!(true)
+//                self.authenticationVC?.didTapContinueButton(emailIsRegistered: true)
+//            } else {
+//                //completion!(false)
+//                self.authenticationVC?.didTapContinueButton(emailIsRegistered: false)
+//            }
+            
         }
     }
 }

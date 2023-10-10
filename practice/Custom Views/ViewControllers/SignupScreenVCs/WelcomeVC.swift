@@ -40,33 +40,17 @@ class WelcomeVC: UIViewController {
     }
     
     
-//    func checkIfEmailIsRegistered(email: String, completion: @escaping (Bool) -> Void) {
-//        Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
-//            if let error = error {
-//                print("Error checking email: \(error.localizedDescription)")
-//                completion(false)
-//                return
-//            }
-//            
-//            if let signInMethods = signInMethods, !signInMethods.isEmpty {
-//                completion(true)
-//            } else {
-//                completion(false)
-//            }
-//        }
-//    }
-    
-    
     @objc func continueButtonTapped() {
-        presenter?.checkIfEmailIsRegistered(email: eMailField.text ?? "") { isRegistered in
-            if isRegistered {
-                print("Email is registered")
-            } else {
-                print("Email is not registered")
-            }
-            self.authenticationVC?.didTapContinueButton(emailIsRegistered: isRegistered)
-            //self.delegate?.didTapContinueButton(emailIsRegistered: isRegistered)
-        }
+        presenter?.checkIfEmailIsRegistered(email: eMailField.text ?? "") 
+//        { isRegistered in
+//            if isRegistered {
+//                print("Email is registered")
+//            } else {
+//                print("Email is not registered")
+//            }
+//            self.authenticationVC?.didTapContinueButton(emailIsRegistered: isRegistered)
+//            //self.delegate?.didTapContinueButton(emailIsRegistered: isRegistered)
+//        }
     }
     
     

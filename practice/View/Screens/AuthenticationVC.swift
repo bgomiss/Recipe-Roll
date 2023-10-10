@@ -36,7 +36,6 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        
         presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil)
         
      }
