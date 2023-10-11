@@ -30,8 +30,8 @@ class AuthPresenter {
 //        self.delegate = delegate
 //    }
     func checkIfEmailIsRegistered(email: String) {
-        
-        authenticationVC = welcomeVC!.authenticationVC
+        guard let welcomeVC = welcomeVC else { return }
+        authenticationVC = welcomeVC.authenticationVC
                                   //completion: ((Bool) -> Void)? = nil) {
         Auth.auth().fetchSignInMethods(forEmail: email) { signInMethods, error in
             if let error = error {
