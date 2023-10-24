@@ -15,14 +15,38 @@ import FirebaseAuth
 class WelcomeVC: UIViewController {
 
     
-    let containerView       = SPContainerView(frame: .zero)
-    let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
-    let orLabel             = SPSecondaryTitleLabel(fontSize: 25)
-    let eMailField          = SPTextField(placeholder: "Email")
-    let continueButton      = SPButton(backgroundColor: .systemMint, title: "Continue")
-    let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
-    let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
-    let stackView           = UIStackView()
+    //let containerView       = SPContainerView(frame: .zero)
+        private lazy var containerView: SPContainerView = {
+            return SPContainerView(frame: .zero)
+        }()
+        //let greetingLabel       = SPTitleLabel(textAlignment: .left, fontSize: 50)
+        private lazy var greetingLabel: SPTitleLabel = {
+            return SPTitleLabel(textAlignment: .left, fontSize: 50)
+        }()
+        //let orLabel             = SPSecondaryTitleLabel(fontSize: 25)
+        private lazy var orLabel: SPSecondaryTitleLabel = {
+            return SPSecondaryTitleLabel(fontSize: 25)
+        }()
+        //let eMailField          = SPTextField(placeholder: "Email")
+        public lazy var eMailField: SPTextField = {
+            return SPTextField(placeholder: "Email")
+        }()
+        //let continueButton      = SPButton(backgroundColor: .systemMint, title: "Continue")
+        private lazy var continueButton: SPButton = {
+            return SPButton(backgroundColor: .systemMint, title: "Continue")
+        }()
+        //let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
+        private lazy var signupButton: SPButton = {
+            return SPButton(backgroundColor: .clear, title: "Sign up")
+        }()
+        //let forgotPassButton    = SPButton(backgroundColor: .clear, title: "Forgot your password?")
+        private lazy var forgotPassButton: SPButton = {
+            return SPButton(backgroundColor: .clear, title: "Forgot your password?")
+        }()
+        //let stackView           = UIStackView()
+        private lazy var stackView: UIStackView = {
+            return UIStackView()
+        }()
     
 //    weak var delegate: WelcomeVCDelegate?
     private var presenter: AuthPresenter?
@@ -34,7 +58,7 @@ class WelcomeVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
-        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: self)
+        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: self, signUpVC: nil)
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
     }

@@ -19,7 +19,9 @@ class AuthenticationVC: UIViewController {
         return welcomeVC
     }()
     private lazy var signUpVC: SignUpVC = {
-        return SignUpVC()
+        let signUpVC = SignUpVC()
+        signUpVC.authenticationVC = self
+        return signUpVC
     }()
     private lazy var signinVC: SignInVC = {
         return SignInVC()
@@ -36,7 +38,7 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil)
+        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil, signUpVC: nil)
         
      }
     
@@ -62,7 +64,7 @@ class AuthenticationVC: UIViewController {
         welcomeVC.view.isHidden = false
         signinVC.view.isHidden = true
         //welcomeVC.delegate = self
-        signUpVC.delegate = self
+        //signUpVC.delegate = self
         profileVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
@@ -98,9 +100,8 @@ extension AuthenticationVC {
             }
         }
     }
-}
 
-extension AuthenticationVC: SignUpVCDelegate {
+
     func didCompleteSignUp() {
         
         // Get a reference to the SceneDelegate from the current context
@@ -109,6 +110,7 @@ extension AuthenticationVC: SignUpVCDelegate {
         sceneDelegate.showMainApp()
     }
 }
+
 
 extension AuthenticationVC: SignoutDelegate {
     func didCompleteSignOut() {
