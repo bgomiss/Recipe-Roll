@@ -84,6 +84,7 @@
 		1CC981502A0A23090048919B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC9814F2A0A23080048919B /* Comment.swift */; };
 		1CC981532A0A23CA0048919B /* CommentsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC981522A0A23CA0048919B /* CommentsHeaderView.swift */; };
 		1CD522C929E354E700430F97 /* StackView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD522C829E354E700430F97 /* StackView+Ext.swift */; };
+		1CF58F112AF10C1200A1049A /* SignUpPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF58F102AF10C1200A1049A /* SignUpPresenter.swift */; };
 		1CF8D4E829DEF6BF002DD589 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4E729DEF6BF002DD589 /* WelcomeVC.swift */; };
 		1CF8D4EA29DEF6D6002DD589 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4E929DEF6D6002DD589 /* SignUpVC.swift */; };
 		1CF8D4EC29DEF6E9002DD589 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8D4EB29DEF6E9002DD589 /* SignInVC.swift */; };
@@ -162,6 +163,7 @@
 		1CC9814F2A0A23080048919B /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		1CC981522A0A23CA0048919B /* CommentsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsHeaderView.swift; sourceTree = "<group>"; };
 		1CD522C829E354E700430F97 /* StackView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView+Ext.swift"; sourceTree = "<group>"; };
+		1CF58F102AF10C1200A1049A /* SignUpPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
 		1CF8D4E729DEF6BF002DD589 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		1CF8D4E929DEF6D6002DD589 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		1CF8D4EB29DEF6E9002DD589 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				1C76374C2AC36431000F4530 /* Presenter.swift */,
+				1CF58F102AF10C1200A1049A /* SignUpPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				1CC981502A0A23090048919B /* Comment.swift in Sources */,
 				1C4BF90729D72F95009286D4 /* LunchCollectionViewCell.swift in Sources */,
 				1C4BF90529D72F85009286D4 /* BreakfastCollectionViewCell.swift in Sources */,
+				1CF58F112AF10C1200A1049A /* SignUpPresenter.swift in Sources */,
 				1C6BD91129D1DA4F00B7390B /* HomeVC+Ext.swift in Sources */,
 				1C2EE92829C1C23100B3D24A /* SPAlertVC.swift in Sources */,
 				1C2E8EDA29C1E21B00DB0822 /* Tableview+Ext.swift in Sources */,

@@ -28,6 +28,7 @@ class SignUpVC: UIViewController {
     
     //weak var delegate: SignUpVCDelegate?
     private var presenter: AuthPresenter?
+    private var signUpPresenter: SignUpPresenter?
     weak var authenticationVC: AuthenticationVC?
 
     override func viewDidLoad() {
@@ -36,7 +37,8 @@ class SignUpVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
-        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: nil, signUpVC: self)
+        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: nil)
+        signUpPresenter = SignUpPresenter(signUpVC: self, authenticationVC: nil)
         signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
     }
     
@@ -85,7 +87,7 @@ class SignUpVC: UIViewController {
 //            return
 //        }
         // Call the registerNewUser function with the email and password
-        presenter?.signUpCompleted()
+        signUpPresenter?.signUpCompleted()
 //        registerNewUser(name: name, email: email, password: password) { result in
 //            DispatchQueue.main.async {
 //                switch result {
