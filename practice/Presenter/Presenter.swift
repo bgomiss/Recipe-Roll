@@ -17,15 +17,15 @@ import FirebaseStorage
 //typealias PresenterDelegate = AuthPresenterDelegate & UIViewController
 
 class AuthPresenter {
+    
     typealias AuthenticationVCType = AuthenticationVC
-    typealias WelcomeVCType        = WelcomeVC
     
         
         private weak var authenticationVC: AuthenticationVCType?
-        private weak var welcomeVC: WelcomeVCType?
+        private weak var welcomeVC: WelcomeVC?
         
         
-    init(authenticationVC: AuthenticationVCType?, welcomeVC: WelcomeVCType?) {
+    init(authenticationVC: AuthenticationVCType?, welcomeVC: WelcomeVC?) {
             self.authenticationVC = authenticationVC
             self.welcomeVC        = welcomeVC
         }
@@ -44,7 +44,7 @@ class AuthPresenter {
                 return
             }
             guard let signInMethods else {
-                self.authenticationVC!.didTapContinueButton(emailIsRegistered: false)
+                self.authenticationVC?.didTapContinueButton(emailIsRegistered: false)
                 return
             }
             self.authenticationVC!.didTapContinueButton(emailIsRegistered: !signInMethods.isEmpty)
