@@ -77,36 +77,24 @@ class ProfileVC: UIViewController, PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             dismiss(animated: true, completion: nil)
 
-            guard let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else {
-                return
-            }
+            guard let itemProvider = results.first?.itemProvider, 
+                      itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
 
             itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                 DispatchQueue.main.async {
-                    guard let self = self, let image = image as? UIImage else {
-                        return
-                    }
-                    
-                    itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-                        DispatchQueue.main.async {
-                            guard let self = self, let image = image as? UIImage else {
-                                return
-                            }
+                    guard let self = self, 
+                          let image = image as? UIImage else { return }
 
                             self.profileImageView.image = image
                             self.updateProfileImageClosure?(image)
+                    guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+                            self.uploadProfileImageToFirebaseStorage(imageData)
                         }
                     }
 
-                    
-                    guard let imageData = image.jpegData(compressionQuality: 0.75) else {
-                        return
-                    }
-                    
-                    self.uploadProfileImageToFirebaseStorage(imageData)
-                }
-            }
-        }
+                 }
+            
+        
     
     
     // MARK: - Firebase Upload Image
