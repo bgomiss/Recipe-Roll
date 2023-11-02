@@ -22,6 +22,8 @@ class SignInVC: UIViewController {
     static let profileVC    = ProfileVC()
     var email: String?
     
+    private var signInPresenter: SignInPresenter?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,33 +31,35 @@ class SignInVC: UIViewController {
         containerView.addSubviews(userImage, stackView, usernameLabel, emailLabel)
         configureStackView()
         layoutUI()
+        signInPresenter = SignInPresenter(signInVC: self, authenticationVC: nil)
         signinButton.addTarget(self, action: #selector(signinButtonTapped), for: .touchUpInside)
     }
     
     
     @objc func signinButtonTapped() {
-        guard let email = email else {
-            print("Email is empty")
-            return
-        }
-        
-        let password = passwordField.text ?? ""
-        print(password)
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                print("Error signing in: \(error.localizedDescription)")
-                return
-            }
-            print("User Signed In Successfully")
-           
-            self.navigationController?.pushViewController(SignInVC.profileVC, animated: true)
-            SignInVC.profileVC.navigationItem.hidesBackButton = true
-            
-//            profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
+        signInPresenter?.signInCompleted()
+//        guard let email = email else {
+//            print("Email is empty")
+//            return
+//        }
+//        
+//        let password = passwordField.text ?? ""
+//        print(password)
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//            guard let self = self else { return }
+//            
+//            if let error = error {
+//                print("Error signing in: \(error.localizedDescription)")
+//                return
+//            }
+//            print("User Signed In Successfully")
+//           
+//            self.navigationController?.pushViewController(SignInVC.profileVC, animated: true)
+//            SignInVC.profileVC.navigationItem.hidesBackButton = true
+//            
+//           profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
 //            self.navigationController?.setViewControllers([profileVC], animated: true)
-        }
+//        }
     }
     
     
