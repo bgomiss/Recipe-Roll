@@ -60,7 +60,7 @@ class SignUpPresenter {
                     // Navigate to the next screen or show a success message
                     guard let authenticationVC = self.signUpVC?.authenticationVC else { return }
                     authenticationVC.didCompleteSignUp()
-                    //self.delegate?.didCompleteSignUp()
+                    
                 case .failure(let error):
                     print("Error registering user: \(error.localizedDescription)")
                     // Show an error message
