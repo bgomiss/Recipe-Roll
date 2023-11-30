@@ -16,6 +16,7 @@ class ProfileVCPresenter: PHPickerViewControllerDelegate {
     
     
     private weak var profileVC: ProfileVC?
+    var updateProfileImageClosure: ((UIImage) -> Void)?
     
     init(profileVC: ProfileVC?) {
         self.profileVC = profileVC
@@ -60,16 +61,16 @@ class ProfileVCPresenter: PHPickerViewControllerDelegate {
                       let image = image as? UIImage else { return }
 
                 self.profileVC?.profileImageView.image = image
-                self.profileVC?.updateProfileImageClosure?(image)
+                self.updateProfileImageClosure?(image)
                 guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
-                        self.uploadProfileImageToFirebaseStorage(imageData)
+                self.uploadProfileImageToFirebaseStorage(imageData)
                     }
                 }
     }
     
     
     func fetchProfileData() {
-            // Fetch user data from Firestore
+        // Fetch user data from Firestore
         guard let  uid = Auth.auth().currentUser?.uid else {
             print("No user is currently signed in")
             return

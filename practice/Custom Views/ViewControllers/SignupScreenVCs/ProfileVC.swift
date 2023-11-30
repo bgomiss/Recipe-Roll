@@ -13,7 +13,7 @@ import PhotosUI
 
 class ProfileVC: UIViewController {
     
-    var updateProfileImageClosure: ((UIImage) -> Void)?
+    
     var profileImageView = SPImageView(cornerRadius: 50)
     var nameLabel = SPTitleLabel(textAlignment: .center, fontSize: 24)
     var emailLabel = SPSecondaryTitleLabel(fontSize: 18, color: .black)
@@ -35,9 +35,10 @@ class ProfileVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = logoutButton
         setupConstraints()
+        profileVCPresenter = ProfileVCPresenter(profileVC: self)
         profileVCPresenter?.fetchProfileData()
         uploadImageButton.addTarget(self, action: #selector(uploadImageButtonTapped), for: .touchUpInside)
-        profileVCPresenter = ProfileVCPresenter(profileVC: self)
+        
     }
     
     

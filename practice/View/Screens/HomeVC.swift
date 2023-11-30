@@ -102,17 +102,16 @@ class HomeVC: UIViewController {
         PersistenceManager.retrieveUserProfile { [weak self] result in
                         switch result {
                         case .success(let user):
+                            guard let user = user else {return}
                             print("USER IS: \(user)")
-                            if let profileImageUrl = user?.profileImageUrl,
-                               let name = user?.name {
+                            let profileImageUrl = user.profileImageUrl ?? ""
+                            let name = user.name
                                 DispatchQueue.main.async {
                                     self?.userImage.downloadImage(fromURL: profileImageUrl)
                                     self?.titleLabel.text = "What would you like to cook today, \(name)?"
-                                        print("PROFILE IMAGE URL IS: \(profileImageUrl)")
+                                    print("PROFILE IMAGE URL IS: \(profileImageUrl)")
                                 }
                                 
-                            }
-        
                         case .failure(let error):
                             print("Error retrieving user profile: \(error.localizedDescription)")
                         }

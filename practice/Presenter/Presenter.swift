@@ -29,10 +29,8 @@ class AuthPresenter {
             self.authenticationVC = authenticationVC
             self.welcomeVC        = welcomeVC
         }
-//    weak var delegate: AuthPresenterDelegate?
-//    public func setViewDelegate(delegate: PresenterDelegate) {
-//        self.delegate = delegate
-//    }
+
+    
     func checkIfEmailIsRegistered(email: String) {
         guard let welcomeVC = welcomeVC else { return }
         authenticationVC = welcomeVC.authenticationVC
@@ -48,14 +46,6 @@ class AuthPresenter {
                 return
             }
             self.authenticationVC!.didTapContinueButton(emailIsRegistered: !signInMethods.isEmpty)
-//            if let signInMethods = signInMethods, !signInMethods.isEmpty {
-//                //completion!(true)
-//                self.authenticationVC?.didTapContinueButton(emailIsRegistered: true)
-//            } else {
-//                //completion!(false)
-//                self.authenticationVC?.didTapContinueButton(emailIsRegistered: false)
-//            }
-            
         }
     }
 }

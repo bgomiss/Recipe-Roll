@@ -79,28 +79,9 @@ class SignUpVC: UIViewController {
     
     
     @objc func signupButtonTapped() {
-        // Validate and get the email and password
-//        guard let email = eMailField.text, !email.isEmpty,
-//              let password = passwordField.text, !password.isEmpty,
-//              let name = nameField.text, !name.isEmpty else {
-//            print("Name, Email or password is empty")
-//            return
-//        }
+      
         // Call the registerNewUser function with the email and password
         signUpPresenter?.signUpCompleted()
-//        registerNewUser(name: name, email: email, password: password) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let authResult):
-//                    print("User registered successfully: \(authResult.user.uid)")
-//                    // Navigate to the next screen or show a success message
-//                    //self.delegate?.didCompleteSignUp()
-//                case .failure(let error):
-//                    print("Error registering user: \(error.localizedDescription)")
-//                    // Show an error message
-//                }
-//            }
-//        }
         
     }
     
