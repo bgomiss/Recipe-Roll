@@ -67,6 +67,40 @@ class ProfileVCPresenter: PHPickerViewControllerDelegate {
                 }
     }
     
+    
+    func fetchProfileData() {
+            // Fetch user data from Firestore
+        guard let  uid = Auth.auth().currentUser?.uid else {
+            print("No user is currently signed in")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document(uid).getDocument { document, error in
+            if let error = error {
+                print("Error fetching user data: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("No document found for this user")
+                return
+            }
+            
+            if let data = document.data(),
+               let name = data["name"] as? String,
+               let email = data["email"] as? String,
+               let profileImageUrl = data["profileImageUrl"] as? String {
+               //let bookmarkedRecipes = data["bookmarkedRecipes"] as? [String] {
+                self.profileVC?.user = User(uid: uid, name: name, profileImageUrl: profileImageUrl)
+                self.profileVC?.nameLabel.text = "Welcome \(name)"
+                self.profileVC?.emailLabel.text = "Email: \(email)"
+                self.profileVC?.profileImageView.downloadImage(fromURL: profileImageUrl)
+            }
+        }
+    }
+    
+    
     func uploadProfileImageToFirebaseStorage(_ imageData: Data) {
             guard let uid = Auth.auth().currentUser?.uid else {
                 print("No user is currently signed in")

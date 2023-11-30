@@ -35,7 +35,7 @@ class ProfileVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = logoutButton
         setupConstraints()
-        fetchProfileData()
+        profileVCPresenter?.fetchProfileData()
         uploadImageButton.addTarget(self, action: #selector(uploadImageButtonTapped), for: .touchUpInside)
         profileVCPresenter = ProfileVCPresenter(profileVC: self)
     }
@@ -51,47 +51,6 @@ class ProfileVC: UIViewController {
         profileVCPresenter?.imagePickerPresented()
     }
       
-    // MARK: - Firebase Upload Image
-    
-    
-        
-        
-    
-    
-    func fetchProfileData() {
-            // Fetch user data from Firestore
-        guard let  uid = Auth.auth().currentUser?.uid else {
-            print("No user is currently signed in")
-            return
-        }
-        
-        let db = Firestore.firestore()
-        db.collection("users").document(uid).getDocument { document, error in
-            if let error = error {
-                print("Error fetching user data: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let document = document, document.exists else {
-                print("No document found for this user")
-                return
-            }
-            
-            if let data = document.data(),
-               let name = data["name"] as? String,
-               let email = data["email"] as? String,
-               let profileImageUrl = data["profileImageUrl"] as? String {
-               //let bookmarkedRecipes = data["bookmarkedRecipes"] as? [String] {
-                self.user = User(uid: uid, name: name, profileImageUrl: profileImageUrl)
-                self.nameLabel.text = "Welcome \(name)"
-                
-                self.emailLabel.text = "Email: \(email)"
-                self.profileImageView.downloadImage(fromURL: profileImageUrl)
-            }
-        }
-    }
-
-    
     
     func setupConstraints() {
         view.addSubviews(profileImageView, nameLabel, emailLabel, uploadImageButton)
