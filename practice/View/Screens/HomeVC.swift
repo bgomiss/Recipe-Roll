@@ -245,7 +245,7 @@ class HomeVC: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -150),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             titleLabel.heightAnchor.constraint(equalToConstant: 48),
             
             userImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),

@@ -51,15 +51,29 @@ class SignUpPresenter {
         else { print("Name, Email or password is empty")
              return }
         
-        registerNewUser(name: name, email: email, password: password) { result in
+        registerNewUser(name: name, email: email, password: password) { [weak self] result in
+            guard let self = self else { return }
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let authResult):
                     print("User registered successfully: \(authResult.user.uid)")
                     
-                    // Navigate to the next screen or show a success message
-                    guard let authenticationVC = self.signUpVC?.authenticationVC else { return }
-                    authenticationVC.didCompleteSignUp()
+                    // Save user profile
+                    let newUser = User(uid: authResult.user.uid, name: name)
+                    PersistenceManager.saveUserProfile(user: newUser) { error in
+                        if let error = error {
+                            print("Error saving user profile: \(error.localizedDescription)")
+                            // Handle the error (e.g., show an alert to the user)
+                        } else {
+                            print("User profile saved successfully.")
+                            // Navigate to the next screen or show a success message
+                            guard let authenticationVC = self.signUpVC?.authenticationVC else { return }
+                            authenticationVC.didCompleteSignUp()
+                        }
+                    }
+                    
+                   
                     
                 case .failure(let error):
                     print("Error registering user: \(error.localizedDescription)")
