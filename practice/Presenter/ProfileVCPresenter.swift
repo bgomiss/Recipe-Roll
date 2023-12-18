@@ -145,14 +145,21 @@ class ProfileVCPresenter: PHPickerViewControllerDelegate {
             }
             
             print("Profile image url successfully updated in Firestore")
-            self?.profileVC?.user?.profileImageUrl = imageUrl
-            
-            //Save the updated User instance in Persistence Manager
-            PersistenceManager.saveUserProfile(user: self?.profileVC?.user ?? User(uid: "", name: "", profileImageUrl: "", bookmarkedRecipes: [])) { error in
+            //self?.profileVC?.user?.profileImageUrl = imageUrl
+            let profilePhoto = User(uid: "", name: "", profileImageUrl: imageUrl, bookmarkedRecipes: [])
+            PersistenceManager.saveUserProfile(user: profilePhoto) {
+                error in
                 if let error = error {
                     print("Error saving user profile: \(error.localizedDescription)")
                 }
             }
         }
+            //Save the updated User instance in Persistence Manager
+//            PersistenceManager.saveUserProfile(user: self?.profileVC?.user ?? User(uid: "", name: "", profileImageUrl: "", bookmarkedRecipes: [])) { error in
+//                if let error = error {
+//                    print("Error saving user profile: \(error.localizedDescription)")
+//                }
+//            }
+        }
     }
-}
+

@@ -13,6 +13,7 @@ class SignUpPresenter {
     
     private weak var signUpVC: SignUpVC?
     private weak var authenticationVC: AuthenticationVC?
+    private weak var profileVC: ProfileVC?
     
     init(signUpVC: SignUpVC?, authenticationVC: AuthenticationVC?) {
         self.signUpVC         = signUpVC
