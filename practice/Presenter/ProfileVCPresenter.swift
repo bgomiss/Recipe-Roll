@@ -146,13 +146,30 @@ class ProfileVCPresenter: PHPickerViewControllerDelegate {
             
             print("Profile image url successfully updated in Firestore")
             //self?.profileVC?.user?.profileImageUrl = imageUrl
-            let profilePhoto = User(uid: "", name: "", profileImageUrl: imageUrl, bookmarkedRecipes: [])
-            PersistenceManager.saveUserProfile(user: profilePhoto) {
-                error in
-                if let error = error {
-                    print("Error saving user profile: \(error.localizedDescription)")
+            PersistenceManager.retrieveUserProfile { result in
+                switch result {
+                case .success(var user):
+                    guard var user = user else { return }
+                    // Update only the profileImageUrl property
+                    user.profileImageUrl = imageUrl
+                    
+                    // Save the updated User instance in Persistence Manager
+                    PersistenceManager.saveUserProfile(user: user) { saveError in
+                        if let saveError = saveError {
+                            print("Error saving user profile: \(saveError.localizedDescription)")
+                        }
+                    }
+                case .failure(let error):
+                    print("Error retrieving user profile: \(error.localizedDescription)")
                 }
             }
+//            let profilePhoto = User(uid: "", name: "", profileImageUrl: imageUrl, bookmarkedRecipes: [])
+//            PersistenceManager.saveUserProfile(user: profilePhoto) {
+//                error in
+//                if let error = error {
+//                    print("Error saving user profile: \(error.localizedDescription)")
+//                }
+//            }
         }
             //Save the updated User instance in Persistence Manager
 //            PersistenceManager.saveUserProfile(user: self?.profileVC?.user ?? User(uid: "", name: "", profileImageUrl: "", bookmarkedRecipes: [])) { error in
