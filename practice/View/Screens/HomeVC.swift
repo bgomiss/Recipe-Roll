@@ -198,14 +198,14 @@ class HomeVC: UIViewController {
             switch result {
             case .success(let similarRecipes):
                 print("Fetched similar recipes")
+                self.similarRecipesArray.append(contentsOf: similarRecipes)
+                print("Similar recipes count after fetching: \(self.similarRecipesArray.count)")
                 DispatchQueue.main.async {
                     print("Reloading collection view...")
-                    completion(.success(similarRecipes))
-                    self.similarRecipesArray.append(contentsOf: similarRecipes)
                     self.collectionView.reloadData()
                     print("Collection view reloaded.")
                 }
-                
+                completion(.success(similarRecipes))
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
