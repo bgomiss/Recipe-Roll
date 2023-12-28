@@ -79,6 +79,7 @@ enum PersistenceManager {
         /// MY RECOMMENDATION IS: REMOVE THIS AN CONSUME DIRECTLY FROM WEB SERVICES, CACHE METHOD IS FOR ADVANCED
         /// DEVELOPER...
         ///
+        /// GUIMEL
         
         guard let categoriesData = defaults.object(forKey: Keys.categories) as? Data else {
             completed(.success([]))

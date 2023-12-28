@@ -97,12 +97,15 @@ class BookmarksVC: UIViewController {
                 }
                     
                 guard let recipes = querySnapshot?.documents else { return }
+                
+                /// YOU NEED YOUR RECIPEID AND YOUR DEBUG IS NOT PASSING HERE
+                /// GUIMEL
                
                 if categoryID == "Recently Viewed" {
                     if let firstRecipe = recipes.first,
                        let recipeData = firstRecipe.data() as? [String: Any],
                        let nestedDict  = recipeData.values.first as? [String: Any],
-                       let recipeID = nestedDict["id"] as? Int64 {
+                       let recipeID = nestedDict["id"] as? Int {
                         print("TarifID is: \(recipeID)")
                         
                         // Create a completion handler closure
@@ -115,11 +118,9 @@ class BookmarksVC: UIViewController {
                                 }
                             }
                         
-                        if let homeNavVC = 
-                            SPTabBarController().viewControllers?[0] as? UINavigationController,
+                        if let homeNavVC = SPTabBarController().viewControllers?[0] as? UINavigationController,
                            let homeVC = homeNavVC.viewControllers.first as? HomeVC {
-                            homeVC.fetchSimilarRecipes(recipeID: String(recipeID), completion: completion)
-                            //fetchSimilarRecipesClosure?(recipeID)
+                            homeVC.recipeId = recipeID
                         }
                         
                     }

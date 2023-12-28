@@ -45,6 +45,8 @@ class HomeVC: UIViewController {
         return collectionView
     }()
     
+    var recipeId: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -54,12 +56,11 @@ class HomeVC: UIViewController {
         layoutUI()
         configure()
         getCategories()
-        
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
-        //        PersistenceManager.retrieveUserProfile { [weak self] result in
+//                PersistenceManager.retrieveUserProfile { [weak self] result in
         //                switch result {
         //                case .success(let user):
         //                    if let profileImageUrl = user?.profileImageUrl {
@@ -76,6 +77,15 @@ class HomeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        /// 
+        /// I DON'T KNOW IF YOU HAVE SOME URL WHERE YOU CAN GET GENERAL RECOMMENDATIONS WITHOUT RECIPEID
+        ///
+        /// GUIMEL
+        
+//        if let recipeId {
+            fetchSimilarRecipes(recipeID: String(651942))
+//        }
     }
     
     
@@ -159,23 +169,24 @@ class HomeVC: UIViewController {
     
     
     
-    func fetchSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
+    func fetchSimilarRecipes(recipeID: String) {
         print("Fetching similar recipes for recipeID: \(recipeID)")
-        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { result in
+        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { [weak self] result in
             
-            //guard let self = self else {return}
+            guard let self else { return }
             
             switch result {
             case .success(let similarRecipes):
                 print("Fetched similar recipes")
                 self.similarRecipesArray.append(contentsOf: similarRecipes)
-                completion(.success(similarRecipes))
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
-                    completion(.failure(error))
+                    self.collectionView.reloadData()
                 }
-                //self.view.bringSubviewToFront(self.tableView)
             }
         }
     }
