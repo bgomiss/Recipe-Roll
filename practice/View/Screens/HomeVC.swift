@@ -26,7 +26,6 @@ class HomeVC: UIViewController {
     
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.soup, Tags.dessert]
-    let group = DispatchGroup()
     
     private var searchDebounceTimer: Timer?
     
@@ -42,7 +41,7 @@ class HomeVC: UIViewController {
         collectionView.register(CategoriesHeaderView.self, forSupplementaryViewOfKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier)
         collectionView.register(RecommendationHeaderView.self, forSupplementaryViewOfKind: "RecommendationHeader", withReuseIdentifier: RecommendationHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
-       
+        
         return collectionView
     }()
     
@@ -51,25 +50,26 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureCompositionalLayout()
-        setupQueryRecipesVC()
+//        setupQueryRecipesVC()
         layoutUI()
         configure()
-        getCategoriesFromCache()
+        getCategories()
+        
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
-//        PersistenceManager.retrieveUserProfile { [weak self] result in
-//                switch result {
-//                case .success(let user):
-//                    if let profileImageUrl = user?.profileImageUrl {
-//                        self?.userImage.downloadImage(fromURL: profileImageUrl)
-//                    }
-//
-//                case .failure(let error):
-//                    print("Error retrieving user profile: \(error.localizedDescription)")
-//                }
-//            }
+        //        PersistenceManager.retrieveUserProfile { [weak self] result in
+        //                switch result {
+        //                case .success(let user):
+        //                    if let profileImageUrl = user?.profileImageUrl {
+        //                        self?.userImage.downloadImage(fromURL: profileImageUrl)
+        //                    }
+        //
+        //                case .failure(let error):
+        //                    print("Error retrieving user profile: \(error.localizedDescription)")
+        //                }
+        //            }
     }
     
     
@@ -96,95 +96,65 @@ class HomeVC: UIViewController {
         cancelButton.isHidden = true
         querySearchBar.text = ""
     }
-
+    
     
     func retrieveUserInfo() {
         PersistenceManager.retrieveUserProfile { [weak self] result in
-                        switch result {
-                        case .success(let user):
-                            guard let user = user,
-                                  let profileImageUrl = user.profileImageUrl,
-                                  let name = user.name
-                            else {return}
-                            print("USER IS: \(user)")
-                            
-                                DispatchQueue.main.async {
-                                    self?.userImage.downloadImage(fromURL: profileImageUrl)
-                                    self?.titleLabel.text = "What would you like to cook today, \(name)?"
-                                    print("PROFILE IMAGE URL IS: \(profileImageUrl)")
-                                }
-                                
-                        case .failure(let error):
-                            print("Error retrieving user profile: \(error.localizedDescription)")
-                        }
-                    }
+            switch result {
+            case .success(let user):
+                guard let user = user,
+                      let profileImageUrl = user.profileImageUrl,
+                      let name = user.name
+                else {return}
+                print("USER IS: \(user)")
+                
+                DispatchQueue.main.async {
+                    self?.userImage.downloadImage(fromURL: profileImageUrl)
+                    self?.titleLabel.text = "What would you like to cook today, \(name)?"
+                    print("PROFILE IMAGE URL IS: \(profileImageUrl)")
                 }
+                
+            case .failure(let error):
+                print("Error retrieving user profile: \(error.localizedDescription)")
+            }
+        }
+    }
     
     
-    func makeAPICallForCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
-        NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { [weak self] category in
-            
-            guard let self = self else { return }
-           
-            
+    func makeAPICallForCategories(tag: String, completion: @escaping ([Recipe]) -> Void) {
+        NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { category in
             switch category {
             case .success(let categories):
-                
-                for category in categories {
-                    PersistenceManager.updateWith(category: category, actionType: .add) { error in
-                        if let error = error {
-                            print("Error saving category: \(error)")
-                        }
-                    }
-                }
-            self.updateUI(with: categories, atIndex: index)
-            case .failure(_): break
+                completion(categories)
+            case .failure(_): completion([])
                 
             }
-            group.leave()
         }
     }
     
     func updateUI(with categories: [Recipe], atIndex index: Int) {
-           
-           DispatchQueue.main.async {
-               self.recipes[index].recipe = categories
-           }
-       }
+        self.recipes[index].recipe = categories
+    }
     
     
-    func getCategoriesFromCache() {
+    func getCategories() {
         // First, try to retrieve categories from cache
+        let group = DispatchGroup()
         recipes = tags.map { (tag: $0, recipe: [])}
+        
         for (index, tag) in tags.enumerated() {
             group.enter()
             
-            PersistenceManager.retrievedCategories { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let cachedCategories):
-                    if !cachedCategories.isEmpty {
-                        // If cached categories are available, update UI
-                        print("Data is coming from cache: \(cachedCategories)")
-                        self.updateUI(with: cachedCategories, atIndex: index)
-                    } else {
-                        // If not available in cache, make API call
-                        print("Data is not available in cache, making API call...")
-                        self.makeAPICallForCategories(tag: tag, atIndex: index, group: group)
-                    }
-                    // If there's an error retrieving from cache, make API call
-                case .failure(let error):
-                    print("Error retrieving categories from cache: \(error)")
-                    
-                    }
-                
-                }
-            self.group.notify(queue: .main) {
-            self.collectionView.reloadData()
+            self.makeAPICallForCategories(tag: tag) { categories in
+                self.updateUI(with: categories, atIndex: index)
+                group.leave()
             }
-            
         }
+            
+        group.notify(queue: .main) {
+            self.collectionView.reloadData()
+        }
+        
     }
     
     
@@ -199,22 +169,16 @@ class HomeVC: UIViewController {
             case .success(let similarRecipes):
                 print("Fetched similar recipes")
                 self.similarRecipesArray.append(contentsOf: similarRecipes)
-                print("Similar recipes count after fetching: \(self.similarRecipesArray.count)")
-                DispatchQueue.main.async {
-                    print("Reloading collection view...")
-                    self.collectionView.reloadData()
-                    print("Collection view reloaded.")
-                }
                 completion(.success(similarRecipes))
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
-                completion(.failure(error))
+                    completion(.failure(error))
                 }
                 //self.view.bringSubviewToFront(self.tableView)
-              }
             }
         }
+    }
     
     
     
@@ -226,9 +190,9 @@ class HomeVC: UIViewController {
     
     
     func configure() {
-            collectionView.setUp(to: view, and: querySearchBar)
-            cancelButton.isHidden = true
-        }
+        collectionView.setUp(to: view, and: querySearchBar)
+        cancelButton.isHidden = true
+    }
     
     
     func layoutUI() {
@@ -255,10 +219,10 @@ class HomeVC: UIViewController {
             userImage.heightAnchor.constraint(equalToConstant: 60),
             userImage.widthAnchor.constraint(equalToConstant: 60),
             
-            queryRecipesVC.view.topAnchor.constraint(equalTo: querySearchBar.bottomAnchor),
-            queryRecipesVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            queryRecipesVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            queryRecipesVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            queryRecipesVC.view.topAnchor.constraint(equalTo: querySearchBar.bottomAnchor),
+//            queryRecipesVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            queryRecipesVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            queryRecipesVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
