@@ -58,7 +58,7 @@ class WelcomeVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
-        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: self, signUpVC: nil)
+        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: self)
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
     }

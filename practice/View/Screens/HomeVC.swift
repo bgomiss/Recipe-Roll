@@ -102,17 +102,18 @@ class HomeVC: UIViewController {
         PersistenceManager.retrieveUserProfile { [weak self] result in
                         switch result {
                         case .success(let user):
+                            guard let user = user,
+                                  let profileImageUrl = user.profileImageUrl,
+                                  let name = user.name
+                            else {return}
                             print("USER IS: \(user)")
-                            if let profileImageUrl = user?.profileImageUrl,
-                               let name = user?.name {
+                            
                                 DispatchQueue.main.async {
                                     self?.userImage.downloadImage(fromURL: profileImageUrl)
                                     self?.titleLabel.text = "What would you like to cook today, \(name)?"
-                                        print("PROFILE IMAGE URL IS: \(profileImageUrl)")
+                                    print("PROFILE IMAGE URL IS: \(profileImageUrl)")
                                 }
                                 
-                            }
-        
                         case .failure(let error):
                             print("Error retrieving user profile: \(error.localizedDescription)")
                         }
@@ -197,14 +198,14 @@ class HomeVC: UIViewController {
             switch result {
             case .success(let similarRecipes):
                 print("Fetched similar recipes")
+                self.similarRecipesArray.append(contentsOf: similarRecipes)
+                print("Similar recipes count after fetching: \(self.similarRecipesArray.count)")
                 DispatchQueue.main.async {
                     print("Reloading collection view...")
-                    completion(.success(similarRecipes))
-                    self.similarRecipesArray.append(contentsOf: similarRecipes)
                     self.collectionView.reloadData()
                     print("Collection view reloaded.")
                 }
-                
+                completion(.success(similarRecipes))
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
@@ -246,7 +247,7 @@ class HomeVC: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -150),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             titleLabel.heightAnchor.constraint(equalToConstant: 48),
             
             userImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),

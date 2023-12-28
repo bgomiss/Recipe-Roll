@@ -38,25 +38,9 @@ class AuthenticationVC: UIViewController {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
-        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil, signUpVC: nil)
+        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil)
         
      }
-    
-    
-    
-//    func resetToWelcomeScreen() {
-//        // Logic to switch to WelcomeVC
-//        for child in children {
-//                if let welcomeVC = child as? WelcomeVC {
-//                    welcomeVC.view.isHidden = false
-//                } else if let signUpVC = child as? SignUpVC {
-//                    signUpVC.view.isHidden = true
-//                } else if let signInVC = child as? SignInVC {
-//                    signInVC.view.isHidden = true
-//                }
-//            }
-//    }
-
     
    
     func configureUIElements() {
@@ -65,7 +49,7 @@ class AuthenticationVC: UIViewController {
         signinVC.view.isHidden = true
         //welcomeVC.delegate = self
         //signUpVC.delegate = self
-        profileVC.delegate = self
+        //profileVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
         add(childVC: signinVC, to: self.view)
@@ -104,16 +88,6 @@ extension AuthenticationVC {
 
     func didCompleteSignUp() {
         
-        // Get a reference to the SceneDelegate from the current context
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-        // Call the function to reset the window's rootViewController
-        sceneDelegate.showMainApp()
-    }
-}
-
-
-extension AuthenticationVC: SignoutDelegate {
-    func didCompleteSignOut() {
         // Get a reference to the SceneDelegate from the current context
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         // Call the function to reset the window's rootViewController
