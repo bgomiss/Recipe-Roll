@@ -21,7 +21,7 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
     let tableView = UITableView()
     var recipeResults: [Recipe] = []
     var ingredientsResults: [Ent] = []
-    let recipeImage    = SPImageView(frame: .zero)
+    var recipeImage    = SPImageView(frame: .zero)
     var uniqueIngredientNames = Set<String>()
     var stepsResults: [SimplifiedStep] = []
     static var displayedRecipe: Recipe?

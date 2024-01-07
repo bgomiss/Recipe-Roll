@@ -109,20 +109,31 @@ class BookmarksVC: UIViewController {
                         print("TarifID is: \(recipeID)")
                         
                         // Create a completion handler closure
-                            let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
-                                switch result {
-                                case .success(let similarRecipes):
-                                    print("Fetched similar recipes: \(similarRecipes)")
-                                case .failure(let error):
-                                    print("Error fetching similar recipes: \(error.localizedDescription)")
-                                }
+                        let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
+                            switch result {
+                            case .success(let similarRecipes):
+                                print("Fetched similar recipes: \(similarRecipes)")
+                            case .failure(let error):
+                                print("Error fetching similar recipes: \(error.localizedDescription)")
                             }
-                        
-                        if let homeNavVC = SPTabBarController().viewControllers?[0] as? UINavigationController,
-                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
-                            homeVC.recipeId = recipeID
                         }
                         
+                        //                        if let homeNavVC = SPTabBarController().viewControllers?[0] as? UINavigationController,
+                        //                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
+                        //                            homeVC.recipeId = String(recipeID)
+                        //                        }
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                           let existingTabBarController = sceneDelegate.window?.rootViewController as? SPTabBarController,
+                           let homeNavVC = existingTabBarController.viewControllers?[0] as? UINavigationController,
+                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
+                            if (recipeID != 0) {
+                                homeVC.fetchSimilarRecipes(recipeID: String(recipeID))
+                                
+                            } else {
+                                homeVC.fetchSimilarRecipes(recipeID: "651942")
+                            }
+                            
+                        }
                     }
                 }
 

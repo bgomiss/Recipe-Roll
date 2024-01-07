@@ -15,7 +15,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 0:
             print("RECIPEScount is: \(recipes.count)")
             return recipes.count
-        
+            
             
         case 1:
             print("similarRECIPEScount is: \(similarRecipesArray.count)")
@@ -61,15 +61,15 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.reuseID, for: indexPath) as? CategoriesCollectionViewCell else {fatalError("unable to dequeue")}
-
+            
             if recipes.isEmpty == false {
                 let categoryTuple = recipes[indexPath.row]
                 cell.set(category: categoryTuple.recipe.first!)
                 
-                }
+            }
             return cell
         }
-}
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -78,11 +78,72 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             let selectedCategory = recipes[indexPath.row]
             let destVC = RecipeResultsVC(category: selectedCategory.tag)
             navigationController?.pushViewController(destVC, animated: true)
+
+            case 1:
+            let selectedRecipe = similarRecipesArray[indexPath.row]
+            print("Selected Recipe ID: \(selectedRecipe.id)")
+
+            fetchRecommendedRecipeInstructions(recipeID: String(selectedRecipe.id))
+            // Download and set the full-screen background image
+            recipeResultsVC.recipeImage.downloadImage(fromURL: recommendedRecipeInstructions?.image ?? "")
+            print("RECIPE IMAGE IS: \(recipeResultsVC.recipeImage)")
+            //view.addSubview(recipeResultsVC.recipeImage)
+            //recipeResultsVC.setBackgroundImage()
+                default:
+                    break
+                }
+            }
+            // The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
+            //                    let ingredientsForSelectedRecipe = ingredientsResults.filter { ingredient in
+            //                        let allSteps = selectedRecipe.analyzedInstructions.flatMap { $0.steps }
+            //                        return allSteps.contains { step in
+            //                            step.ingredients.contains { ent in
+            //                                if ent.id == ingredient.id {
+            //                                    // Check if the ingredient name is unique
+            //                                    if !recipeResultsVC.uniqueIngredientNames.contains(ent.name) {
+            //                                        recipeResultsVC.uniqueIngredientNames.insert(ent.name)
+            //                                        return true
+            //                                    }
+            //                                }
+            //                                return false
+            //                            }
+            //                        }
+            //                    }
+            //
+            //                    let stepsForSelectedRecipe = recipeResultsVC.stepsResults.filter { simplifiedStep in
+            //                        let allSteps = selectedRecipe.analyzedInstructions.flatMap { $0.steps }
+            //                        return allSteps.contains { step in
+            //                            step.number == simplifiedStep.number && step.step == simplifiedStep.step
+            //                        }
+            //                    }
+            //
+            //                    let destVC = InstructionsVC(recipe: selectedRecipe, ingredients: ingredientsForSelectedRecipe, steps: stepsForSelectedRecipe)
+            //                    vc = destVC
+            //                    let nav = UINavigationController(rootViewController: destVC)
+            //                    nav.modalPresentationStyle = .pageSheet
+            //
+            //                    // Create and configure the UISheetPresentationController
+            //                    if let sheet = nav.sheetPresentationController {
+            //                        sheet.detents = [.medium(), .large()]
+            //                        sheet.preferredCornerRadius = 40
+            //                        sheet.prefersGrabberVisible = true
+            //                        sheet.largestUndimmedDetentIdentifier = .medium
+            //                        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            //                        sheet.delegate = self
+            //                    }
+            //                    present(nav, animated: true)
+            //                default:
+            //                    break
+            //                }
+            //            }
             
-        default:
-            break
-        }
-    }
+            //                default:
+            //                    break
+            //                }
+            //            }
+//        }
+    
+        
         
         func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             switch indexPath.section {
@@ -99,5 +160,14 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             }
         }
         
+        func presentationControllerDidDismiss(_ presantationController: UIPresentationController) {
+            UIView.animate(withDuration: 0.7, animations: {
+                self.recipeResultsVC.recipeImage.transform = CGAffineTransform(translationX: 0, y: self.view.bounds.height)
+            }, completion: { _ in
+                self.recipeResultsVC.recipeImage.removeFromSuperview()
+            })
+        }
+        
     }
+    
 

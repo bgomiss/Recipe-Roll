@@ -19,3 +19,5 @@ import Foundation
              return "https://spoonacular.com/recipeImages/\(id)-312x231.\(imageType)"
          }
 }
+
+

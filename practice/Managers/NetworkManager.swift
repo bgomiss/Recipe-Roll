@@ -115,6 +115,9 @@ class NetworkManager {
             return
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            
+            guard let self else { return }
+            
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let _ = error {
                     completion(.failure(.invalidResponse))
@@ -142,6 +145,46 @@ class NetworkManager {
             task.resume()
         }
     }
+    
+    
+    func getRecommendedRecipeInstructions(recipeID: String, completion: @escaping (Result<Instructions, SPError>) -> Void) {
+        
+        let urlString = "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.invalidQuery))
+            return
+        }
+            
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("Error fetching data: \(error)")
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(.invalidData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let recipeInstructions = try decoder.decode(Instructions.self, from: data)
+                    //print("RECIPE INsTRUCTIONS: \(recipeInstructions)")
+                    completion(.success(recipeInstructions))
+                } catch {
+                    completion(.failure(.invalidData))
+                }
+            }
+            task.resume()
+        }
+    
     
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {

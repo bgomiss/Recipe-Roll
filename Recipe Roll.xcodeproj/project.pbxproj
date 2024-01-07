@@ -73,6 +73,7 @@
 		1C71938F2A63318B002BC992 /* FridgeVcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C71938E2A63318B002BC992 /* FridgeVcCell.swift */; };
 		1C7474DB2A0278E20003AE75 /* IngredientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */; };
 		1C76374D2AC36431000F4530 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C76374C2AC36431000F4530 /* Presenter.swift */; };
+		1C78ACA02B49769700DB7DC8 /* Instructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C78AC9F2B49769700DB7DC8 /* Instructions.swift */; };
 		1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7918A72A04FF67009951EA /* StepsCell.swift */; };
 		1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7FF06629C6D01C0063B280 /* UIHelper.swift */; };
 		1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8A29C0597700CA7471 /* SPTextField.swift */; };
@@ -154,6 +155,7 @@
 		1C71938E2A63318B002BC992 /* FridgeVcCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeVcCell.swift; sourceTree = "<group>"; };
 		1C7474DA2A0278E20003AE75 /* IngredientsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsCell.swift; sourceTree = "<group>"; };
 		1C76374C2AC36431000F4530 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
+		1C78AC9F2B49769700DB7DC8 /* Instructions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instructions.swift; sourceTree = "<group>"; };
 		1C7918A72A04FF67009951EA /* StepsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsCell.swift; sourceTree = "<group>"; };
 		1C7FF06629C6D01C0063B280 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		1C982B8A29C0597700CA7471 /* SPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTextField.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				1C08A49B2A6D64540053D7BC /* Ingredient.swift */,
 				1C6FCCBE2A88C9EB00912749 /* FindByIngredients.swift */,
 				1C5C08952A922CD8003176FE /* GetSimilarRecipes.swift */,
+				1C78AC9F2B49769700DB7DC8 /* Instructions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				1CC981532A0A23CA0048919B /* CommentsHeaderView.swift in Sources */,
 				1C4BF8FD29D72AED009286D4 /* MadeItCollectionViewCell.swift in Sources */,
 				1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */,
+				1C78ACA02B49769700DB7DC8 /* Instructions.swift in Sources */,
 				1C5944DF2A0CCA2F00C172B0 /* CoordinatorProtocol.swift in Sources */,
 				1C70FD4D29D1CE5F0025120B /* RecommendationCollectionViewCell.swift in Sources */,
 				1C2EE92329C1C07700B3D24A /* SPBodyLabel.swift in Sources */,

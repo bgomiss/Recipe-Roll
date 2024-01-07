@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 
-class HomeVC: UIViewController {
+class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     
     var user: User?
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
@@ -21,14 +21,15 @@ class HomeVC: UIViewController {
     let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     var similarRecipesArray: [GetSimilarRecipes] = []
+    var recommendedRecipeInstructions: Instructions?
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
-    
+    var ingredientsResults: [Ent] = []
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.soup, Tags.dessert]
-    
+    var recipeResultsVC = RecipeResultsVC()
+    var vc = UIViewController()
     private var searchDebounceTimer: Timer?
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         
@@ -45,7 +46,7 @@ class HomeVC: UIViewController {
         return collectionView
     }()
     
-    var recipeId: Int?
+    var recipeId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +59,7 @@ class HomeVC: UIViewController {
         getCategories()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
+        //fetchSimilarRecipes(recipeID: recipeId ?? "651942")
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
 //                PersistenceManager.retrieveUserProfile { [weak self] result in
@@ -84,8 +86,13 @@ class HomeVC: UIViewController {
         /// GUIMEL
         
 //        if let recipeId {
-            fetchSimilarRecipes(recipeID: String(651942))
+            //fetchSimilarRecipes(recipeID: String(651942))
 //        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        vc.dismiss(animated: true)
     }
     
     
@@ -187,6 +194,28 @@ class HomeVC: UIViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
+            }
+        }
+    }
+    
+    
+    func fetchRecommendedRecipeInstructions(recipeID: String) {
+        print("Fetching recipe instructions for recipeID: \(recipeID)")
+        NetworkManager.shared.getRecommendedRecipeInstructions(recipeID: recipeID) { [weak self] result in
+    
+            guard let self else { return }
+            
+            switch result {
+            case .success(let instructions):
+                //print("Fetched Instructions are : \(instructions)")
+                //self.recommendedRecipeInstructions.append(contentsOf: instructions)
+                DispatchQueue.main.async {
+                    self.recommendedRecipeInstructions = instructions
+                    print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
+                }
+                
+            case .failure(let error):
+                print("Error fetching instructions: \(error.localizedDescription)")
             }
         }
     }
