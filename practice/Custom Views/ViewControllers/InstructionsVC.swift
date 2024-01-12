@@ -12,20 +12,26 @@ import FirebaseAuth
 class InstructionsVC: UIViewController {
     
     var recipe: Recipe?
+    var recommendedRecipe: Instructions?
     var ingredients: [Ent]?
+    var recommendedIngredients: [Ingredients]?
+    var recommendedIngredientsArray: [Ingredients] = []
     let tableView = UITableView()
     let bookmarkIcon = UIImageView()
-    var instructions: [Recipe] = []
+    var instructions: [Recipe]? = []
+    var recommendedRecipeInstructions: [Instructions]? = []
     var ingredientsArray: [Ent] = []
     var stepsArray: [SimplifiedStep] = []
     var comments: [Comment] = []
     let db = Firestore.firestore()
     
     
-    init(recipe: Recipe, ingredients: [Ent], steps: [SimplifiedStep]) {
+    init(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, ingredients: [Ent]? = [], recommendedIngredients: [Ingredients]? = nil, steps: [SimplifiedStep]) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
+        self.recommendedRecipe = recommendedRecipe
         self.ingredients = ingredients
+        self.recommendedIngredients = recommendedIngredients
         self.stepsArray = steps
     }
     
@@ -225,9 +231,15 @@ class InstructionsVC: UIViewController {
     
     
     func updateUI() {
-        guard let recipe = recipe, let ingredients = ingredients else {return}
+        guard let recipe = recipe,
+              let ingredients = ingredients,
+              let recommendedRecipe = recommendedRecipe,
+              let recommendedIngredients = recommendedIngredients
+        else {return}
         instructions = [recipe]
         ingredientsArray = ingredients
+        recommendedRecipeInstructions = [recommendedRecipe]
+        recommendedIngredientsArray = recommendedIngredients
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -256,12 +268,18 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
            case 0:
                if indexPath.row == 0 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   let recipe = instructions[0]
-                   cell.setFeaturesCell(recipe: recipe)
+                   if instructions != nil {
+                       guard let recipe = instructions?[0] else { return cell }
+                       cell.setFeaturesCell(recipe: recipe)
+                   } else {
+                       guard let recipe = recommendedRecipeInstructions?[0] else { return cell }
+                       cell.setFeaturesCell(recommendedRecipe: recipe)
+                   }
+                   
                    return cell
                } else if indexPath.row == 1 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   let description = instructions[0]
+                   guard let description = instructions?[0] else { return cell }
                    cell.setDescriptionCell(recipe: description)
                    return cell
                } else if indexPath.row == 2 {

@@ -39,13 +39,24 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
+    func setFeaturesCell(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, categoryTitle: String? = nil) {
         addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
         
-        cellTitle.text = recipe.title
-        readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
-        servings.text = "\(String(recipe.servings)) people"
-        aggregateLikes.text = "\(String(recipe.servings)) likes"
+        if let recipe = recipe {
+            cellTitle.text = recipe.title
+            readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
+            servings.text = "\(String(recipe.servings)) people"
+            aggregateLikes.text = "\(String(recipe.servings)) likes"
+        } else if let recommendedRecipe = recommendedRecipe {
+            cellTitle.text = recommendedRecipe.title
+            readyInMinutes.text = "\(String(recommendedRecipe.readyInMinutes)) mins"
+            servings.text = "\(String(recommendedRecipe.servings)) people"
+            aggregateLikes.text = "\(String(recommendedRecipe.servings)) likes"
+        }
+        
+        
+        
+        
         
         clockImageView.translatesAutoresizingMaskIntoConstraints = false
         clockImageView.image = RIMimage

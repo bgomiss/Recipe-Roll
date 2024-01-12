@@ -22,7 +22,7 @@ class IngredientsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setIngredientsCell(ingredients: [Ent], categoryTitle: String? = nil) {
+    func setIngredientsCell(ingredients: [Ent]? = [], categoryTitle: String? = nil) {
         let stackView = UIStackView()
         addSubviews(ingredientsLabel, stackView)
         ingredientsLabel.text = "Ingredients"
@@ -48,7 +48,7 @@ class IngredientsCell: UITableViewCell {
         ])
         
         
-        for ingredient in ingredients {
+        for ingredient in ingredients! {
             let ingredientsImg = SPImageView(frame: .zero)
             let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black, weight: .bold)
             ingredientsImg.downloadImage(fromURL: ingredient.image)

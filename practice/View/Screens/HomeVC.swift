@@ -21,6 +21,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     var similarRecipesArray: [GetSimilarRecipes] = []
+    var ingredientsResultss: [Ingredients] = []
     var recommendedRecipeInstructions: Instructions?
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
@@ -199,6 +200,22 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     }
     
     
+    func extractIngredients(from analyzedInstructions: [AnalyzedInstructions]) {
+        for instruction in analyzedInstructions {
+            for step in instruction.steps {
+                let steps = SimplifiedStep(number: step.number, step: step.step)
+                recipeResultsVC.stepsResults.append(steps)
+                
+                for ingredient in step.ingredients {
+                    let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
+                    let newIngredient = Ingredients(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL)
+                    ingredientsResultss.append(newIngredient)
+                }
+            }
+        }
+    }
+    
+    
     func fetchRecommendedRecipeInstructions(recipeID: String) {
         print("Fetching recipe instructions for recipeID: \(recipeID)")
         NetworkManager.shared.getRecommendedRecipeInstructions(recipeID: recipeID) { [weak self] result in
@@ -208,11 +225,14 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
             switch result {
             case .success(let instructions):
                 //print("Fetched Instructions are : \(instructions)")
-                //self.recommendedRecipeInstructions.append(contentsOf: instructions)
+                
                 DispatchQueue.main.async {
                     self.recommendedRecipeInstructions = instructions
+                    self.extractIngredients(from: instructions.analyzedInstructions)
                     print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
                 }
+                
+                self.collectionView.reloadData()
                 
             case .failure(let error):
                 print("Error fetching instructions: \(error.localizedDescription)")
