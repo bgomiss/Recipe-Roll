@@ -236,11 +236,12 @@ class InstructionsVC: UIViewController {
               let recommendedRecipe = recommendedRecipe,
               let recommendedIngredients = recommendedIngredients
         else {return}
-        instructions = [recipe]
-        ingredientsArray = ingredients
-        recommendedRecipeInstructions = [recommendedRecipe]
-        recommendedIngredientsArray = recommendedIngredients
+        
         DispatchQueue.main.async {
+            self.instructions = [recipe]
+            self.ingredientsArray = ingredients
+            self.recommendedRecipeInstructions = [recommendedRecipe]
+            self.recommendedIngredientsArray = recommendedIngredients
             self.tableView.reloadData()
         }
     }
@@ -268,11 +269,11 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
            case 0:
                if indexPath.row == 0 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   if instructions != nil {
-                       guard let recipe = instructions?[0] else { return cell }
+                   if let instructions = instructions, !instructions.isEmpty {
+                       let recipe = instructions[0]
                        cell.setFeaturesCell(recipe: recipe)
-                   } else {
-                       guard let recipe = recommendedRecipeInstructions?[0] else { return cell }
+                   } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
+                       let recipe = recommendedRecipeInstructions[0]
                        cell.setFeaturesCell(recommendedRecipe: recipe)
                    }
                    
