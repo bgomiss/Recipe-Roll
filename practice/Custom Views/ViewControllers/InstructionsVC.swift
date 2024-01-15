@@ -285,7 +285,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
                        cell.setDescriptionCell(recipe: description)
                    } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
                            let description = recommendedRecipeInstructions
-                       cell.setDescriptionCell(recipe: description)
+                       cell.setDescriptionCell(recommendedRecipe: description)
                    }
                    return cell
                } else if indexPath.row == 2 {
