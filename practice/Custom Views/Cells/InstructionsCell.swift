@@ -106,31 +106,38 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setDescriptionCell(recipe: Recipe, categoryTitle: String? = nil) {
+    func setDescriptionCell(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, categoryTitle: String? = nil) {
         addSubviews(descriptionLabel, summary)
         descriptionLabel.text = "Description"
-        if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary) {
-            summary.attributedText = attributedText
-        }
         
-        
-        NSLayoutConstraint.activate([
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
-            descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
+        if let recipe = recipe {
+            if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary) {
+                summary.attributedText = attributedText
+            } else if let recommmendedRecipe = recommendedRecipe {
+                if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recommmendedRecipe.summary) {
+                    summary.attributedText = attributedText
+                }
+            }
+                
+                
+                NSLayoutConstraint.activate([
+                    descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                    descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
+                    descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
+                    
+                    summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                    summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
+                    summary.bottomAnchor.constraint(equalTo: bottomAnchor),
+                    summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+                    //summary.heightAnchor.constraint(equalToConstant: 80)
+                ])
+            }
             
-            summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            summary.bottomAnchor.constraint(equalTo: bottomAnchor),
-            summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-            //summary.heightAnchor.constraint(equalToConstant: 80)
-            ])
+            
+            func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
+                cellTitle.text = recipe.title
+                
+            }
+        }
     }
-    
-    
-    func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
-        cellTitle.text = recipe.title
-        
-    }
-}

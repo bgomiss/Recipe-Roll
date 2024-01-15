@@ -7,49 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FC98C45D-46A0-44EC-9245-7DBAF7F67D89"
+            uuid = "018D95BF-4A04-44E6-8783-C9B88DA0B08F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "practice/View/Screens/HomeVC.swift"
+            filePath = "practice/Managers/NetworkManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "fetchRecommendedRecipeInstructions(recipeID:)"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "getRecommendedRecipeInstructions(recipeID:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FC98C45D-46A0-44EC-9245-7DBAF7F67D89 - d09ed75b5bac1d70"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;practice.Instructions, practice.SPError&gt;) -&gt; () in practice.HomeVC.fetchRecommendedRecipeInstructions(recipeID: Swift.String) -&gt; ()"
-                  moduleName = "practice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asduskun/Recipe-Roll/practice/View/Screens/HomeVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226"
-                  offsetFromSymbolStart = "308">
-               </Location>
-               <Location
-                  uuid = "FC98C45D-46A0-44EC-9245-7DBAF7F67D89 - d09ed75b5bac1d70"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;practice.Instructions, practice.SPError&gt;) -&gt; () in practice.HomeVC.fetchRecommendedRecipeInstructions(recipeID: Swift.String) -&gt; ()"
-                  moduleName = "practice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asduskun/Recipe-Roll/practice/View/Screens/HomeVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226"
-                  offsetFromSymbolStart = "348">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35A7A58B-BE3A-4B6E-99B0-CD2A6856BD6D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "practice/Custom Views/ViewControllers/InstructionsVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -80,20 +80,17 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-        
-        /// 
-        /// I DON'T KNOW IF YOU HAVE SOME URL WHERE YOU CAN GET GENERAL RECOMMENDATIONS WITHOUT RECIPEID
-        ///
-        /// GUIMEL
-        
-//        if let recipeId {
-            //fetchSimilarRecipes(recipeID: String(651942))
-//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         vc.dismiss(animated: true)
+    }
+    
+    
+    deinit {
+        searchDebounceTimer?.invalidate()
+        searchDebounceTimer = nil
     }
     
     
@@ -230,11 +227,11 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
                     self.recommendedRecipeInstructions = instructions
                     self.extractIngredients(from: instructions.analyzedInstructions)
                     print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
+                    self.collectionView.reloadData()
                 }
                 
-                self.collectionView.reloadData()
                 
-            case .failure(let error):
+             case .failure(let error):
                 print("Error fetching instructions: \(error.localizedDescription)")
             }
         }

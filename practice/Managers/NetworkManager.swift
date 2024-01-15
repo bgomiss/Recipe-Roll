@@ -176,7 +176,7 @@ class NetworkManager {
                 do {
                     let decoder = JSONDecoder()
                     let recipeInstructions = try decoder.decode(Instructions.self, from: data)
-                    //print("RECIPE INsTRUCTIONS: \(recipeInstructions)")
+                    print("RECIPE INsTRUCTIONS: \(recipeInstructions)")
                     completion(.success(recipeInstructions))
                 } catch {
                     completion(.failure(.invalidData))

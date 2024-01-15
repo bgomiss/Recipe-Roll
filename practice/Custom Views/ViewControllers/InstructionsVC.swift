@@ -19,7 +19,7 @@ class InstructionsVC: UIViewController {
     let tableView = UITableView()
     let bookmarkIcon = UIImageView()
     var instructions: [Recipe]? = []
-    var recommendedRecipeInstructions: [Instructions]? = []
+    var recommendedRecipeInstructions: Instructions?
     var ingredientsArray: [Ent] = []
     var stepsArray: [SimplifiedStep] = []
     var comments: [Comment] = []
@@ -240,7 +240,7 @@ class InstructionsVC: UIViewController {
         DispatchQueue.main.async {
             self.instructions = [recipe]
             self.ingredientsArray = ingredients
-            self.recommendedRecipeInstructions = [recommendedRecipe]
+            self.recommendedRecipeInstructions = recommendedRecipe
             self.recommendedIngredientsArray = recommendedIngredients
             self.tableView.reloadData()
         }
@@ -273,15 +273,20 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
                        let recipe = instructions[0]
                        cell.setFeaturesCell(recipe: recipe)
                    } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
-                       let recipe = recommendedRecipeInstructions[0]
+                       let recipe = recommendedRecipeInstructions
                        cell.setFeaturesCell(recommendedRecipe: recipe)
                    }
                    
                    return cell
                } else if indexPath.row == 1 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   guard let description = instructions?[0] else { return cell }
-                   cell.setDescriptionCell(recipe: description)
+                   if let instructions = instructions, !instructions.isEmpty {
+                       let description = instructions[0]
+                       cell.setDescriptionCell(recipe: description)
+                   } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
+                           let description = recommendedRecipeInstructions
+                       cell.setDescriptionCell(recipe: description)
+                   }
                    return cell
                } else if indexPath.row == 2 {
                    let ingredientsCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
