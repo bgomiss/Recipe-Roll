@@ -85,9 +85,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             
             fetchRecommendedRecipeInstructions(recipeID: String(selectedRecipe.id))
             // Download and set the full-screen background image
-            recipeResultsVC.recipeImage.downloadImage(fromURL: recommendedRecipeInstructions?.image ?? "")
-            print("RECIPE IMAGE IS: \(recipeResultsVC.recipeImage)")
-            view.addSubview(recipeResultsVC.recipeImage)
+            
             //recipeResultsVC.setBackgroundImage()
         default:
             break
@@ -104,7 +102,9 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func performIngredientsFiltering() {
         // Print Ingredients Resultss Count before filtering
         print("Ingredients Resultss Count before filtering: \(self.ingredientsResultss.count)")
-        
+        recipeResultsVC.recipeImage.downloadImage(fromURL: recommendedRecipeInstructions?.image ?? "")
+        print("RECIPE IMAGE IS: \(recipeResultsVC.recipeImage)")
+        view.addSubview(recipeResultsVC.recipeImage)
         //The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
         let ingredientsForSelectedRecipe = ingredientsResultss.filter { ingredient in
             let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }
