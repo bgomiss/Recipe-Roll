@@ -21,6 +21,7 @@ class InstructionsVC: UIViewController {
     var instructions: [Recipe]? = []
     var recommendedRecipeInstructions: Instructions?
     var ingredientsArray: [Ent] = []
+    var recommendedRecipeIngredientsArray: [Ingredients] = []
     var stepsArray: [SimplifiedStep] = []
     var comments: [Comment] = []
     let db = Firestore.firestore()
@@ -290,7 +291,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
                    return cell
                } else if indexPath.row == 2 {
                    let ingredientsCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
-                   ingredientsCell.setIngredientsCell(ingredients: ingredientsArray)
+                       ingredientsCell.setIngredientsCell(ingredients: nil, recommendedRecipeIngredients: recommendedIngredients)
                    return ingredientsCell
                } else {
                    let stepsCell = tableView.dequeueReusableCell(withIdentifier: StepsCell.reuseID) as! StepsCell

@@ -22,7 +22,7 @@ class IngredientsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setIngredientsCell(ingredients: [Ent]? = [], recommendedRecipeIngredients: [Ingredients]? = [], categoryTitle: String? = nil) {
+    func setIngredientsCell(ingredients: [Ent]?, recommendedRecipeIngredients: [Ingredients]?, categoryTitle: String? = nil) {
         let stackView = UIStackView()
         addSubviews(ingredientsLabel, stackView)
         ingredientsLabel.text = "Ingredients"

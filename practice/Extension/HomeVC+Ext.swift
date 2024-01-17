@@ -78,20 +78,20 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             let selectedCategory = recipes[indexPath.row]
             let destVC = RecipeResultsVC(category: selectedCategory.tag)
             navigationController?.pushViewController(destVC, animated: true)
-
-            case 1:
+            
+        case 1:
             let selectedRecipe = similarRecipesArray[indexPath.row]
             print("Selected Recipe ID: \(selectedRecipe.id)")
-
+            
             fetchRecommendedRecipeInstructions(recipeID: String(selectedRecipe.id))
             // Download and set the full-screen background image
             recipeResultsVC.recipeImage.downloadImage(fromURL: recommendedRecipeInstructions?.image ?? "")
             print("RECIPE IMAGE IS: \(recipeResultsVC.recipeImage)")
             view.addSubview(recipeResultsVC.recipeImage)
             //recipeResultsVC.setBackgroundImage()
-                default:
-                    break
-                }
+        default:
+            break
+        }
         print("Ingredients Resultss Count: \(ingredientsResultss.count)")
         if let instructions = recommendedRecipeInstructions {
             // Print relevant properties of recommendedRecipeInstructions
@@ -99,50 +99,56 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             print("Title: \(instructions.title)")
             print("Steps Count: \(instructions.analyzedInstructions.flatMap { $0.steps }.count)")
         }
-             //The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
-        let ingredientsForSelectedRecipe = ingredientsResultss.filter { ingredient in
-                                    let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }
-                                    return allSteps.contains { step in
-                                        step.ingredients.contains { ent in
-                                            if ent.id == ingredient.id {
-                                                // Check if the ingredient name is unique
-                                                if !recipeResultsVC.uniqueIngredientNames.contains(ent.name) {
-                                                    recipeResultsVC.uniqueIngredientNames.insert(ent.name)
-                                                    return true
-                                                }
-                                            }
-                                            return false
-                                        }
-                                    }
-                                }
-            
-                                let stepsForSelectedRecipe = recipeResultsVC.stepsResults.filter { simplifiedStep in
-                                    let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }
-                                    return allSteps.contains { step in
-                                        step.number == simplifiedStep.number && step.step == simplifiedStep.step
-                                    }
-                                }
-            
-                                let destVC = InstructionsVC(recommendedRecipe: recommendedRecipeInstructions, recommendedIngredients: ingredientsForSelectedRecipe, steps: stepsForSelectedRecipe)
-                                vc = destVC
-                                let nav = UINavigationController(rootViewController: destVC)
-                                nav.modalPresentationStyle = .pageSheet
-            
-                                // Create and configure the UISheetPresentationController
-                                if let sheet = nav.sheetPresentationController {
-                                    sheet.detents = [.medium(), .large()]
-                                    sheet.preferredCornerRadius = 40
-                                    sheet.prefersGrabberVisible = true
-                                    sheet.largestUndimmedDetentIdentifier = .medium
-                                    sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                                    sheet.delegate = self
-                                }
-                                present(nav, animated: true)
-                            }
-                        
+    }
+    
+    func performIngredientsFiltering() {
+        // Print Ingredients Resultss Count before filtering
+        print("Ingredients Resultss Count before filtering: \(self.ingredientsResultss.count)")
         
-                    
-            func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        //The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
+        let ingredientsForSelectedRecipe = ingredientsResultss.filter { ingredient in
+            let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }
+            print("Steps Count: \(recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }.count)")
+            return allSteps.contains { step in
+                step.ingredients.contains { ent in
+                    if ent.id == ingredient.id {
+                        // Check if the ingredient name is unique
+                        if !recipeResultsVC.uniqueIngredientNames.contains(ent.name) {
+                            recipeResultsVC.uniqueIngredientNames.insert(ent.name)
+                            return true
+                        }
+                    }
+                    return false
+                }
+            }
+        }
+        
+        let stepsForSelectedRecipe = recipeResultsVC.stepsResults.filter { simplifiedStep in
+            let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }
+            return allSteps.contains { step in
+                step.number == simplifiedStep.number && step.step == simplifiedStep.step
+            }
+        }
+        
+        let destVC = InstructionsVC(recommendedRecipe: recommendedRecipeInstructions, recommendedIngredients: ingredientsForSelectedRecipe, steps: stepsForSelectedRecipe)
+        vc = destVC
+        let nav = UINavigationController(rootViewController: destVC)
+        nav.modalPresentationStyle = .pageSheet
+        
+        // Create and configure the UISheetPresentationController
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.preferredCornerRadius = 40
+            sheet.prefersGrabberVisible = true
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.delegate = self
+        }
+        present(nav, animated: true)
+    }
+        
+        
+        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             switch indexPath.section {
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier, for: indexPath) as! CategoriesHeaderView
@@ -166,5 +172,6 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         }
         
     }
+    
     
 

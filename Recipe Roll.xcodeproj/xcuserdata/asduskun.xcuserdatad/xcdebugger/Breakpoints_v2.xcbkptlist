@@ -23,49 +23,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FD2ABC35-D2DC-462E-B917-A3256EB90ABC"
+            uuid = "9E88FA60-DAB2-47CE-92C4-A6BECA52D948"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "practice/Custom Views/Cells/IngredientsCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "setIngredientsCell(ingredients:recommendedRecipeIngredients:categoryTitle:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9558BE33-80B5-4A7A-9FD7-8BBCC51CB0EB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "practice/Extension/HomeVC+Ext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "performIngredientsFiltering()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FD2ABC35-D2DC-462E-B917-A3256EB90ABC - 32a906e1af1592cb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "practice.HomeVC.collectionView(_: __C.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "practice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asduskun/Recipe-Roll/practice/Extension/HomeVC+Ext.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97"
-                  offsetFromSymbolStart = "2604">
-               </Location>
-               <Location
-                  uuid = "FD2ABC35-D2DC-462E-B917-A3256EB90ABC - 32a906e1af159d05"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "practice.HomeVC.collectionView(_: __C.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "practice"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asduskun/Recipe-Roll/practice/Extension/HomeVC+Ext.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "2660">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

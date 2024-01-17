@@ -229,6 +229,9 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
                     self.extractIngredients(from: instructions.analyzedInstructions)
                     //print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
                     self.collectionView.reloadData()
+                    // Add this print statement to check ingredients after setting recommendedRecipeInstructions
+                                    print("Ingredients Resultss Count after setting recommendedRecipeInstructions: \(self.ingredientsResultss.count)")
+                    self.performIngredientsFiltering()
                 }
                 
                 
