@@ -92,7 +92,13 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
                 default:
                     break
                 }
-            
+        print("Ingredients Resultss Count: \(ingredientsResultss.count)")
+        if let instructions = recommendedRecipeInstructions {
+            // Print relevant properties of recommendedRecipeInstructions
+            print("Recommended Recipe Instructions:")
+            print("Title: \(instructions.title)")
+            print("Steps Count: \(instructions.analyzedInstructions.flatMap { $0.steps }.count)")
+        }
              //The ingredient's name is inserted into the set(uniqueIngredientNames) and the code returns true to include the ingredient in the filtered results.
         let ingredientsForSelectedRecipe = ingredientsResultss.filter { ingredient in
                                     let allSteps = recommendedRecipeInstructions!.analyzedInstructions.flatMap { $0.steps }

@@ -207,6 +207,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
                     let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
                     let newIngredient = Ingredients(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL)
                     ingredientsResultss.append(newIngredient)
+                    //print("Ingredients Results are: \(ingredientsResultss)")
                 }
             }
         }
@@ -226,7 +227,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
                 DispatchQueue.main.async {
                     self.recommendedRecipeInstructions = instructions
                     self.extractIngredients(from: instructions.analyzedInstructions)
-                    print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
+                    //print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
                     self.collectionView.reloadData()
                 }
                 
