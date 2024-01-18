@@ -111,13 +111,13 @@ class InstructionsCell: UITableViewCell {
         descriptionLabel.text = "Description"
         
         if let recipe = recipe {
-            if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary) {
+            let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary)
                 summary.attributedText = attributedText
             } else if let recommmendedRecipe = recommendedRecipe {
                 if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recommmendedRecipe.summary) {
                     summary.attributedText = attributedText
                 }
-            }
+            
                 
                 
                 NSLayoutConstraint.activate([
