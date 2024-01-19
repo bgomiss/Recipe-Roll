@@ -22,7 +22,7 @@ struct Instructions: Codable, Hashable, Equatable {
     let gaps: String = ""
     let preparationMinutes: Int = 0
     let cookingMinutes: Int = 0
-    let aggregateLikes: Int = 0
+    let aggregateLikes: Int
     let healthScore: Int = 0
     let creditsText: String = ""
     let license: String = ""
@@ -31,12 +31,12 @@ struct Instructions: Codable, Hashable, Equatable {
     let extendedIngredients: [ExtendedIngredient]
     let id: Int
     let title: String
-    let readyInMinutes: Int = 0
-    let servings: Int = 0
+    let readyInMinutes: Int
+    let servings: Int
     let sourceUrl: String = ""
     let image: String
     let imageType: String
-    let summary: String = ""
+    let summary: String
     let cuisines: [String] = []
     let dishTypes: [String] = []
     let diets: [String] = []
@@ -49,7 +49,7 @@ struct Instructions: Codable, Hashable, Equatable {
     let spoonacularSourceUrl: String = ""
     
     enum CodingKeys: String, CodingKey {
-        case id, title, image, imageType, winePairing, analyzedInstructions, extendedIngredients
+        case id, title, image, imageType, winePairing, analyzedInstructions, extendedIngredients, summary, readyInMinutes, servings, aggregateLikes
     }
 }
 

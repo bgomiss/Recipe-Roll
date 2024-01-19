@@ -232,17 +232,22 @@ class InstructionsVC: UIViewController {
     
     
     func updateUI() {
-        guard let recipe = recipe,
-              let ingredients = ingredients,
-              let recommendedRecipe = recommendedRecipe,
-              let recommendedIngredients = recommendedIngredients
-        else {return}
+//        guard let recipe = recipe,
+//              let ingredients = ingredients,
+//              let recommendedRecipe = recommendedRecipe,
+//              let recommendedIngredients = recommendedIngredients
+//        else {return}
         
         DispatchQueue.main.async {
-            self.instructions = [recipe]
-            self.ingredientsArray = ingredients
-            self.recommendedRecipeInstructions = recommendedRecipe
-            self.recommendedIngredientsArray = recommendedIngredients
+            if let recipe = self.recipe {
+                self.instructions = [recipe]
+            } else if let ingredients = self.ingredients {
+                self.ingredientsArray = ingredients
+            } else if let recommendedRecipe = self.recommendedRecipe {
+                self.recommendedRecipeInstructions = recommendedRecipe
+            } else if let recommendedIngredients = self.recommendedIngredients {
+                self.recommendedIngredientsArray = recommendedIngredients
+            }
             self.tableView.reloadData()
         }
     }
@@ -273,7 +278,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
                    if let instructions = instructions, !instructions.isEmpty {
                        let recipe = instructions[0]
                        cell.setFeaturesCell(recipe: recipe)
-                   } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
+                   } else if let recommendedRecipeInstructions = recommendedRecipe {
                        let recipe = recommendedRecipeInstructions
                        cell.setFeaturesCell(recommendedRecipe: recipe)
                    }
@@ -284,7 +289,7 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
                    if let instructions = instructions, !instructions.isEmpty {
                        let description = instructions[0]
                        cell.setDescriptionCell(recipe: description)
-                   } else if let recommendedRecipeInstructions = recommendedRecipeInstructions {
+                   } else if let recommendedRecipeInstructions = recommendedRecipe {
                            let description = recommendedRecipeInstructions
                        cell.setDescriptionCell(recommendedRecipe: description)
                    }
