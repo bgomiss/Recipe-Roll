@@ -15,9 +15,7 @@ enum DisplayableItem: Hashable {
 class FridgeVC: UIViewController, UISearchBarDelegate {
     
     enum Section { case main }
-    enum CurrentState {
-            case recipe, ingredient
-        }
+    enum CurrentState { case recipe, ingredient }
         
     
     var currentState: CurrentState = .ingredient
