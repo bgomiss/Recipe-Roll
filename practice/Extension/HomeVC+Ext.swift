@@ -99,7 +99,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         }
     }
     
-    func performIngredientsFiltering() {
+    func performIngredientsFiltering(presentingViewController: UIViewController) {
         // Print Ingredients Resultss Count before filtering
         print("Ingredients Resultss Count before filtering: \(self.ingredientsResultss.count)")
         recipeResultsVC.recipeImage.downloadImage(fromURL: recommendedRecipeInstructions?.image ?? "")
@@ -144,7 +144,14 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.delegate = self
         }
-        present(nav, animated: true)
+        // Check if the presenting view controller's view is in the window hierarchy before presenting
+            if let presentingView = presentingViewController.viewIfLoaded, presentingView.window != nil {
+                // Present only if the view is in the window hierarchy
+                presentingViewController.present(nav, animated: true)
+            } else {
+                // Handle the case where the view is not in the window hierarchy
+                print("Error: View is not in the window hierarchy.")
+            }
     }
         
         

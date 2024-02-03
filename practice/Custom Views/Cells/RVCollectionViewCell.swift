@@ -11,7 +11,7 @@ class RVCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "RVCell"
     let rvImageView = SPImageView(frame: .zero)
-    var overlayView = OverlayView(frame: .zero)
+    let overlayView = OverlayView(frame: .zero)
     
     
     override init(frame: CGRect) {

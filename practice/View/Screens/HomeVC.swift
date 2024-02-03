@@ -158,6 +158,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
         recipes = tags.map { (tag: $0, recipe: [])}
         
         for (index, tag) in tags.enumerated() {
+            print("INDEX IS: \(index), TAG IS: \(tag)")
             group.enter()
             
             self.makeAPICallForCategories(tag: tag) { categories in
@@ -214,7 +215,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     }
     
     
-    func fetchRecommendedRecipeInstructions(recipeID: String) {
+    func fetchRecommendedRecipeInstructions(recipeID: String, shouldReloadCollectionView: Bool = true) {
         print("Fetching recipe instructions for recipeID: \(recipeID)")
         NetworkManager.shared.getRecommendedRecipeInstructions(recipeID: recipeID) { [weak self] result in
     
@@ -228,10 +229,14 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
                     self.recommendedRecipeInstructions = instructions
                     self.extractIngredients(from: instructions.analyzedInstructions)
                     //print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
-                    self.collectionView.reloadData()
-                    // Add this print statement to check ingredients after setting recommendedRecipeInstructions
-                                    print("Ingredients Resultss Count after setting recommendedRecipeInstructions: \(self.ingredientsResultss.count)")
-                    self.performIngredientsFiltering()
+                    if shouldReloadCollectionView {
+                        self.performIngredientsFiltering(presentingViewController: self)
+                        self.collectionView.reloadData()
+                    }
+                    
+                    // Check ingredients after setting recommendedRecipeInstructions
+                    print("Ingredients Resultss Count after setting recommendedRecipeInstructions: \(self.ingredientsResultss.count)")
+                    
                 }
                 
                 

@@ -14,7 +14,7 @@ class BookmarksVC: UIViewController {
     let uid                          = Auth.auth().currentUser?.uid
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
-    var recipes: [String : [Recipe]] = [:]
+    var recipes: [(String, [Recipe])] = []
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
     
     lazy var collectionView: UICollectionView = {
@@ -141,13 +141,24 @@ class BookmarksVC: UIViewController {
                         let recipeData = recipe.data()
                         //print("recipe data: \(recipeData)")
                         
+                        let dispatchGroup = DispatchGroup()
+                        var totalRecipeDetailIterations = 0
                         for (_, recipeDetail) in recipeData {
-                            if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                            //print("RECIPEDETAIL is: \(recipeDetail)")
-                            self.getCategories(query: String(recipeID), categoryID: categoryID)
+                            totalRecipeDetailIterations += 1
+                            if let detailDict = recipeDetail as? [String: Any],
+                               let recipeID = detailDict["id"] as? Int64 {
+                                //print("RECIPEDETAIL is: \(recipeDetail)")
+                                dispatchGroup.enter()
+                                
+                                self.getCategories(query: String(recipeID), categoryID: categoryID) {
+                                    dispatchGroup.leave()
+                                }
                             }
                             
                         }
+                        dispatchGroup.notify(queue: .main) {
+                        print("Total Iterations is: \(totalRecipeDetailIterations)")
+                                                    }
                     }
                 
                 }
@@ -175,30 +186,32 @@ class BookmarksVC: UIViewController {
     }
     
     
-    func getCategories(query: String, categoryID: String) {
+    func getCategories(query: String, categoryID: String, completion: @escaping() -> Void) {
         NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
             
             guard let self = self else { return }
             
             switch result {
-            case .success(let recipes):
-                DispatchQueue.main.async {
-                    if var existingRecipes = self.recipes[categoryID] {
-                        existingRecipes.append(contentsOf: recipes)
-                        self.recipes[categoryID] = existingRecipes
-                        self.collectionView.reloadData()
-                        //print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
-                    } else {
-                        self.recipes[categoryID] = recipes
-                        self.collectionView.reloadData()
+            case .success(let newRecipes):
+                        DispatchQueue.main.async {
+                            // Check if the categoryID exists in the array
+                            if let index = self.recipes.firstIndex(where: { $0.0 == categoryID }) {
+                                // If exists, append to existing recipes
+                                self.recipes[index].1.append(contentsOf: newRecipes)
+                            } else {
+                                // If not, add a new tuple
+                                self.recipes.append((categoryID, newRecipes))
+                            }
+                            self.collectionView.reloadData()
+                            print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
+                            completion()
+                        }
+
+                    case .failure(let error):
+                        print(error.localizedDescription)
                     }
-                    
-                    }
-            case .failure(let error):
-                return
                 }
             }
-        }
     
     
 //    func updateUI(with categories: [Recipe]) {
