@@ -118,10 +118,6 @@ class BookmarksVC: UIViewController {
                             }
                         }
                         
-                        //                        if let homeNavVC = SPTabBarController().viewControllers?[0] as? UINavigationController,
-                        //                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
-                        //                            homeVC.recipeId = String(recipeID)
-                        //                        }
                         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
                            let existingTabBarController = sceneDelegate.window?.rootViewController as? SPTabBarController,
                            let homeNavVC = existingTabBarController.viewControllers?[0] as? UINavigationController,
@@ -141,24 +137,24 @@ class BookmarksVC: UIViewController {
                         let recipeData = recipe.data()
                         //print("recipe data: \(recipeData)")
                         
-                        let dispatchGroup = DispatchGroup()
-                        var totalRecipeDetailIterations = 0
+                        //let dispatchGroup = DispatchGroup()
+                        //var totalRecipeDetailIterations = 0
                         for (_, recipeDetail) in recipeData {
-                            totalRecipeDetailIterations += 1
+                            print("Recipe DETAIL: \(recipeDetail)")
+                            //totalRecipeDetailIterations += 1
                             if let detailDict = recipeDetail as? [String: Any],
                                let recipeID = detailDict["id"] as? Int64 {
                                 //print("RECIPEDETAIL is: \(recipeDetail)")
-                                dispatchGroup.enter()
+                                //dispatchGroup.enter()
                                 
                                 self.getCategories(query: String(recipeID), categoryID: categoryID) {
-                                    dispatchGroup.leave()
+                                    
                                 }
-                            }
                             
                         }
-                        dispatchGroup.notify(queue: .main) {
-                        print("Total Iterations is: \(totalRecipeDetailIterations)")
-                                                    }
+                        //dispatchGroup.notify(queue: .main) {
+                       // print("Total Iterations is: \(totalRecipeDetailIterations)")
+                        }
                     }
                 
                 }
@@ -204,13 +200,14 @@ class BookmarksVC: UIViewController {
                             }
                             self.collectionView.reloadData()
                             print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
-                            completion()
+                            
                         }
 
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
                 }
+                completion()
             }
     
     
