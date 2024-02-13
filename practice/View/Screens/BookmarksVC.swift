@@ -107,16 +107,16 @@ class BookmarksVC: UIViewController {
                        let nestedDict  = recipeData.values.first as? [String: Any],
                        let recipeID = nestedDict["id"] as? Int {
                         print("TarifID is: \(recipeID)")
-                        
+                        print("First Recipe: \(firstRecipe)")
                         // Create a completion handler closure
-                        let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
-                            switch result {
-                            case .success(let similarRecipes):
-                                print("Fetched similar recipes: \(similarRecipes)")
-                            case .failure(let error):
-                                print("Error fetching similar recipes: \(error.localizedDescription)")
-                            }
-                        }
+//                        let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
+//                            switch result {
+//                            case .success(let similarRecipes):
+//                                print("Fetched similar recipes: \(similarRecipes)")
+//                            case .failure(let error):
+//                                print("Error fetching similar recipes: \(error.localizedDescription)")
+//                            }
+//                        }
                         
                         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
                            let existingTabBarController = sceneDelegate.window?.rootViewController as? SPTabBarController,
@@ -139,7 +139,8 @@ class BookmarksVC: UIViewController {
                         
                         //let dispatchGroup = DispatchGroup()
                         //var totalRecipeDetailIterations = 0
-                        for (_, recipeDetail) in recipeData {
+                        for (category, recipeDetail) in recipeData {
+                            print("CaTEGORY: \(category)")
                             print("Recipe DETAIL: \(recipeDetail)")
                             //totalRecipeDetailIterations += 1
                             if let detailDict = recipeDetail as? [String: Any],
@@ -187,9 +188,10 @@ class BookmarksVC: UIViewController {
             
             guard let self = self else { return }
             
+            DispatchQueue.main.async {
             switch result {
             case .success(let newRecipes):
-                        DispatchQueue.main.async {
+                        
                             // Check if the categoryID exists in the array
                             if let index = self.recipes.firstIndex(where: { $0.0 == categoryID }) {
                                 // If exists, append to existing recipes
@@ -200,14 +202,15 @@ class BookmarksVC: UIViewController {
                             }
                             self.collectionView.reloadData()
                             print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
-                            
+            case .failure(let error):
+                            print(error.localizedDescription)
                         }
 
-                    case .failure(let error):
-                        print(error.localizedDescription)
+                completion()
+
                     }
                 }
-                completion()
+                
             }
     
     
