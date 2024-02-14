@@ -167,6 +167,7 @@ class BookmarksVC: UIViewController {
                 
                 switch result {
                 case .success(let newRecipes):
+                    print("New RECIPES : \(newRecipes)")
                     DispatchQueue.main.async {
                         // Check if the categoryID exists in the array
                         if let index = self.recipes.firstIndex(where: { $0.0 == categoryID }) {
