@@ -85,21 +85,37 @@ class BookmarksVC: UIViewController {
                 categoryID = category.documentID
                 print("CATEGORY ID IS: \(String(describing: categoryID))")
                 
-                // Access the subcollection corresponding to the current category
+//                //  Access the subcollection corresponding to the current category
 //                let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
 //                
 //                recipesCollection.getDocuments { [weak self] querySnapshot, error in
 //                    guard let self = self else { return }
-//                    
+//                    //print("Number of documents in category \(categoryID): \(querySnapshot?.documents.count ?? 0)")
+//
 //                    if let error = error {
 //                        print("Error fetching recipes: \(error)")
 //                        return
 //                    }
-//                }
-                    guard let recipes = querySnapshot?.documents else { return }
+//                    
+
+                    
+                    //guard let recipes = querySnapshot?.documents else { return }
+                
+                    for recipes in categories {
+                        let recipeData = recipes.data()
+                        for (_, recipeDetail) in recipeData {
+                            if let detailDict = recipeDetail as? [String: Any],
+                               let recipeID = detailDict["id"] as? Int64 {
+                                self.getCategories(query: String(recipeID), categoryID: categoryID) {
+                                    
+                                }
+                            }
+                        }
+                        print("Recipe DETAIL Number: \(recipeData.count)")
+                    }
                     
                     if categoryID == "Recently Viewed" {
-                        if let firstRecipe = recipes.first,
+                        if let firstRecipe = categories.first,
                            let recipeData = firstRecipe.data() as? [String: Any],
                            let nestedDict  = recipeData.values.first as? [String: Any],
                            let recipeID = nestedDict["id"] as? Int {
@@ -119,24 +135,12 @@ class BookmarksVC: UIViewController {
                             }
                         }
                     }
-                    
-                    for recipe in recipes {
-                        let recipeData = recipe.data()
-                        for (_, recipeDetail) in recipeData {
-                            print("Recipe DETAIL: \(recipeDetail)")
-                            if let detailDict = recipeDetail as? [String: Any],
-                               let recipeID = detailDict["id"] as? Int64 {
-                                self.getCategories(query: String(recipeID), categoryID: categoryID) {
-                                    
-                                }
-                                
-                            }
-                        }
-                    }
-                    
+                    print("Number of documents in category \(categoryID): \(querySnapshot?.documents.count ?? 0)")
                 }
+                
             }
         }
+    
     
         
         
@@ -164,11 +168,11 @@ class BookmarksVC: UIViewController {
             NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
                 
                 guard let self = self else { return }
-                
-                switch result {
-                case .success(let newRecipes):
-                    print("New RECIPES : \(newRecipes)")
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let newRecipes):
+                        print("New RECIPES : \(newRecipes)")
+                        
                         // Check if the categoryID exists in the array
                         if let index = self.recipes.firstIndex(where: { $0.0 == categoryID }) {
                             // If exists, append to existing recipes
@@ -178,15 +182,18 @@ class BookmarksVC: UIViewController {
                             self.recipes.append((categoryID, newRecipes))
                         }
                         self.collectionView.reloadData()
-                        print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
+                        //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
                         
+                        
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
                     }
-                    
-                case .failure(let error):
-                    print(error.localizedDescription)
+                    print("Category Name is: \(self.recipes.map { $0.0 } )")
                 }
+                completion()
             }
-            completion()
+            
         }
         
         
