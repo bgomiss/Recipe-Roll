@@ -84,35 +84,24 @@ class BookmarksVC: UIViewController {
             for category in categories {
                 categoryID = category.documentID
                 print("CATEGORY ID IS: \(String(describing: categoryID))")
-                
-//                //  Access the subcollection corresponding to the current category
-//                let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
-//                
-//                recipesCollection.getDocuments { [weak self] querySnapshot, error in
-//                    guard let self = self else { return }
-//                    //print("Number of documents in category \(categoryID): \(querySnapshot?.documents.count ?? 0)")
-//
-//                    if let error = error {
-//                        print("Error fetching recipes: \(error)")
-//                        return
-//                    }
-//                    
 
-                    
-                    //guard let recipes = querySnapshot?.documents else { return }
-                
-                    for recipes in categories {
-                        let recipeData = recipes.data()
-                        for (_, recipeDetail) in recipeData {
-                            if let detailDict = recipeDetail as? [String: Any],
-                               let recipeID = detailDict["id"] as? Int64 {
-                                self.getCategories(query: String(recipeID), categoryID: categoryID) {
-                                    
-                                }
-                            }
-                        }
-                        print("Recipe DETAIL Number: \(recipeData.count)")
+                let recipeData = category.data()
+                for (_, recipeDetail) in recipeData {
+                    if let detailDict = recipeDetail as? [String: Any],
+                       let recipeID = detailDict["id"] as? Int64 {
+                        self.getCategories(query: String(recipeID), categoryID: categoryID)
                     }
+                }
+//                    for recipes in categories {
+//                        let recipeData = recipes.data()
+//                        for (_, recipeDetail) in recipeData {
+//                            if let detailDict = recipeDetail as? [String: Any],
+//                               let recipeID = detailDict["id"] as? Int64 {
+//                                self.getCategories(query: String(recipeID), categoryID: categoryID)
+//                            }
+//                        }
+//                        print("Recipe DETAIL Number: \(recipeData.count)")
+//                    }
                     
                     if categoryID == "Recently Viewed" {
                         if let firstRecipe = categories.first,
@@ -164,7 +153,7 @@ class BookmarksVC: UIViewController {
         }
         
         
-        func getCategories(query: String, categoryID: String, completion: @escaping() -> Void) {
+        func getCategories(query: String, categoryID: String) {
             NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
                 
                 guard let self = self else { return }
@@ -191,7 +180,7 @@ class BookmarksVC: UIViewController {
                     }
                     print("Category Name is: \(self.recipes.map { $0.0 } )")
                 }
-                completion()
+                //completion()
             }
             
         }
