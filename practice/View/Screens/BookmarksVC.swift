@@ -14,8 +14,9 @@ class BookmarksVC: UIViewController {
     let uid                          = Auth.auth().currentUser?.uid
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
-    var recipes: [(String, [Recipe])] = []
+    var bookmarkedRecipes: [(String, [Recipe])] = []
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
+    var categoryID: String = ""
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -69,7 +70,7 @@ class BookmarksVC: UIViewController {
     
     
     func fetchBookmarkedRecipeIDs() {
-        var categoryID: String = ""
+        
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let userBookmarkCollection = db.collection("bookmarks").document(userID).collection("categories")
         
@@ -124,7 +125,7 @@ class BookmarksVC: UIViewController {
                             }
                         }
                     }
-                    print("Number of documents in category \(categoryID): \(querySnapshot?.documents.count ?? 0)")
+                print("Number of documents in category \(categoryID): \(recipeData.count)")
                 }
                 
             }
@@ -160,15 +161,14 @@ class BookmarksVC: UIViewController {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let newRecipes):
-                        print("New RECIPES : \(newRecipes)")
                         
                         // Check if the categoryID exists in the array
-                        if let index = self.recipes.firstIndex(where: { $0.0 == categoryID }) {
+                        if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
                             // If exists, append to existing recipes
-                            self.recipes[index].1.append(contentsOf: newRecipes)
+                            self.bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
                         } else {
                             // If not, add a new tuple
-                            self.recipes.append((categoryID, newRecipes))
+                            self.bookmarkedRecipes.append((categoryID, newRecipes))
                         }
                         self.collectionView.reloadData()
                         //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
@@ -178,7 +178,7 @@ class BookmarksVC: UIViewController {
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
-                    print("Category Name is: \(self.recipes.map { $0.0 } )")
+                    print("Category Name is: \(self.bookmarkedRecipes.map { $0.0 } )")
                 }
                 //completion()
             }

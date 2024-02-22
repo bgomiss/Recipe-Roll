@@ -183,7 +183,7 @@ class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
             
             switch result {
             case .success(let similarRecipes):
-                print("Fetched similar recipes")
+                //print("Fetched similar recipes")
                 self.similarRecipesArray.append(contentsOf: similarRecipes)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
