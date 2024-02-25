@@ -18,6 +18,14 @@ class BookmarksVC: UIViewController {
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
     var categoryID: String = ""
     
+    let categoryMapping: [Int: String] = [
+        0: "Recently Viewed",
+        1: "MadeIt",
+        2: "Breakfast",
+        3: "Lunch",
+        4: "Dinner"
+        ]
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         //CollectionViewCells
@@ -93,16 +101,6 @@ class BookmarksVC: UIViewController {
                         self.getCategories(query: String(recipeID), categoryID: categoryID)
                     }
                 }
-//                    for recipes in categories {
-//                        let recipeData = recipes.data()
-//                        for (_, recipeDetail) in recipeData {
-//                            if let detailDict = recipeDetail as? [String: Any],
-//                               let recipeID = detailDict["id"] as? Int64 {
-//                                self.getCategories(query: String(recipeID), categoryID: categoryID)
-//                            }
-//                        }
-//                        print("Recipe DETAIL Number: \(recipeData.count)")
-//                    }
                     
                     if categoryID == "Recently Viewed" {
                         if let firstRecipe = categories.first,
