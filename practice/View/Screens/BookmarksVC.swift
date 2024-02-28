@@ -158,7 +158,7 @@ class BookmarksVC: UIViewController {
             NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
                 
                 guard let self = self else { return }
-                DispatchQueue.main.async {
+                
                     switch result {
                     case .success(let newRecipes):
                         
@@ -170,7 +170,9 @@ class BookmarksVC: UIViewController {
                             // If not, add a new tuple
                             self.bookmarkedRecipes.append((categoryID, newRecipes))
                         }
-                        self.collectionView.reloadData()
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                        }
                         //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
                         
                         
@@ -183,7 +185,7 @@ class BookmarksVC: UIViewController {
                 //completion()
             }
             
-        }
+        
         
         
         //    func updateUI(with categories: [Recipe]) {
