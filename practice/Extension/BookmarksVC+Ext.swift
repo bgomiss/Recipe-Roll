@@ -9,82 +9,88 @@ import UIKit
 
 extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private func getCategoryID(for section: Int) -> String {
-        switch section {
-        case 0:
-            return "Recently Viewed"
-        case 1:
-            return "MadeIt"
-        case 2:
-            return "Breakfast"
-        case 3:
-            return "Lunch"
-        case 4:
-            return "Dinner"
-        default:
-            fatalError("Invalid Section: \(section)")
-        }
+    private func getCategoryID(for section: Int) -> String? {
+        return categoryMapping[section]
     }
     
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        let itemsToDisplay = min(3, bookmarkedRecipes.count)
-        
-        switch section {
-        case 0:
-            return itemsToDisplay
-            
-        case 1:
-            return itemsToDisplay
-            
-        case 2:
-            return itemsToDisplay
-            
-        case 3:
-            return itemsToDisplay
-            
-        case 4:
-            return itemsToDisplay
-            
-        default:
-            return itemsToDisplay
-        }
+        guard let categoryID = getCategoryID(for: section),
+              let index = bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) else {
+                return 0
+    }
+        let categoryRecipes = bookmarkedRecipes[index].1
+        return min(3, categoryRecipes.count)
+//        let itemsToDisplay = min(3, bookmarkedRecipes.count)
+//        
+//        switch section {
+//        case 0:
+//            return itemsToDisplay
+//            
+//        case 1:
+//            return itemsToDisplay
+//            
+//        case 2:
+//            return itemsToDisplay
+//            
+//        case 3:
+//            return itemsToDisplay
+//            
+//        case 4:
+//            return itemsToDisplay
+//            
+//        default:
+//            return itemsToDisplay
+//        }
     }
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        4
+        categoryMapping.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
         
-            let categoryID = getCategoryID(for: indexPath.section)
+        guard let categoryID = getCategoryID(for: indexPath.section),
+              let index = bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID}),
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RVCollectionViewCell.reuseID, for: indexPath) as? RVCollectionViewCell else {fatalError("unable to dequeue")}
+        
             print("CATEGORY: \(categoryID)")
-    //        guard let recipes = recipes[categoryID] else {
-    //            //print("RECIPES DICTIONARY ITEMS: \(recipes)")
-    //            // Handle the case where the category ID is not found in the dictionary
-    //            //print("Recipes not found for category: \(categoryID)")
-    //            return cell }
-            guard let index = bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) else {
-                // Handle the case where categoryID is not found
-                return cell
+            let categoryRecipes = self.bookmarkedRecipes[index].1
+            let displayedRecipes = Array(categoryRecipes.prefix(3))
+            print("ISTE BUNLAR: \(self.bookmarkedRecipes[index].0) \(displayedRecipes.count)")
+        
+            if indexPath.item == 2 {
+                let count = max(0, categoryRecipes.count - 3)
+                self.setOverlayView(for: cell, countedNumber: count)
+            } else {
+                cell.overlayView.isHidden = true
             }
-
+            
+            let category = displayedRecipes[indexPath.item]
+            cell.set(category: category)
+            return cell
+        }
+    
             // Access the tuple using the index
-            let tuple = bookmarkedRecipes[index]
-            let categoryRecipes = tuple.1 // Accessing the array of recipes
+//            let tuple = bookmarkedRecipes[index]
+//            let categoryRecipes = tuple.1 // Accessing the array of recipes
+//            
+//            let itemsToDisplay = min(3, categoryRecipes.count)
+//            let displayedRecipes = Array(categoryRecipes.prefix(itemsToDisplay))
+//            let overlayViewCountNumber = SPTitleLabel(textAlignment: .left, fontSize: 20)
+//            let countedNumber = String(categoryRecipes.count - 3)
             
-            let itemsToDisplay = min(3, categoryRecipes.count)
-            let displayedRecipes = Array(categoryRecipes.prefix(itemsToDisplay))
-            let overlayViewCountNumber = SPTitleLabel(textAlignment: .left, fontSize: 20)
-            let countedNumber = String(categoryRecipes.count - 3)
-            
-            func setOverlayView() {
+    private func setOverlayView(for cell: RVCollectionViewCell, countedNumber: Int) {
+        
+            // First remove all subviews
+            cell.overlayView.subviews.forEach { $0.removeFromSuperview() }
+                let overlayViewCountNumber = SPTitleLabel(textAlignment: .left, fontSize: 20)
+                 // Prevent negative count
                 if overlayViewCountNumber.superview == nil {
+                    
                     cell.overlayView.isHidden = false
                     cell.overlayView.addSubview(overlayViewCountNumber)
                     overlayViewCountNumber.text = "\(countedNumber)+"
@@ -93,118 +99,9 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                     overlayViewCountNumber.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 45).isActive = true
                     overlayViewCountNumber.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -40).isActive = true
                     overlayViewCountNumber.topAnchor.constraint(equalTo: cell.topAnchor, constant: 35).isActive = true
-                
                 }
             }
             
-            switch indexPath.section {
-                
-                
-            case 0:
-                
-                
-                if indexPath.item == 2 {
-                    
-                    setOverlayView()
-                    
-                } else {
-                    cell.overlayView.isHidden = true
-                }
-                
-                // Ensure indexPath.item is within the valid range
-                    guard indexPath.item >= 0 && indexPath.item < itemsToDisplay else {
-                        fatalError("Invalid index path item: \(indexPath.item)")
-                    }
-
-                let category = displayedRecipes[indexPath.item]
-                cell.set(category: category)
-                
-                return cell
-                
-            case 1:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MadeItCollectionViewCell.reuseID, for: indexPath) as? MadeItCollectionViewCell else {fatalError("unable to dequeue")}
-                
-                if indexPath.item == 2 {
-                    setOverlayView()
-                } else {
-                    cell.overlayView?.isHidden = true
-                }
-                
-                // Ensure indexPath.item is within the valid range
-                    guard indexPath.item >= 0 && indexPath.item < itemsToDisplay else {
-                        fatalError("Invalid index path item: \(indexPath.item)")
-                    }
-
-                let category = displayedRecipes[indexPath.item]
-                cell.set(category: category)
-                
-                return cell
-                
-            case 2:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BreakfastCollectionViewCell.reuseID, for: indexPath) as? BreakfastCollectionViewCell else {fatalError("unable to dequeue")}
-                
-                if indexPath.item == 2 {
-                    setOverlayView()
-                } else {
-                    cell.overlayView?.isHidden = true
-                }
-                
-                // Ensure indexPath.item is within the valid range
-                    guard indexPath.item >= 0 && indexPath.item < itemsToDisplay else {
-                        fatalError("Invalid index path item: \(indexPath.item)")
-                    }
-
-                let category = displayedRecipes[indexPath.item]
-                cell.set(category: category)
-                
-                return cell
-                
-            case 3:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LunchCollectionViewCell.reuseID, for: indexPath) as? LunchCollectionViewCell else {fatalError("unable to dequeue")}
-                
-                if indexPath.item == 2 {
-                    setOverlayView()
-                } else {
-                    cell.overlayView.isHidden = true
-                }
-                
-                // Ensure indexPath.item is within the valid range
-                    guard indexPath.item >= 0 && indexPath.item < itemsToDisplay else {
-                        fatalError("Invalid index path item: \(indexPath.item)")
-                    }
-
-                let category = displayedRecipes[indexPath.item]
-                cell.set(category: category)
-                
-                return cell
-                
-            case 4:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DinnerCollectionViewCell.reuseID, for: indexPath) as? DinnerCollectionViewCell else {fatalError("unable to dequeue")}
-                
-                if indexPath.item == 2 {
-                    setOverlayView()
-                } else {
-                    cell.overlayView.isHidden = true
-                }
-                
-                // Ensure indexPath.item is within the valid range
-                    guard indexPath.item >= 0 && indexPath.item < itemsToDisplay else {
-                        fatalError("Invalid index path item: \(indexPath.item)")
-                    }
-
-                let category = displayedRecipes[indexPath.item]
-                cell.set(category: category)
-                
-                return cell
-                
-            default:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LunchCollectionViewCell.reuseID, for: indexPath) as? LunchCollectionViewCell else {fatalError("unable to dequeue")}
-                
-                break
-                
-            }
-            return cell
-        }
         
         func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             switch indexPath.section {
