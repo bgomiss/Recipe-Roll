@@ -47,6 +47,49 @@ class NetworkManager {
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
     typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
 
+    func getRecipessInfo<T: Codable>(for endpoint: Endpoint) async throws -> T {
+
+        
+        guard let url = URL(string: endpoint.url) else {
+            throw SPError.invalidQuery
+        }
+            let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw SPError.invalidResponse
+        }
+        do {
+                let decoder = JSONDecoder()
+                switch endpoint {
+                case .searchCategory(_), .searhRecipes(_), .bookmarks(_), .myRefrigerator(_), .ingredientsAutoSearch(_):
+                    return try decoder.decode(T.self, from: data)
+                }
+            } catch {
+                throw SPError.invalidData
+            }
+    }
+//            switch endpoint {
+//            case .searchCategory(_):
+//                //return try decoder.decode(RecipeResults.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//
+//            case .searhRecipes(_):
+//                //let recipes = try decoder.decode(RecipeResults.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//           case .bookmarks(_):
+//                //let recipes = try decoder.decode(Recipe.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//                
+//            case .myRefrigerator(_):
+//                //guard let findByIngCompleted = findByIngCompleted else { fatalError("findByIngCompleted closure must be provided for .myRefrigerator case") }
+//                //let recipes = try decoder.decode([FindByIngredients].self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//    
+//             case .ingredientsAutoSearch(_):
+//                //guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
+//                //let ingredients = try decoder.decode([Ingredient].self, from: data)
+//                return try decoder.decode(T.self, from: data)
+           
     
     func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil) {
         

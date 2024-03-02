@@ -98,7 +98,7 @@ class BookmarksVC: UIViewController {
                 for (_, recipeDetail) in recipeData {
                     if let detailDict = recipeDetail as? [String: Any],
                        let recipeID = detailDict["id"] as? Int64 {
-                        self.getCategories(query: String(recipeID), categoryID: categoryID)
+                        self.getCategoriess(query: String(recipeID), categoryID: categoryID)
                     }
                 }
                     
@@ -151,37 +151,57 @@ class BookmarksVC: UIViewController {
             //        queryTextField.leftView = imageView
         }
         
+    func getCategoriess(query: String, categoryID: String) {
         
-        func getCategories(query: String, categoryID: String) {
-            NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
-                
-                guard let self = self else { return }
-                
-                    switch result {
-                    case .success(let newRecipes):
-                        
-                        // Check if the categoryID exists in the array
-                        if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
-                            // If exists, append to existing recipes
-                            self.bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
-                        } else {
-                            // If not, add a new tuple
-                            self.bookmarkedRecipes.append((categoryID, newRecipes))
-                        }
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-                        //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
-                        
-                        
-                        
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                    print("Category Name is: \(self.bookmarkedRecipes.map { $0.0 } )")
+        Task {
+            do {
+                let newRecipes: [Recipe] = try await NetworkManager.shared.getRecipessInfo(for: .bookmarks(query))
+                // Check if the categoryID exists in the array
+                if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
+                    // If exists, append to existing recipes
+                    bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
+                } else {
+                    // If not, add a new tuple
+                    bookmarkedRecipes.append((categoryID, newRecipes))
                 }
-                //completion()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            } catch SPError.unableToComplete {
+                
             }
+        }
+    }
+//        func getCategories(query: String, categoryID: String) {
+//            NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
+//                
+//                guard let self = self else { return }
+//                
+//                    switch result {
+//                    case .success(let newRecipes):
+//                        
+//                        // Check if the categoryID exists in the array
+//                        if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
+//                            // If exists, append to existing recipes
+//                            self.bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
+//                        } else {
+//                            // If not, add a new tuple
+//                            self.bookmarkedRecipes.append((categoryID, newRecipes))
+//                        }
+//                        DispatchQueue.main.async {
+//                            self.collectionView.reloadData()
+//                        }
+//                        //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
+//                        
+//                        
+//                        
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                    print("Category Name is: \(self.bookmarkedRecipes.map { $0.0 } )")
+//                }
+//                //completion()
+//            }
             
         
         
