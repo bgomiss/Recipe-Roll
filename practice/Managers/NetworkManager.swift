@@ -49,12 +49,11 @@ class NetworkManager {
 
     func getRecipessInfo<T: Codable>(for endpoint: Endpoint) async throws -> T {
 
-        
         guard let url = URL(string: endpoint.url) else {
             throw SPError.invalidQuery
         }
             let (data, response) = try await URLSession.shared.data(from: url)
-        
+
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw SPError.invalidResponse
         }

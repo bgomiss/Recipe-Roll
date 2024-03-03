@@ -155,16 +155,26 @@ class BookmarksVC: UIViewController {
         
         Task {
             do {
-                let newRecipes: [Recipe] = try await NetworkManager.shared.getRecipessInfo(for: .bookmarks(query))
+                
+                let newRecipe = try await NetworkManager.shared.getRecipessInfo(for: .bookmarks(query)) as Recipe
+                
                 // Check if the categoryID exists in the array
-                if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
+                if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) { 
                     // If exists, append to existing recipes
-                    bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
+                    // If exists, check if the recipe is not already in the array
+                    if !self.bookmarkedRecipes[index].1.contains(where: { $0.id == newRecipe.id }) {
+                        self.bookmarkedRecipes[index].1.append(newRecipe)
+                    }
                 } else {
                     // If not, add a new tuple
-                    bookmarkedRecipes.append((categoryID, newRecipes))
+                    bookmarkedRecipes.append((categoryID, [newRecipe]))
+
                 }
                 DispatchQueue.main.async {
+                    if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) { //&& $0.1.contains(where: { $0.id == newRecipe.id })
+                        
+                        print("Count of Recipe in \(categoryID) is \(self.bookmarkedRecipes[index].1.count)")
+                    }
                     self.collectionView.reloadData()
                 }
             } catch SPError.unableToComplete {
