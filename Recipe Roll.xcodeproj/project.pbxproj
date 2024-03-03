@@ -75,6 +75,8 @@
 		1C78ACA02B49769700DB7DC8 /* Instructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C78AC9F2B49769700DB7DC8 /* Instructions.swift */; };
 		1C7918A82A04FF67009951EA /* StepsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7918A72A04FF67009951EA /* StepsCell.swift */; };
 		1C7FF06729C6D01C0063B280 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7FF06629C6D01C0063B280 /* UIHelper.swift */; };
+		1C89D1E12B94A3A50048FCAF /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D1E02B94A3A50048FCAF /* Protocols.swift */; };
+		1C89D1E32B94C4210048FCAF /* BookmarksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D1E22B94C4210048FCAF /* BookmarksPresenter.swift */; };
 		1C982B8B29C0597700CA7471 /* SPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8A29C0597700CA7471 /* SPTextField.swift */; };
 		1C982B8F29C06B3D00CA7471 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B8E29C06B3D00CA7471 /* Recipe.swift */; };
 		1C982B9129C06C8A00CA7471 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C982B9029C06C8A00CA7471 /* NetworkManager.swift */; };
@@ -157,6 +159,8 @@
 		1C78AC9F2B49769700DB7DC8 /* Instructions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instructions.swift; sourceTree = "<group>"; };
 		1C7918A72A04FF67009951EA /* StepsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsCell.swift; sourceTree = "<group>"; };
 		1C7FF06629C6D01C0063B280 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		1C89D1E02B94A3A50048FCAF /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		1C89D1E22B94C4210048FCAF /* BookmarksPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPresenter.swift; sourceTree = "<group>"; };
 		1C982B8A29C0597700CA7471 /* SPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTextField.swift; sourceTree = "<group>"; };
 		1C982B8E29C06B3D00CA7471 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		1C982B9029C06C8A00CA7471 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 		1C46973729BD3FF900918782 /* practice */ = {
 			isa = PBXGroup;
 			children = (
+				1C89D1DF2B94A3910048FCAF /* Protocols */,
 				1C982B8C29C0694F00CA7471 /* Model */,
 				1C520E6C2AC2F76700299C62 /* View */,
 				1C520E6D2AC2F77900299C62 /* Presenter */,
@@ -356,6 +361,7 @@
 				1CF58F102AF10C1200A1049A /* SignUpPresenter.swift */,
 				1C5960DF2AF26E0C00CD2FCB /* SignInPresenter.swift */,
 				1CC24BBC2B17968B00F34BF0 /* ProfileVCPresenter.swift */,
+				1C89D1E22B94C4210048FCAF /* BookmarksPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -368,6 +374,14 @@
 				1C5944E22A0CCF8500C172B0 /* WelcomeCoordinator.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		1C89D1DF2B94A3910048FCAF /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				1C89D1E02B94A3A50048FCAF /* Protocols.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		1C982B8929C0593E00CA7471 /* TextFields */ = {
@@ -553,6 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C89D1E32B94C4210048FCAF /* BookmarksPresenter.swift in Sources */,
 				1C46121829BF795700B3C891 /* BookmarksVC.swift in Sources */,
 				1C46973D29BD3FF900918782 /* HomeVC.swift in Sources */,
 				1C46973929BD3FF900918782 /* AppDelegate.swift in Sources */,
@@ -583,6 +598,7 @@
 				1CF8D4EC29DEF6E9002DD589 /* SignInVC.swift in Sources */,
 				1C4BF90129D72E84009286D4 /* LunchHeaderView.swift in Sources */,
 				1CC981502A0A23090048919B /* Comment.swift in Sources */,
+				1C89D1E12B94A3A50048FCAF /* Protocols.swift in Sources */,
 				1C4BF90729D72F95009286D4 /* LunchCollectionViewCell.swift in Sources */,
 				1C4BF90529D72F85009286D4 /* BreakfastCollectionViewCell.swift in Sources */,
 				1CF58F112AF10C1200A1049A /* SignUpPresenter.swift in Sources */,

@@ -107,6 +107,8 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             switch indexPath.section {
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RVHeader", withReuseIdentifier: RVHeaderView.headerIdentifier, for: indexPath) as! RVHeaderView
+                header.rvSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
+
                 return header
                 
             case 1:

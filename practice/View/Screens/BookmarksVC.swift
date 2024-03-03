@@ -17,6 +17,8 @@ class BookmarksVC: UIViewController {
     var bookmarkedRecipes: [(String, [Recipe])] = []
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
     var categoryID: String = ""
+    weak var delegate: SeeAllDelegate?
+    private var bookmarksPresenter: BookmarksPresenter?
     
     let categoryMapping: [Int: String] = [
         0: "Recently Viewed",
@@ -58,6 +60,7 @@ class BookmarksVC: UIViewController {
         configureCompositionalLayout()
         fetchBookmarkedRecipeIDs()
         createDismissKeyboardTapGesture()
+        bookmarksPresenter = BookmarksPresenter(bookmarksVC: self)
         layoutUI()
         configure()
         configureUIElements()
@@ -71,10 +74,9 @@ class BookmarksVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    
-    //    @objc func handleBookmarkAddedNotification() {
-    //        self.collectionView.reloadData()
-    //    }
+    @objc func seeAllButtonTapped () {
+        delegate?.didTapSeeAllButton()
+    }
     
     
     func fetchBookmarkedRecipeIDs() {
@@ -130,8 +132,6 @@ class BookmarksVC: UIViewController {
         }
     
     
-        
-        
         func createDismissKeyboardTapGesture() {
             let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
             view.addGestureRecognizer(tap)
@@ -182,48 +182,6 @@ class BookmarksVC: UIViewController {
             }
         }
     }
-//        func getCategories(query: String, categoryID: String) {
-//            NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
-//                
-//                guard let self = self else { return }
-//                
-//                    switch result {
-//                    case .success(let newRecipes):
-//                        
-//                        // Check if the categoryID exists in the array
-//                        if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) {
-//                            // If exists, append to existing recipes
-//                            self.bookmarkedRecipes[index].1.append(contentsOf: newRecipes)
-//                        } else {
-//                            // If not, add a new tuple
-//                            self.bookmarkedRecipes.append((categoryID, newRecipes))
-//                        }
-//                        DispatchQueue.main.async {
-//                            self.collectionView.reloadData()
-//                        }
-//                        //print("Total Recipe Count is: \(self.recipes.flatMap { $0.1 }.count)")
-//                        
-//                        
-//                        
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                    print("Category Name is: \(self.bookmarkedRecipes.map { $0.0 } )")
-//                }
-//                //completion()
-//            }
-            
-        
-        
-        
-        //    func updateUI(with categories: [Recipe]) {
-        //        recipes.append(contentsOf: categories)
-        //
-        //        DispatchQueue.main.async {
-        //            self.collectionView.reloadData()
-        //            //self.view.bringSubviewToFront(self.tableView)
-        //        }
-        //    }
         
         
         func layoutUI() {
