@@ -11,7 +11,7 @@ class RecommendationCollectionViewCell: UICollectionViewCell {
 
         static let reuseID = "RecommendationCell"
         let recommendationImageView = SPImageView(frame: .zero)
-        let recommendationLabel = SPTitleLabel(textAlignment: .center, fontSize: 10)
+        let recommendationLabel = SPTitleLabel(textAlignment: .center, fontSize: 20)
         
         
         
@@ -42,9 +42,10 @@ class RecommendationCollectionViewCell: UICollectionViewCell {
                recommendationImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
                recommendationImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
                 
-                recommendationLabel.centerXAnchor.constraint(equalTo: recommendationImageView.centerXAnchor),
-                recommendationLabel.topAnchor.constraint(equalTo: recommendationImageView.bottomAnchor),
-                recommendationLabel.heightAnchor.constraint(equalToConstant: 15)
+               recommendationLabel.centerXAnchor.constraint(equalTo: recommendationImageView.centerXAnchor),
+               recommendationLabel.topAnchor.constraint(equalTo: recommendationImageView.bottomAnchor),
+               recommendationLabel.heightAnchor.constraint(equalToConstant: 25),
+               recommendationLabel.leadingAnchor.constraint(equalTo: recommendationImageView.leadingAnchor)
             ])
         }
     }

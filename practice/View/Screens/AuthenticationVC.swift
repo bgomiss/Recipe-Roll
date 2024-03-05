@@ -7,16 +7,30 @@
 
 import UIKit
 
-class AuthenticationVC: UIViewController, AuthPresenterDelegate {
+class AuthenticationVC: UIViewController {
 
     let signUpImage         = SignUpImageView(frame: .zero)
     let signUpField         = SPTextField(placeholder: "Email")
     let signupButton        = SPButton(backgroundColor: .clear, title: "Sign up")
-    let welcomeVC           = WelcomeVC()
-    let signUpVC            = SignUpVC()
-    let signinVC            = SignInVC()
-    let profileVC           = SignInVC.profileVC
-    private let presenter = AuthPresenter()
+    
+    private lazy var welcomeVC: WelcomeVC = {
+        let welcomeVC = WelcomeVC()
+        welcomeVC.authenticationVC = self
+        return welcomeVC
+    }()
+    private lazy var signUpVC: SignUpVC = {
+        let signUpVC = SignUpVC()
+        signUpVC.authenticationVC = self
+        return signUpVC
+    }()
+    private lazy var signinVC: SignInVC = {
+        return SignInVC()
+    }()
+    private lazy var profileVC: ProfileVC = {
+        return SignInVC.profileVC
+    }()
+    
+    private var presenter: AuthPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,34 +38,18 @@ class AuthenticationVC: UIViewController, AuthPresenterDelegate {
         view.addSubview(signUpImage)
         signUpImage.frame = view.bounds
         configureUIElements()
+        presenter = AuthPresenter(authenticationVC: self, welcomeVC: nil)
         
-        presenter.setViewDelegate(delegate: self)
      }
-    
-    
-    
-//    func resetToWelcomeScreen() {
-//        // Logic to switch to WelcomeVC
-//        for child in children {
-//                if let welcomeVC = child as? WelcomeVC {
-//                    welcomeVC.view.isHidden = false
-//                } else if let signUpVC = child as? SignUpVC {
-//                    signUpVC.view.isHidden = true
-//                } else if let signInVC = child as? SignInVC {
-//                    signInVC.view.isHidden = true
-//                }
-//            }
-//    }
-
     
    
     func configureUIElements() {
         signUpVC.view.isHidden = true
         welcomeVC.view.isHidden = false
         signinVC.view.isHidden = true
-        welcomeVC.delegate = self
-        signUpVC.delegate = self
-        profileVC.delegate = self
+        //welcomeVC.delegate = self
+        //signUpVC.delegate = self
+        //profileVC.delegate = self
         add(childVC: welcomeVC, to: self.view)
         add(childVC: signUpVC, to: self.view)
         add(childVC: signinVC, to: self.view)
@@ -66,7 +64,7 @@ class AuthenticationVC: UIViewController, AuthPresenterDelegate {
     }
  }
 
-extension AuthenticationVC: WelcomeVCDelegate {
+extension AuthenticationVC {
     func didTapContinueButton(emailIsRegistered: Bool) {
         for child in children {
             if let welcomeVC = child as? WelcomeVC {
@@ -86,20 +84,10 @@ extension AuthenticationVC: WelcomeVCDelegate {
             }
         }
     }
-}
 
-extension AuthenticationVC: SignUpVCDelegate {
+
     func didCompleteSignUp() {
         
-        // Get a reference to the SceneDelegate from the current context
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-        // Call the function to reset the window's rootViewController
-        sceneDelegate.showMainApp()
-    }
-}
-
-extension AuthenticationVC: SignoutDelegate {
-    func didCompleteSignOut() {
         // Get a reference to the SceneDelegate from the current context
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         // Call the function to reset the window's rootViewController

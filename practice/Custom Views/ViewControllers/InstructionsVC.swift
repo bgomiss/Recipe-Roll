@@ -12,20 +12,27 @@ import FirebaseAuth
 class InstructionsVC: UIViewController {
     
     var recipe: Recipe?
+    var recommendedRecipe: Instructions?
     var ingredients: [Ent]?
+    var recommendedIngredients: [Ingredients]?
+    var recommendedIngredientsArray: [Ingredients] = []
     let tableView = UITableView()
     let bookmarkIcon = UIImageView()
-    var instructions: [Recipe] = []
+    var instructions: [Recipe]? = []
+    var recommendedRecipeInstructions: Instructions?
     var ingredientsArray: [Ent] = []
+    var recommendedRecipeIngredientsArray: [Ingredients] = []
     var stepsArray: [SimplifiedStep] = []
     var comments: [Comment] = []
     let db = Firestore.firestore()
     
     
-    init(recipe: Recipe, ingredients: [Ent], steps: [SimplifiedStep]) {
+    init(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, ingredients: [Ent]? = [], recommendedIngredients: [Ingredients]? = nil, steps: [SimplifiedStep]) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
+        self.recommendedRecipe = recommendedRecipe
         self.ingredients = ingredients
+        self.recommendedIngredients = recommendedIngredients
         self.stepsArray = steps
     }
     
@@ -225,10 +232,22 @@ class InstructionsVC: UIViewController {
     
     
     func updateUI() {
-        guard let recipe = recipe, let ingredients = ingredients else {return}
-        instructions = [recipe]
-        ingredientsArray = ingredients
+//        guard let recipe = recipe,
+//              let ingredients = ingredients,
+//              let recommendedRecipe = recommendedRecipe,
+//              let recommendedIngredients = recommendedIngredients
+//        else {return}
+        
         DispatchQueue.main.async {
+            if let recipe = self.recipe {
+                self.instructions = [recipe]
+            } else if let ingredients = self.ingredients {
+                self.ingredientsArray = ingredients
+            } else if let recommendedRecipe = self.recommendedRecipe {
+                self.recommendedRecipeInstructions = recommendedRecipe
+            } else if let recommendedIngredients = self.recommendedIngredients {
+                self.recommendedIngredientsArray = recommendedIngredients
+            }
             self.tableView.reloadData()
         }
     }
@@ -256,17 +275,28 @@ extension InstructionsVC: UITableViewDataSource, UITableViewDelegate {
            case 0:
                if indexPath.row == 0 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   let recipe = instructions[0]
-                   cell.setFeaturesCell(recipe: recipe)
+                   if let instructions = instructions, !instructions.isEmpty {
+                       let recipe = instructions[0]
+                       cell.setFeaturesCell(recipe: recipe)
+                   } else if let recommendedRecipeInstructions = recommendedRecipe {
+                       let recipe = recommendedRecipeInstructions
+                       cell.setFeaturesCell(recommendedRecipe: recipe)
+                   }
+                   
                    return cell
                } else if indexPath.row == 1 {
                    let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsCell.reuseID) as! InstructionsCell
-                   let description = instructions[0]
-                   cell.setDescriptionCell(recipe: description)
+                   if let instructions = instructions, !instructions.isEmpty {
+                       let description = instructions[0]
+                       cell.setDescriptionCell(recipe: description)
+                   } else if let recommendedRecipeInstructions = recommendedRecipe {
+                           let description = recommendedRecipeInstructions
+                       cell.setDescriptionCell(recommendedRecipe: description)
+                   }
                    return cell
                } else if indexPath.row == 2 {
                    let ingredientsCell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.reuseID) as! IngredientsCell
-                   ingredientsCell.setIngredientsCell(ingredients: ingredientsArray)
+                       ingredientsCell.setIngredientsCell(ingredients: nil, recommendedRecipeIngredients: recommendedIngredients)
                    return ingredientsCell
                } else {
                    let stepsCell = tableView.dequeueReusableCell(withIdentifier: StepsCell.reuseID) as! StepsCell

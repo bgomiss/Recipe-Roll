@@ -22,7 +22,7 @@ class IngredientsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setIngredientsCell(ingredients: [Ent], categoryTitle: String? = nil) {
+    func setIngredientsCell(ingredients: [Ent]?, recommendedRecipeIngredients: [Ingredients]?, categoryTitle: String? = nil) {
         let stackView = UIStackView()
         addSubviews(ingredientsLabel, stackView)
         ingredientsLabel.text = "Ingredients"
@@ -47,8 +47,9 @@ class IngredientsCell: UITableViewCell {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
+        if let ingredients = ingredients {
+                for ingredient in ingredients {
         
-        for ingredient in ingredients {
             let ingredientsImg = SPImageView(frame: .zero)
             let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black, weight: .bold)
             ingredientsImg.downloadImage(fromURL: ingredient.image)
@@ -69,5 +70,29 @@ class IngredientsCell: UITableViewCell {
             
             ingredientsAndEquipments.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
         }
-    }
+        } else if let recommendedRecipeIngredients = recommendedRecipeIngredients {
+                for ingredient in recommendedRecipeIngredients {
+            
+                let ingredientsImg = SPImageView(frame: .zero)
+                let ingredientsAndEquipments = SPSecondaryTitleLabel(fontSize: 15, color: .black, weight: .bold)
+                ingredientsImg.downloadImage(fromURL: ingredient.image)
+                ingredientsAndEquipments.text = ingredient.name.uppercased()
+                ingredientsImg.heightAnchor.constraint(equalToConstant: 40).isActive = true
+                ingredientsImg.widthAnchor.constraint(equalToConstant: 40).isActive = true
+                
+                
+                let ingredientStackView = UIStackView(arrangedSubviews: [ingredientsImg, ingredientsAndEquipments])
+                ingredientStackView.axis = .horizontal
+                ingredientStackView.spacing = 10
+                ingredientStackView.alignment = .center
+                ingredientStackView.distribution = .fill
+                ingredientStackView.layer.cornerRadius = 10
+                ingredientStackView.backgroundColor = .systemMint.withAlphaComponent(0.5)
+                
+                stackView.addArrangedSubview(ingredientStackView)
+                
+                ingredientsAndEquipments.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
+            }
+        }
+        }
 }

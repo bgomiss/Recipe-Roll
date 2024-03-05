@@ -10,9 +10,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-protocol SignUpVCDelegate: AnyObject {
-    func didCompleteSignUp()
-}
+//protocol SignUpVCDelegate: AnyObject {
+//    func didCompleteSignUp()
+//}
 
 class SignUpVC: UIViewController {
 
@@ -26,8 +26,10 @@ class SignUpVC: UIViewController {
     let stackView           = UIStackView()
     var email: String?
     
-    weak var delegate: SignUpVCDelegate?
-    
+    //weak var delegate: SignUpVCDelegate?
+    private var presenter: AuthPresenter?
+    private var signUpPresenter: SignUpPresenter?
+    weak var authenticationVC: AuthenticationVC?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,35 +37,36 @@ class SignUpVC: UIViewController {
         containerView.addSubviews(stackView)
         configureStackView()
         layoutUI()
-        
+        presenter = AuthPresenter(authenticationVC: nil, welcomeVC: nil)
+        signUpPresenter = SignUpPresenter(signUpVC: self, authenticationVC: nil)
         signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
     }
     
     
-    func registerNewUser(name: String, email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-                let userData: [String: Any] = [
-                    "name": name,
-                    "email": email,
-                ]
-                
-                let db = Firestore.firestore()
-                db.collection("users").document(authResult!.user.uid).setData(userData) { error in
-                    if let error = error {
-                        print("Error saving user data: \(error.localizedDescription)")
-                        
-                    } else {
-                        print("User data saved successfully")
-                    }
-                }
-                completion(.success(authResult!))
-            }
-        }
+//    func registerNewUser(name: String, email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//            
+//                let userData: [String: Any] = [
+//                    "name": name,
+//                    "email": email,
+//                ]
+//                
+//                let db = Firestore.firestore()
+//                db.collection("users").document(authResult!.user.uid).setData(userData) { error in
+//                    if let error = error {
+//                        print("Error saving user data: \(error.localizedDescription)")
+//                        
+//                    } else {
+//                        print("User data saved successfully")
+//                    }
+//                }
+//                completion(.success(authResult!))
+//            }
+//        }
         
     
     func updateWarningLabel(with email: String?) {
@@ -76,27 +79,9 @@ class SignUpVC: UIViewController {
     
     
     @objc func signupButtonTapped() {
-        // Validate and get the email and password
-        guard let email = eMailField.text, !email.isEmpty,
-              let password = passwordField.text, !password.isEmpty,
-              let name = nameField.text, !name.isEmpty else {
-            print("Name, Email or password is empty")
-            return
-        }
+      
         // Call the registerNewUser function with the email and password
-        registerNewUser(name: name, email: email, password: password) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let authResult):
-                    print("User registered successfully: \(authResult.user.uid)")
-                    // Navigate to the next screen or show a success message
-                    self.delegate?.didCompleteSignUp()
-                case .failure(let error):
-                    print("Error registering user: \(error.localizedDescription)")
-                    // Show an error message
-                }
-            }
-        }
+        signUpPresenter?.signUpCompleted()
         
     }
     

@@ -15,14 +15,13 @@ enum DisplayableItem: Hashable {
 class FridgeVC: UIViewController, UISearchBarDelegate {
     
     enum Section { case main }
-    enum CurrentState {
-            case recipe, ingredient
-        }
+    enum CurrentState { case recipe, ingredient }
         
     
     var currentState: CurrentState = .ingredient
     let ingredientsVC = IngredientsVC()
     var user: User?
+    var homeVC = HomeVC()
     private var ingredients = [String]()
     var ingredientsArray: [DisplayableItem] = []
     var recipesArray: [DisplayableItem] = []
@@ -405,8 +404,10 @@ extension FridgeVC: UICollectionViewDelegate {
                 self.ingredientsVC.addIngredient(ingredient)
                 print(self.selectedIngredients)
             }
-            case .recipe:
-                break
+            case .recipe(let selectedIngredient):
+                homeVC.fetchRecommendedRecipeInstructions(recipeID: String(selectedIngredient.id), shouldReloadCollectionView: false)
+                homeVC.performIngredientsFiltering(presentingViewController: self)
+                self.collectionView.reloadData()
             }
         
         }

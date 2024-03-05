@@ -18,17 +18,17 @@ class NetworkManager {
        var url: String {
                 switch self {
                 case .searchCategory(let category):
-                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&type=\(category)&apiKey=\(Api.apiKey)"
+                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=5&limitLicense=false&ranking=2&type=\(category)&apiKey=\(Api.apiKey)"
                     
                 case .searhRecipes(let query):
-                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=10&limitLicense=false&ranking=2&query=\(query)&apiKey=\(Api.apiKey)"
+                    return "https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&&sortDirection=asc&offset=0&number=5&limitLicense=false&ranking=2&query=\(query)&apiKey=\(Api.apiKey)"
                     
                 case .bookmarks(let recipeID):
                     return "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
                     
                 case .myRefrigerator(let ingredients):
                     return
-                "https://api.spoonacular.com/recipes/findByIngredients?ingredients=\(ingredients)&number=10&apiKey=\(Api.apiKey)"
+                "https://api.spoonacular.com/recipes/findByIngredients?ingredients=\(ingredients)&number=5&apiKey=\(Api.apiKey)"
                     
                 case .ingredientsAutoSearch(let searchItem):
                     return
@@ -47,6 +47,48 @@ class NetworkManager {
     typealias IngredientsCompletion = (Result<[Ingredient], SPError>) -> Void
     typealias FindByIngredientsCompletion = (Result<[FindByIngredients], SPError>) -> Void
 
+    func getRecipessInfo<T: Codable>(for endpoint: Endpoint) async throws -> T {
+
+        guard let url = URL(string: endpoint.url) else {
+            throw SPError.invalidQuery
+        }
+            let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw SPError.invalidResponse
+        }
+        do {
+                let decoder = JSONDecoder()
+                switch endpoint {
+                case .searchCategory(_), .searhRecipes(_), .bookmarks(_), .myRefrigerator(_), .ingredientsAutoSearch(_):
+                    return try decoder.decode(T.self, from: data)
+                }
+            } catch {
+                throw SPError.invalidData
+            }
+    }
+//            switch endpoint {
+//            case .searchCategory(_):
+//                //return try decoder.decode(RecipeResults.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//
+//            case .searhRecipes(_):
+//                //let recipes = try decoder.decode(RecipeResults.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//           case .bookmarks(_):
+//                //let recipes = try decoder.decode(Recipe.self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//                
+//            case .myRefrigerator(_):
+//                //guard let findByIngCompleted = findByIngCompleted else { fatalError("findByIngCompleted closure must be provided for .myRefrigerator case") }
+//                //let recipes = try decoder.decode([FindByIngredients].self, from: data)
+//                return try decoder.decode(T.self, from: data)
+//    
+//             case .ingredientsAutoSearch(_):
+//                //guard let ingredientsCompleted = ingredientsCompleted else { fatalError("ingredientsCompleted closure must be provided for .ingredientsAutoSearch case") }
+//                //let ingredients = try decoder.decode([Ingredient].self, from: data)
+//                return try decoder.decode(T.self, from: data)
+           
     
     func getRecipesInfo(for endpoint: Endpoint, completed: @escaping (Result<[Recipe], SPError>) -> Void, ingredientsCompleted: IngredientsCompletion? = nil, findByIngCompleted: FindByIngredientsCompletion? = nil) {
         
@@ -115,6 +157,9 @@ class NetworkManager {
             return
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            
+            guard let self else { return }
+            
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let _ = error {
                     completion(.failure(.invalidResponse))
@@ -142,6 +187,46 @@ class NetworkManager {
             task.resume()
         }
     }
+    
+    
+    func getRecommendedRecipeInstructions(recipeID: String, completion: @escaping (Result<Instructions, SPError>) -> Void) {
+        
+        let urlString = "https://api.spoonacular.com/recipes/\(recipeID)/information?apiKey=\(Api.apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.invalidQuery))
+            return
+        }
+            
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("Error fetching data: \(error)")
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(.invalidData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let recipeInstructions = try decoder.decode(Instructions.self, from: data)
+                    print("RECIPE INsTRUCTIONS: \(recipeInstructions)")
+                    completion(.success(recipeInstructions))
+                } catch {
+                    completion(.failure(.invalidData))
+                }
+            }
+            task.resume()
+        }
+    
     
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?, Bool) -> Void) {

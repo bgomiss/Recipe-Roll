@@ -69,6 +69,18 @@ enum PersistenceManager {
     
     
     static func retrievedCategories(completed: @escaping (Result<[Recipe], SPError>) -> Void) {
+        
+        ///
+        /// IT IS A BAD BAD IDEA SAVE A LOT DATA IN DEFAULTS, IF YOU HAVE PROBLEMS TO CALL YOUR
+        /// CATEGORIES IS BECUASE ALWAYS YOU AR USING DEFAULTS, IF YOU UNINSTALL YOUR APP AND INSTALL
+        /// ONE MORE TIME, EVERTHING IS LOADING GOOD, BUT IN THE SECOND OPENING APP IS FAULIING FOR THIS BECAUSE
+        /// USER DEFAULT IS NOT SAVING IMAGE DATA
+        ///
+        /// MY RECOMMENDATION IS: REMOVE THIS AN CONSUME DIRECTLY FROM WEB SERVICES, CACHE METHOD IS FOR ADVANCED
+        /// DEVELOPER...
+        ///
+        /// GUIMEL
+        
         guard let categoriesData = defaults.object(forKey: Keys.categories) as? Data else {
             completed(.success([]))
             return

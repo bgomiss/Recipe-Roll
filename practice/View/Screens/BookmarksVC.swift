@@ -14,8 +14,19 @@ class BookmarksVC: UIViewController {
     let uid                          = Auth.auth().currentUser?.uid
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
-    var recipes: [String : [Recipe]] = [:]
+    var bookmarkedRecipes: [(String, [Recipe])] = []
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
+    var categoryID: String = ""
+    weak var delegate: SeeAllDelegate?
+    private var bookmarksPresenter: BookmarksPresenter?
+    
+    let categoryMapping: [Int: String] = [
+        0: "Recently Viewed",
+        1: "MadeIt",
+        2: "Breakfast",
+        3: "Lunch",
+        4: "Dinner"
+        ]
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -38,7 +49,7 @@ class BookmarksVC: UIViewController {
         collectionView.register(LunchHeaderView.self, forSupplementaryViewOfKind: "LunchHeader", withReuseIdentifier: LunchHeaderView.headerIdentifier)
         collectionView.register(DinnerHeaderView.self, forSupplementaryViewOfKind: "DinnerHeader", withReuseIdentifier: DinnerHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
-       
+        
         return collectionView
     }()
     
@@ -49,11 +60,12 @@ class BookmarksVC: UIViewController {
         configureCompositionalLayout()
         fetchBookmarkedRecipeIDs()
         createDismissKeyboardTapGesture()
+        bookmarksPresenter = BookmarksPresenter(bookmarksVC: self)
         layoutUI()
         configure()
         configureUIElements()
         view.backgroundColor = .systemBackground
-
+        
     }
     
     
@@ -62,14 +74,13 @@ class BookmarksVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    @objc func seeAllButtonTapped () {
+        delegate?.didTapSeeAllButton()
+    }
     
-//    @objc func handleBookmarkAddedNotification() {
-//        self.collectionView.reloadData()
-//    }
     
-   
     func fetchBookmarkedRecipeIDs() {
-        var categoryID: String = ""
+        
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let userBookmarkCollection = db.collection("bookmarks").document(userID).collection("categories")
         
@@ -84,162 +95,137 @@ class BookmarksVC: UIViewController {
             for category in categories {
                 categoryID = category.documentID
                 print("CATEGORY ID IS: \(String(describing: categoryID))")
-                
-                let recipesCollection = userBookmarkCollection.document(categoryID).collection(categoryID)
-                
-                recipesCollection.getDocuments { [weak self] querySnapshot, error in
-                    guard let self = self else { return }
-                    
-                    if let error = error {
-                        print("Error fetching recipes: \(error)")
-                        return
-                    }
-                }
-                    
-                guard let recipes = querySnapshot?.documents else { return }
-               
-                if categoryID == "Recently Viewed" {
-                    if let firstRecipe = recipes.first,
-                       let recipeData = firstRecipe.data() as? [String: Any],
-                       let nestedDict  = recipeData.values.first as? [String: Any],
-                       let recipeID = nestedDict["id"] as? Int64 {
-                        print("TarifID is: \(recipeID)")
-                        
-                        // Create a completion handler closure
-                            let completion: (Result<[GetSimilarRecipes], SPError>) -> Void = { result in
-                                switch result {
-                                case .success(let similarRecipes):
-                                    print("Fetched similar recipes: \(similarRecipes)")
-                                case .failure(let error):
-                                    print("Error fetching similar recipes: \(error.localizedDescription)")
-                                }
-                            }
-                        
-                        if let homeNavVC =
-                            SPTabBarController().viewControllers?[0] as? UINavigationController,
-                           let homeVC = homeNavVC.viewControllers.first as? HomeVC {
-                            homeVC.fetchSimilarRecipes(recipeID: String(recipeID), completion: completion)
-                            //fetchSimilarRecipesClosure?(recipeID)
-                        }
-                        
-                    }
-                }
 
-                    for recipe in recipes {
-                        let recipeData = recipe.data()
-                        //print("recipe data: \(recipeData)")
-                        
-                        for (_, recipeDetail) in recipeData {
-                            if let detailDict = recipeDetail as? [String: Any], let recipeID = detailDict["id"] as? Int64 {
-                            //print("RECIPEDETAIL is: \(recipeDetail)")
-                            self.getCategories(query: String(recipeID), categoryID: categoryID)
-                            }
+                let recipeData = category.data()
+                for (_, recipeDetail) in recipeData {
+                    if let detailDict = recipeDetail as? [String: Any],
+                       let recipeID = detailDict["id"] as? Int64 {
+                        self.getCategoriess(query: String(recipeID), categoryID: categoryID)
+                    }
+                }
+                    
+                    if categoryID == "Recently Viewed" {
+                        if let firstRecipe = categories.first,
+                           let recipeData = firstRecipe.data() as? [String: Any],
+                           let nestedDict  = recipeData.values.first as? [String: Any],
+                           let recipeID = nestedDict["id"] as? Int {
+                            print("TarifID is: \(recipeID)")
                             
+                            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                               let existingTabBarController = sceneDelegate.window?.rootViewController as? SPTabBarController,
+                               let homeNavVC = existingTabBarController.viewControllers?[0] as? UINavigationController,
+                               let homeVC = homeNavVC.viewControllers.first as? HomeVC {
+                                if (recipeID != 0) {
+                                    homeVC.fetchSimilarRecipes(recipeID: String(recipeID))
+                                    
+                                } else {
+                                    homeVC.fetchSimilarRecipes(recipeID: "651942")
+                                }
+                                
+                            }
                         }
                     }
+                print("Number of documents in category \(categoryID): \(recipeData.count)")
+                }
                 
-                }
             }
         }
     
+    
+        func createDismissKeyboardTapGesture() {
+            let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+            view.addGestureRecognizer(tap)
+        }
+        
+        
+        func configure() {
+            collectionView.setUp(to: view, and: querySearchBar)
+        }
+        
+        
+        func configureUIElements() {
+            let searchIcon = UIImage(systemName: "magnifyingglass")
+            let imageView = UIImageView(image: searchIcon)
+            imageView.contentMode = .scaleAspectFit
+            //        queryTextField.leftViewMode = .always
+            //        queryTextField.leftView = imageView
+        }
+        
+    func getCategoriess(query: String, categoryID: String) {
+        
+        Task {
+            do {
+                
+                let newRecipe = try await NetworkManager.shared.getRecipessInfo(for: .bookmarks(query)) as Recipe
+                
+                // Check if the categoryID exists in the array
+                if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) { 
+                    // If exists, append to existing recipes
+                    // If exists, check if the recipe is not already in the array
+                    if !self.bookmarkedRecipes[index].1.contains(where: { $0.id == newRecipe.id }) {
+                        self.bookmarkedRecipes[index].1.append(newRecipe)
+                    }
+                } else {
+                    // If not, add a new tuple
+                    bookmarkedRecipes.append((categoryID, [newRecipe]))
 
-    func createDismissKeyboardTapGesture() {
-        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
-    }
-    
-    
-    func configure() {
-        collectionView.setUp(to: view, and: querySearchBar)
-    }
-    
-    
-    func configureUIElements() {
-        let searchIcon = UIImage(systemName: "magnifyingglass")
-        let imageView = UIImageView(image: searchIcon)
-        imageView.contentMode = .scaleAspectFit
-//        queryTextField.leftViewMode = .always
-//        queryTextField.leftView = imageView
-    }
-    
-    
-    func getCategories(query: String, categoryID: String) {
-        NetworkManager.shared.getRecipesInfo(for: .bookmarks(query)) { [weak self] result in
-            
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let recipes):
+                }
                 DispatchQueue.main.async {
-                    if var existingRecipes = self.recipes[categoryID] {
-                        existingRecipes.append(contentsOf: recipes)
-                        self.recipes[categoryID] = existingRecipes
-                        self.collectionView.reloadData()
-                        //print("EXISTING Recipes for \(categoryID): \(existingRecipes)")
-                    } else {
-                        self.recipes[categoryID] = recipes
-                        self.collectionView.reloadData()
+                    if let index = self.bookmarkedRecipes.firstIndex(where: { $0.0 == categoryID }) { //&& $0.1.contains(where: { $0.id == newRecipe.id })
+                        
+                        print("Count of Recipe in \(categoryID) is \(self.bookmarkedRecipes[index].1.count)")
                     }
-                    
-                    }
-            case .failure(let error):
-                return
+                    self.collectionView.reloadData()
                 }
+            } catch SPError.unableToComplete {
+                
             }
         }
-    
-    
-//    func updateUI(with categories: [Recipe]) {
-//        recipes.append(contentsOf: categories)
-//        
-//        DispatchQueue.main.async {
-//            self.collectionView.reloadData()
-//            //self.view.bringSubviewToFront(self.tableView)
-//        }
-//    }
-    
-    
-    func layoutUI() {
-        querySearchBar.delegate = self
-    
-        NSLayoutConstraint.activate([
-            querySearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            querySearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            querySearchBar.heightAnchor.constraint(equalToConstant: 40),
-       ])
     }
-}
-
-extension BookmarksVC: UISearchBarDelegate {
+        
+        
+        func layoutUI() {
+            querySearchBar.delegate = self
+            
+            NSLayoutConstraint.activate([
+                querySearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+                querySearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+                querySearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+                querySearchBar.heightAnchor.constraint(equalToConstant: 40),
+            ])
+        }
+    }
+    
+    extension BookmarksVC: UISearchBarDelegate {
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
             querySearchBar.resignFirstResponder()
         }
     }
-
-extension BookmarksVC {
-    func configureCompositionalLayout() {
-        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
-            switch sectionIndex {
-            case 0 :
-                return UIHelper.rvSection()
-                
-            case 1 :
-                return UIHelper.madeItSection()
-                
-            case 2 :
-                return UIHelper.breakfastSection()
-                
-            case 3 :
-                return UIHelper.lunchSection()
-                
-            case 4 :
-                return UIHelper.dinnerSection()
-                
-            default:
-                return UIHelper.categoriesSection()
+    
+    extension BookmarksVC {
+        func configureCompositionalLayout() {
+            let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
+                switch sectionIndex {
+                case 0 :
+                    return UIHelper.rvSection()
+                    
+                case 1 :
+                    return UIHelper.madeItSection()
+                    
+                case 2 :
+                    return UIHelper.breakfastSection()
+                    
+                case 3 :
+                    return UIHelper.lunchSection()
+                    
+                case 4 :
+                    return UIHelper.dinnerSection()
+                    
+                default:
+                    return UIHelper.categoriesSection()
+                }
             }
+            collectionView.setCollectionViewLayout(layout, animated: true)
         }
-        collectionView.setCollectionViewLayout(layout, animated: true)
     }
-}
+

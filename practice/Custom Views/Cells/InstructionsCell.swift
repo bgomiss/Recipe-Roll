@@ -39,13 +39,24 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setFeaturesCell(recipe: Recipe, categoryTitle: String? = nil) {
+    func setFeaturesCell(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, categoryTitle: String? = nil) {
         addSubviews(cellTitle, clockImageView, readyInMinutes, peopleImageView, servings, likesImageView, aggregateLikes)
         
-        cellTitle.text = recipe.title
-        readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
-        servings.text = "\(String(recipe.servings)) people"
-        aggregateLikes.text = "\(String(recipe.servings)) likes"
+        if let recipe = recipe {
+            cellTitle.text = recipe.title
+            readyInMinutes.text = "\(String(recipe.readyInMinutes)) mins"
+            servings.text = "\(String(recipe.servings)) people"
+            aggregateLikes.text = "\(String(recipe.servings)) likes"
+        } else if let recommendedRecipe = recommendedRecipe {
+            cellTitle.text = recommendedRecipe.title
+            readyInMinutes.text = "\(String(recommendedRecipe.readyInMinutes)) mins"
+            servings.text = "\(String(recommendedRecipe.servings)) people"
+            aggregateLikes.text = "\(String(recommendedRecipe.servings)) likes"
+        }
+        
+        
+        
+        
         
         clockImageView.translatesAutoresizingMaskIntoConstraints = false
         clockImageView.image = RIMimage
@@ -95,31 +106,38 @@ class InstructionsCell: UITableViewCell {
     }
     
     
-    func setDescriptionCell(recipe: Recipe, categoryTitle: String? = nil) {
+    func setDescriptionCell(recipe: Recipe? = nil, recommendedRecipe: Instructions? = nil, categoryTitle: String? = nil) {
         addSubviews(descriptionLabel, summary)
         descriptionLabel.text = "Description"
-        if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary) {
-            summary.attributedText = attributedText
-        }
         
-        
-        NSLayoutConstraint.activate([
-            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
-            descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
+        if let recipe = recipe {
+            let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recipe.summary)
+                summary.attributedText = attributedText
+            } else if let recommmendedRecipe = recommendedRecipe {
+                if let attributedText = SPBodyLabel.convertHTMLToAttributedString(html: recommmendedRecipe.summary) {
+                    summary.attributedText = attributedText
+                }
             
-            summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            summary.bottomAnchor.constraint(equalTo: bottomAnchor),
-            summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-            //summary.heightAnchor.constraint(equalToConstant: 80)
-            ])
+                
+                
+                NSLayoutConstraint.activate([
+                    descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                    descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    descriptionLabel.topAnchor.constraint(equalTo: topAnchor),
+                    descriptionLabel.heightAnchor.constraint(equalToConstant: 25),
+                    
+                    summary.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                    summary.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
+                    summary.bottomAnchor.constraint(equalTo: bottomAnchor),
+                    summary.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+                    //summary.heightAnchor.constraint(equalToConstant: 80)
+                ])
+            }
+            
+            
+            func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
+                cellTitle.text = recipe.title
+                
+            }
+        }
     }
-    
-    
-    func setInstructionsCell(recipe: Recipe, categoryTitle: String? = nil) {
-        cellTitle.text = recipe.title
-        
-    }
-}

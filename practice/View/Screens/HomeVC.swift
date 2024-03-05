@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 
-class HomeVC: UIViewController {
+class HomeVC: UIViewController, UISheetPresentationControllerDelegate {
     
     var user: User?
     let titleLabel                      = SPTitleLabel(textAlignment: .left, fontSize: 20)
@@ -21,15 +21,16 @@ class HomeVC: UIViewController {
     let cancelButton                    = SPButton(backgroundColor: .clear, title: "Cancel")
     var recipes: [(tag: String, recipe: [Recipe])]      = []
     var similarRecipesArray: [GetSimilarRecipes] = []
+    var ingredientsResultss: [Ingredients] = []
+    var recommendedRecipeInstructions: Instructions?
     let categoryHeaderView              = CategoriesHeaderView()
     let recommendationHeaderTitle       = SPTitleLabel(text: "Recommendation", textAlignment: .left, fontSize: 20)
-    
+    var ingredientsResults: [Ent] = []
     let recommendationSeeAllButton      = SPButton(backgroundColor: .clear, title: "See All")
     let tags = [Tags.breakfast, Tags.lunch, Tags.dinner, Tags.soup, Tags.dessert]
-    let group = DispatchGroup()
-    
+    var recipeResultsVC = RecipeResultsVC()
+    var vc = UIViewController()
     private var searchDebounceTimer: Timer?
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         
@@ -42,40 +43,54 @@ class HomeVC: UIViewController {
         collectionView.register(CategoriesHeaderView.self, forSupplementaryViewOfKind: "CategoriesHeader", withReuseIdentifier: CategoriesHeaderView.headerIdentifier)
         collectionView.register(RecommendationHeaderView.self, forSupplementaryViewOfKind: "RecommendationHeader", withReuseIdentifier: RecommendationHeaderView.headerIdentifier)
         collectionView.backgroundColor = .systemBackground
-       
+        
         return collectionView
     }()
+    
+    var recipeId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         configureCompositionalLayout()
-        setupQueryRecipesVC()
+//        setupQueryRecipesVC()
         layoutUI()
         configure()
-        getCategoriesFromCache()
+        getCategories()
         createDismissKeyboardTapGesture()
         retrieveUserInfo()
+        //fetchSimilarRecipes(recipeID: recipeId ?? "651942")
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
-//        PersistenceManager.retrieveUserProfile { [weak self] result in
-//                switch result {
-//                case .success(let user):
-//                    if let profileImageUrl = user?.profileImageUrl {
-//                        self?.userImage.downloadImage(fromURL: profileImageUrl)
-//                    }
-//
-//                case .failure(let error):
-//                    print("Error retrieving user profile: \(error.localizedDescription)")
-//                }
-//            }
+//                PersistenceManager.retrieveUserProfile { [weak self] result in
+        //                switch result {
+        //                case .success(let user):
+        //                    if let profileImageUrl = user?.profileImageUrl {
+        //                        self?.userImage.downloadImage(fromURL: profileImageUrl)
+        //                    }
+        //
+        //                case .failure(let error):
+        //                    print("Error retrieving user profile: \(error.localizedDescription)")
+        //                }
+        //            }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        vc.dismiss(animated: true)
+    }
+    
+    
+    deinit {
+        searchDebounceTimer?.invalidate()
+        searchDebounceTimer = nil
     }
     
     
@@ -96,124 +111,140 @@ class HomeVC: UIViewController {
         cancelButton.isHidden = true
         querySearchBar.text = ""
     }
-
+    
     
     func retrieveUserInfo() {
         PersistenceManager.retrieveUserProfile { [weak self] result in
-                        switch result {
-                        case .success(let user):
-                            print("USER IS: \(user)")
-                            if let profileImageUrl = user?.profileImageUrl,
-                               let name = user?.name {
-                                DispatchQueue.main.async {
-                                    self?.userImage.downloadImage(fromURL: profileImageUrl)
-                                    self?.titleLabel.text = "What would you like to cook today, \(name)?"
-                                        print("PROFILE IMAGE URL IS: \(profileImageUrl)")
-                                }
-                                
-                            }
-        
-                        case .failure(let error):
-                            print("Error retrieving user profile: \(error.localizedDescription)")
-                        }
-                    }
+            switch result {
+            case .success(let user):
+                guard let user = user,
+                      let profileImageUrl = user.profileImageUrl,
+                      let name = user.name
+                else {return}
+                print("USER IS: \(user)")
+                
+                DispatchQueue.main.async {
+                    self?.userImage.downloadImage(fromURL: profileImageUrl)
+                    self?.titleLabel.text = "What would you like to cook today, \(name)?"
+                    print("PROFILE IMAGE URL IS: \(profileImageUrl)")
                 }
+                
+            case .failure(let error):
+                print("Error retrieving user profile: \(error.localizedDescription)")
+            }
+        }
+    }
     
     
-    func makeAPICallForCategories(tag: String, atIndex index: Int, group: DispatchGroup) {
-        NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { [weak self] category in
-            
-            guard let self = self else { return }
-           
-            
+    func makeAPICallForCategories(tag: String, completion: @escaping ([Recipe]) -> Void) {
+        NetworkManager.shared.getRecipesInfo(for: .searchCategory(tag)) { category in
             switch category {
             case .success(let categories):
-                
-                for category in categories {
-                    PersistenceManager.updateWith(category: category, actionType: .add) { error in
-                        if let error = error {
-                            print("Error saving category: \(error)")
-                        }
-                    }
-                }
-            self.updateUI(with: categories, atIndex: index)
-            case .failure(_): break
+                completion(categories)
+            case .failure(_): completion([])
                 
             }
-            group.leave()
         }
     }
     
     func updateUI(with categories: [Recipe], atIndex index: Int) {
-           
-           DispatchQueue.main.async {
-               self.recipes[index].recipe = categories
-           }
-       }
+        self.recipes[index].recipe = categories
+    }
     
     
-    func getCategoriesFromCache() {
+    func getCategories() {
         // First, try to retrieve categories from cache
+        let group = DispatchGroup()
         recipes = tags.map { (tag: $0, recipe: [])}
+        
         for (index, tag) in tags.enumerated() {
+            print("INDEX IS: \(index), TAG IS: \(tag)")
             group.enter()
             
-            PersistenceManager.retrievedCategories { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let cachedCategories):
-                    if !cachedCategories.isEmpty {
-                        // If cached categories are available, update UI
-                        print("Data is coming from cache: \(cachedCategories)")
-                        self.updateUI(with: cachedCategories, atIndex: index)
-                    } else {
-                        // If not available in cache, make API call
-                        print("Data is not available in cache, making API call...")
-                        self.makeAPICallForCategories(tag: tag, atIndex: index, group: group)
-                    }
-                    // If there's an error retrieving from cache, make API call
-                case .failure(let error):
-                    print("Error retrieving categories from cache: \(error)")
-                    
-                    }
-                
-                }
-            self.group.notify(queue: .main) {
-            self.collectionView.reloadData()
+            self.makeAPICallForCategories(tag: tag) { categories in
+                self.updateUI(with: categories, atIndex: index)
+                group.leave()
             }
-            
         }
+            
+        group.notify(queue: .main) {
+            self.collectionView.reloadData()
+        }
+        
     }
     
     
     
-    func fetchSimilarRecipes(recipeID: String, completion: @escaping (Result<[GetSimilarRecipes], SPError>) -> Void) {
+    func fetchSimilarRecipes(recipeID: String) {
         print("Fetching similar recipes for recipeID: \(recipeID)")
-        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { result in
+        NetworkManager.shared.getSimilarRecipes(recipeID: recipeID) { [weak self] result in
             
-            //guard let self = self else {return}
+            guard let self else { return }
             
             switch result {
             case .success(let similarRecipes):
-                print("Fetched similar recipes")
+                //print("Fetched similar recipes")
+                self.similarRecipesArray.append(contentsOf: similarRecipes)
                 DispatchQueue.main.async {
-                    print("Reloading collection view...")
-                    completion(.success(similarRecipes))
-                    self.similarRecipesArray.append(contentsOf: similarRecipes)
                     self.collectionView.reloadData()
-                    print("Collection view reloaded.")
                 }
-                
             case .failure(let error):
                 print("Error fetching similar recipes: \(error.localizedDescription)")
                 DispatchQueue.main.async {
-                completion(.failure(error))
+                    self.collectionView.reloadData()
                 }
-                //self.view.bringSubviewToFront(self.tableView)
-              }
             }
         }
+    }
+    
+    
+    func extractIngredients(from analyzedInstructions: [AnalyzedInstructions]) {
+        for instruction in analyzedInstructions {
+            for step in instruction.steps {
+                let steps = SimplifiedStep(number: step.number, step: step.step)
+                recipeResultsVC.stepsResults.append(steps)
+                
+                for ingredient in step.ingredients {
+                    let imageURL = "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"
+                    let newIngredient = Ingredients(id: ingredient.id, name: ingredient.name, localizedName: ingredient.localizedName, image: imageURL)
+                    ingredientsResultss.append(newIngredient)
+                    //print("Ingredients Results are: \(ingredientsResultss)")
+                }
+            }
+        }
+    }
+    
+    
+    func fetchRecommendedRecipeInstructions(recipeID: String, shouldReloadCollectionView: Bool = true) {
+        print("Fetching recipe instructions for recipeID: \(recipeID)")
+        NetworkManager.shared.getRecommendedRecipeInstructions(recipeID: recipeID) { [weak self] result in
+    
+            guard let self else { return }
+            
+            switch result {
+            case .success(let instructions):
+                //print("Fetched Instructions are : \(instructions)")
+                
+                DispatchQueue.main.async {
+                    self.recommendedRecipeInstructions = instructions
+                    self.extractIngredients(from: instructions.analyzedInstructions)
+                    //print("RECOMMENDED INSTRUCTIONS ARE : \(self.recommendedRecipeInstructions!)")
+                    if shouldReloadCollectionView {
+                        self.performIngredientsFiltering(presentingViewController: self)
+                        self.collectionView.reloadData()
+                    }
+                    
+                    // Check ingredients after setting recommendedRecipeInstructions
+                    print("Ingredients Resultss Count after setting recommendedRecipeInstructions: \(self.ingredientsResultss.count)")
+                    
+                }
+                
+                
+             case .failure(let error):
+                print("Error fetching instructions: \(error.localizedDescription)")
+            }
+        }
+    }
     
     
     
@@ -225,9 +256,9 @@ class HomeVC: UIViewController {
     
     
     func configure() {
-            collectionView.setUp(to: view, and: querySearchBar)
-            cancelButton.isHidden = true
-        }
+        collectionView.setUp(to: view, and: querySearchBar)
+        cancelButton.isHidden = true
+    }
     
     
     func layoutUI() {
@@ -246,7 +277,7 @@ class HomeVC: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -150),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             titleLabel.heightAnchor.constraint(equalToConstant: 48),
             
             userImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -254,10 +285,10 @@ class HomeVC: UIViewController {
             userImage.heightAnchor.constraint(equalToConstant: 60),
             userImage.widthAnchor.constraint(equalToConstant: 60),
             
-            queryRecipesVC.view.topAnchor.constraint(equalTo: querySearchBar.bottomAnchor),
-            queryRecipesVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            queryRecipesVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            queryRecipesVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            queryRecipesVC.view.topAnchor.constraint(equalTo: querySearchBar.bottomAnchor),
+//            queryRecipesVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            queryRecipesVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            queryRecipesVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
