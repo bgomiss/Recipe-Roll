@@ -73,7 +73,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.section {
+        switch indexPath.section { 
         case 0:
             let selectedCategory = recipes[indexPath.row]
             let destVC = RecipeResultsVC(category: selectedCategory.tag)

@@ -9,7 +9,7 @@ import UIKit
 
 extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private func getCategoryID(for section: Int) -> String? {
+    func getCategoryID(for section: Int) -> String? {
         return categoryMapping[section]
     }
     
@@ -22,27 +22,6 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
         let categoryRecipes = bookmarkedRecipes[index].1
         return min(3, categoryRecipes.count)
-//        let itemsToDisplay = min(3, bookmarkedRecipes.count)
-//        
-//        switch section {
-//        case 0:
-//            return itemsToDisplay
-//            
-//        case 1:
-//            return itemsToDisplay
-//            
-//        case 2:
-//            return itemsToDisplay
-//            
-//        case 3:
-//            return itemsToDisplay
-//            
-//        case 4:
-//            return itemsToDisplay
-//            
-//        default:
-//            return itemsToDisplay
-//        }
     }
     
     
@@ -73,15 +52,6 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             cell.set(category: category)
             return cell
         }
-    
-            // Access the tuple using the index
-//            let tuple = bookmarkedRecipes[index]
-//            let categoryRecipes = tuple.1 // Accessing the array of recipes
-//            
-//            let itemsToDisplay = min(3, categoryRecipes.count)
-//            let displayedRecipes = Array(categoryRecipes.prefix(itemsToDisplay))
-//            let overlayViewCountNumber = SPTitleLabel(textAlignment: .left, fontSize: 20)
-//            let countedNumber = String(categoryRecipes.count - 3)
             
     private func setOverlayView(for cell: RVCollectionViewCell, countedNumber: Int) {
         
@@ -101,6 +71,16 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                     overlayViewCountNumber.topAnchor.constraint(equalTo: cell.topAnchor, constant: 35).isActive = true
                 }
             }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        switch indexPath.section {
+//        case 0:
+//            let selected = recipes[indexPath.row]
+//            let destVC = RecipeResultsVC(category: selectedCategory.tag)
+//            navigationController?.pushViewController(destVC, animated: true)
+//        default:
+//            break
+    }
             
         
         func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -108,7 +88,6 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RVHeader", withReuseIdentifier: RVHeaderView.headerIdentifier, for: indexPath) as! RVHeaderView
                 header.rvSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
-
                 return header
                 
             case 1:

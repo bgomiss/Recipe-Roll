@@ -15,9 +15,17 @@ class BookmarksPresenter: SeeAllDelegate {
         self.bookmarksVC = bookmarksVC
         bookmarksVC?.delegate = self
     }
-    
+
     
     func didTapSeeAllButton() {
         print("didTapSeeAllButton Tapped")
+        switch bookmarksVC?.categoryMapping {
+        case 0:
+            
+        default:
+            break
+        }
+        let destVC = RecipeResultsVC(category: selectedCategory.tag)
+        navigationController?.pushViewController(destVC, animated: true)
     }
 }
