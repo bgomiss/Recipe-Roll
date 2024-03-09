@@ -58,14 +58,13 @@ class BookmarksVC: UIViewController {
         super.viewDidLoad()
         view.addSubviews(querySearchBar, collectionView)
         configureCompositionalLayout()
-        fetchBookmarkedRecipeIDs()
         createDismissKeyboardTapGesture()
-        bookmarksPresenter = BookmarksPresenter(bookmarksVC: self)
         layoutUI()
         configure()
         configureUIElements()
         view.backgroundColor = .systemBackground
-        
+        bookmarksPresenter = BookmarksPresenter(bookmarksVC: self)
+        fetchBookmarkedRecipeIDs()
     }
     
     

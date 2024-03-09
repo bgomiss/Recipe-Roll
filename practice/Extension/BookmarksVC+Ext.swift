@@ -39,7 +39,6 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             print("CATEGORY: \(categoryID)")
             let categoryRecipes = self.bookmarkedRecipes[index].1
             let displayedRecipes = Array(categoryRecipes.prefix(3))
-            print("ISTE BUNLAR: \(self.bookmarkedRecipes[index].0) \(displayedRecipes.count)")
         
             if indexPath.item == 2 {
                 let count = max(0, categoryRecipes.count - 3)
@@ -92,10 +91,12 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                 
             case 1:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "MadeItHeader", withReuseIdentifier: MadeItHeaderView.headerIdentifier, for: indexPath) as! MadeItHeaderView
+                header.madeItSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 2:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "BreakfastHeader", withReuseIdentifier: BreakfastHeaderView.headerIdentifier, for: indexPath) as! BreakfastHeaderView
+                header.breakfastSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 3:
