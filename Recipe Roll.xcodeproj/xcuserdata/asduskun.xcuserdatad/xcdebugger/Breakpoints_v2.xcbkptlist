@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "438CE57C-471A-4662-A03F-E45911CBB455"
+            uuid = "D5EC6945-9785-41C5-8F80-E60BDC149649"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "practice/Presenter/BookmarksPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "didTapSeeAllButton()"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "didTapSeeAllButton(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

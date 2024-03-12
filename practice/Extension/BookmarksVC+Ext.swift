@@ -86,25 +86,32 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
             switch indexPath.section {
             case 0:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "RVHeader", withReuseIdentifier: RVHeaderView.headerIdentifier, for: indexPath) as! RVHeaderView
+                header.rvSeeAllButton.tag = 0
                 header.rvSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 1:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "MadeItHeader", withReuseIdentifier: MadeItHeaderView.headerIdentifier, for: indexPath) as! MadeItHeaderView
+                header.madeItSeeAllButton.tag = 1
                 header.madeItSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 2:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "BreakfastHeader", withReuseIdentifier: BreakfastHeaderView.headerIdentifier, for: indexPath) as! BreakfastHeaderView
+                header.breakfastSeeAllButton.tag = 2
                 header.breakfastSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 3:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "LunchHeader", withReuseIdentifier: LunchHeaderView.headerIdentifier, for: indexPath) as! LunchHeaderView
+                header.lunchSeeAllButton.tag = 3
+                header.lunchSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             case 4:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: "DinnerHeader", withReuseIdentifier: DinnerHeaderView.headerIdentifier, for: indexPath) as! DinnerHeaderView
+                header.dinnerSeeAllButton.tag = 3
+                header.dinnerSeeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
                 return header
                 
             default:

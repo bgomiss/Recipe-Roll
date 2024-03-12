@@ -73,8 +73,8 @@ class BookmarksVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    @objc func seeAllButtonTapped () {
-        delegate?.didTapSeeAllButton()
+    @objc func seeAllButtonTapped (sender: UIButton) {
+        delegate?.didTapSeeAllButton(sender: sender)
     }
     
     
