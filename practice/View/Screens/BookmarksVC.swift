@@ -8,9 +8,8 @@
 import UIKit
 import Firebase
 
-class BookmarksVC: UIViewController {
-    
-    
+class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+   
     let uid                          = Auth.auth().currentUser?.uid
     let db                           = Firestore.firestore()
     let querySearchBar               = SPSearchBar()
@@ -18,7 +17,10 @@ class BookmarksVC: UIViewController {
     var fetchSimilarRecipesClosure: ((Int64) -> Void)?
     var categoryID: String = ""
     weak var delegate: SeeAllDelegate?
-    private var bookmarksPresenter: BookmarksPresenter?
+    var bookmarksPresenter: BookmarksPresenter?
+    var recipesForSection: [Recipe] = []
+    let backButton = UIButton(type: .system)
+
     
     let categoryMapping: [Int: String] = [
         0: "Recently Viewed",
@@ -54,6 +56,29 @@ class BookmarksVC: UIViewController {
     }()
     
     
+    lazy var tableView: UITableView = {
+            let tableView = UITableView(frame: view.bounds, style: .plain)
+            tableView.dataSource = self
+            tableView.delegate = self
+            self.navigationItem.title = "ALL RECIPES"
+            tableView.translatesAutoresizingMaskIntoConstraints = false
+            tableView.frame = view.bounds
+            tableView.rowHeight = 100
+            tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
+        
+        // Add backButton to the tableView's superview
+            if let superview = tableView.superview {
+                superview.addSubview(backButton)
+                backButton.translatesAutoresizingMaskIntoConstraints = false
+                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
+                backButton.topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+                backButton.setTitle("Back", for: .normal)
+                backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+            }
+            return tableView
+        }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews(querySearchBar, collectionView)
@@ -77,6 +102,9 @@ class BookmarksVC: UIViewController {
         delegate?.didTapSeeAllButton(sender: sender)
     }
     
+    @objc func backButtonTapped() {
+        delegate?.didTapbackButton()
+        }
     
     func fetchBookmarkedRecipeIDs() {
         
@@ -146,9 +174,11 @@ class BookmarksVC: UIViewController {
             let searchIcon = UIImage(systemName: "magnifyingglass")
             let imageView = UIImageView(image: searchIcon)
             imageView.contentMode = .scaleAspectFit
+            
+        }
             //        queryTextField.leftViewMode = .always
             //        queryTextField.leftView = imageView
-        }
+        
         
     func getCategoriess(query: String, categoryID: String) {
         
@@ -193,7 +223,7 @@ class BookmarksVC: UIViewController {
                 querySearchBar.heightAnchor.constraint(equalToConstant: 40),
             ])
         }
-    }
+}
     
     extension BookmarksVC: UISearchBarDelegate {
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {

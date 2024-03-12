@@ -97,7 +97,6 @@ class RecipeResultsVC: UIViewController, UISheetPresentationControllerDelegate {
         tableView.rowHeight = 100
         tableView.dataSource = self
         tableView.delegate = self
-        
         tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
     }
     

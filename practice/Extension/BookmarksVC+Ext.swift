@@ -118,5 +118,15 @@ extension BookmarksVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
                 fatalError("Unexpected section \(indexPath.section)")
             }
         }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        recipesForSection.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipesCell.reuseID) as! RecipesCell
+        let recipe = recipesForSection[indexPath.row]
+        cell.set(recipe: recipe)
+        return cell
+    }
     }
 
