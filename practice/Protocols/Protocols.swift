@@ -9,5 +9,4 @@ import UIKit
 
 protocol SeeAllDelegate: AnyObject {
     func didTapSeeAllButton(sender: UIButton)
-    func didTapbackButton()
 }

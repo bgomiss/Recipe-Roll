@@ -21,7 +21,6 @@ class BookmarksPresenter: SeeAllDelegate {
             let section = sender.tag // Get the section number from the button's tag
             guard let bookmarksVC = bookmarksVC else {return}
         
-            bookmarksVC.view.addSubview(bookmarksVC.tableView)
             print("See all button tapped for section \(section)")
         
             guard let categoryID = bookmarksVC.getCategoryID(for: section),
@@ -55,11 +54,6 @@ class BookmarksPresenter: SeeAllDelegate {
             //        let destVC = RecipeResultsVC(category: selectedCategory.tag)
             //        navigationController?.pushViewController(destVC, animated: true)
         }
-    
-    func didTapbackButton() {
-        // Remove the table view from the view hierarchy
-        bookmarksVC?.tableView.removeFromSuperview()
-    }
     }
     
 

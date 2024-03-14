@@ -19,8 +19,6 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     weak var delegate: SeeAllDelegate?
     var bookmarksPresenter: BookmarksPresenter?
     var recipesForSection: [Recipe] = []
-    let backButton = UIButton(type: .system)
-
     
     let categoryMapping: [Int: String] = [
         0: "Recently Viewed",
@@ -67,16 +65,24 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
         
         // Add backButton to the tableView's superview
-            if let superview = tableView.superview {
-                superview.addSubview(backButton)
-                backButton.translatesAutoresizingMaskIntoConstraints = false
-                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
-                backButton.topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-                backButton.setTitle("Back", for: .normal)
-                backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-            }
+//            if let superview = tableView.superview {
+//                superview.addSubview(backButton)
+//                backButton.translatesAutoresizingMaskIntoConstraints = false
+//                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
+//                backButton.topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+//                backButton.setTitle("Back", for: .normal)
+//                backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//            }
             return tableView
         }()
+    
+    lazy var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Back", for: .normal)
+        return button
+    }()
+
     
     
     override func viewDidLoad() {
@@ -90,6 +96,7 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         view.backgroundColor = .systemBackground
         bookmarksPresenter = BookmarksPresenter(bookmarksVC: self)
         fetchBookmarkedRecipeIDs()
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
     
@@ -100,10 +107,15 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     @objc func seeAllButtonTapped (sender: UIButton) {
         delegate?.didTapSeeAllButton(sender: sender)
+        view.addSubview(tableView)
+        setupBackButtonConstraints()
+        
     }
     
     @objc func backButtonTapped() {
-        delegate?.didTapbackButton()
+        // Remove the table view from the view hierarchy
+        tableView.removeFromSuperview()
+        //backButton.isHidden = true
         }
     
     func fetchBookmarkedRecipeIDs() {
@@ -212,7 +224,17 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
     }
         
-        
+    func setupBackButtonConstraints() {
+        // Add the backButton as a subview to the tableView's superview
+            if let superview = tableView.superview {
+                superview.addSubview(backButton)
+                backButton.translatesAutoresizingMaskIntoConstraints = false
+                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
+                backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+                backButton.setTitle("Back", for: .normal)
+            }
+    }
+    
         func layoutUI() {
             querySearchBar.delegate = self
             
