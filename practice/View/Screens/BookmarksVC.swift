@@ -19,6 +19,7 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     weak var delegate: SeeAllDelegate?
     var bookmarksPresenter: BookmarksPresenter?
     var recipesForSection: [Recipe] = []
+    var bookmarkButton: UIBarButtonItem? = nil
     
     let categoryMapping: [Int: String] = [
         0: "Recently Viewed",
@@ -63,16 +64,7 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             tableView.frame = view.bounds
             tableView.rowHeight = 100
             tableView.register(RecipesCell.self, forCellReuseIdentifier: RecipesCell.reuseID)
-        
-        // Add backButton to the tableView's superview
-//            if let superview = tableView.superview {
-//                superview.addSubview(backButton)
-//                backButton.translatesAutoresizingMaskIntoConstraints = false
-//                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
-//                backButton.topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-//                backButton.setTitle("Back", for: .normal)
-//                backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-//            }
+
             return tableView
         }()
     
@@ -108,14 +100,13 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     @objc func seeAllButtonTapped (sender: UIButton) {
         delegate?.didTapSeeAllButton(sender: sender)
         view.addSubview(tableView)
-        setupBackButtonConstraints()
-        
+        setupBackButton()
     }
     
     @objc func backButtonTapped() {
         // Remove the table view from the view hierarchy
         tableView.removeFromSuperview()
-        //backButton.isHidden = true
+        bookmarkButton?.isHidden = true
         }
     
     func fetchBookmarkedRecipeIDs() {
@@ -188,10 +179,8 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             imageView.contentMode = .scaleAspectFit
             
         }
-            //        queryTextField.leftViewMode = .always
-            //        queryTextField.leftView = imageView
-        
-        
+    
+    
     func getCategoriess(query: String, categoryID: String) {
         
         Task {
@@ -223,19 +212,15 @@ class BookmarksVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             }
         }
     }
-        
-    func setupBackButtonConstraints() {
-        // Add the backButton as a subview to the tableView's superview
-            if let superview = tableView.superview {
-                superview.addSubview(backButton)
-                backButton.translatesAutoresizingMaskIntoConstraints = false
-                backButton.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16).isActive = true
-                backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-                backButton.setTitle("Back", for: .normal)
-            }
-    }
     
-        func layoutUI() {
+    func setupBackButton() {
+        let bookmarkIcon = UIImage(systemName: "bookmark.fill") // replace this with your bookmark image
+        bookmarkButton = UIBarButtonItem(image: bookmarkIcon, style: .plain, target: self, action: #selector(backButtonTapped))
+        self.navigationItem.leftBarButtonItem = bookmarkButton
+    }
+        
+    
+    func layoutUI() {
             querySearchBar.delegate = self
             
             NSLayoutConstraint.activate([
